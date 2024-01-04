@@ -1,13 +1,13 @@
 {
     "name": "lambdasolutions/moodle-auth_cognito",
-    "description": "Lambda Solutions Cognito Authentication Module",
+    "description": "OOMAX Cognito Authentication Module",
     "type": "moodle-auth",
     "license": "MIT",
     "authors": [
         {
-            "name": "Bojan Bazdar",
-            "email": "bojan.bazdar@lambdasolutions.net",
-            "homepage": "https://lambdasolutions.net"
+            "name": "Dustin Brisbois",
+            "email": "support@oomaxpro.com",
+            "homepage": "https://oomaxpro.com"
         }
     ],
     "autoload": {
