@@ -1,0 +1,41 @@
+{
+    "name": "lambdasolutions/moodle-auth_cognito",
+    "description": "Lambda Solutions Cognito Authentication Module",
+    "type": "moodle-auth",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Bojan Bazdar",
+            "email": "bojan.bazdar@lambdasolutions.net",
+            "homepage": "https://lambdasolutions.net"
+        }
+    ],
+    "autoload": {
+        "psr-4" : {
+            "Cognito\\": "library/"
+        }
+    },
+    "extra": {
+        "installer-name": "cognito"
+    },
+    "config": {
+        "optimize-autoloader": true
+    },
+    "require": {
+        "php" : ">=7.2",
+        "firebase/php-jwt": "^6.0",
+        "web-token/jwt-framework": "^2.2",
+        "web-token/jwt-checker": "^2.2",
+        "web-token/jwt-signature": "^2.2"
+    },
+    "require-dev": {
+    },
+    "scripts" : {
+        "post-package-install": [
+            "@composer dump-autoload -o"
+        ],
+        "post-update-cmd": [
+            "@composer dump-autoload -o"
+        ]
+    }
+}
