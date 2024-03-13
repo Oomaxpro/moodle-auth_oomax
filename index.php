@@ -44,6 +44,22 @@ $payload = $user->getDataFromToken($token);
 if ($payload) {
     $payload = json_decode(json_encode($payload), true);
 
+    if (isset($payload['locale'])) {
+        // Convert language code from oomax format (e.g. fr-CA) to Moodle format (e.g. fr_ca).
+        $lang = strtolower(str_replace('-', '_', $payload['locale']));
+        $sm = get_string_manager();
+        // Find appropriate installed language, or use default system language.
+        if (!$sm->translation_exists($lang)) {
+            // Try base language.
+            $lang = explode('_', $lang)[0];
+            if (!$sm->translation_exists($lang)) {
+                // Use default language.
+                $lang = core_user::get_property_default('lang');
+            }
+        }
+        $payload['locale'] = $lang;
+    }
+
     // Convert email to lowercase
     $email = strtolower($payload['email']);
 
@@ -52,7 +68,7 @@ if ($payload) {
 
     if ($student) {
         // If user exist perform login and redirect
-        if ($payload['locale'] && $payload['locale'] != $student->lang) {
+        if (isset($payload['locale']) && $payload['locale'] != $student->lang) {
             $student->lang = $payload['locale'];
 
             user_update_user($student, false, false);
@@ -61,10 +77,7 @@ if ($payload) {
         $USER = complete_user_login($student);
 
     } else {
-        // If user doesn't exist create user and perform login and redirect
-//        throw new moodle_exception('cognitotoken', '', '', null,
-//            'User is not ready to log in. Please contact your administrator.');
-
+        // If user doesn't exist create user and perform login and redirect.
         $userId = $user->createUser($payload);
         $userObj = $DB->get_record("user", ["id" => $userId]);
         $USER = complete_user_login($userObj);

@@ -15,13 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file is part of the Lambda Solutions Cognito Authentication package.
- *
- * Copyright (c) 2020 Lambda Solutions
+ * This file is part of the Oomax Pro Authentication package.
  *
  * @package     auth_cognito
  * @author      Bojan Bazdar
- * @copyright   2022 Lambda Solutions
  * @license     MIT
  *
  * For the full copyright and license information, please view the LICENSE
@@ -38,49 +35,35 @@ require_once($CFG->dirroot.'/user/lib.php');
  * Class auth_plugin_cognito
  */
 class auth_plugin_cognito extends auth_plugin_base {
-    /**
-     * @var
-     */
-    public $config;
-    /**
-     * @var
-     */
-    private $am;
-    /**
-     * @var
-     */
-    private $lm;
+
     /**
      * @var string
      */
     private $logouturl = '';
 
-     /**
-      * Constructor. No parameters given.
-      * As non-static, create the AuthManage connect and get the mode
-      */
+    /**
+     * Constructor. No parameters given.
+     * As non-static, create the AuthManage connect and get the mode
+     */
     public function __construct() {
         global $SESSION;
 
-        $authtype = 'auth';
         $plugin = 'cognito';
         $this->authtype = $plugin;
-        if(property_exists($SESSION, 'logout')){
+        if (property_exists($SESSION, 'logout')) {
             $this->logouturl = $SESSION->logout;
         }
-
-
+        $this->config = get_config('auth_cognito');
     }
 
     /**
      * @param stdClass $user
      * @throws moodle_exception
      */
-    public function postlogout_hook($user){
-        if($this->logouturl){
+    public function postlogout_hook($user) {
+        if ($this->logouturl) {
             redirect($this->logouturl);
             exit;
         }
-
     }
 }

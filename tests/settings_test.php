@@ -19,7 +19,7 @@ class settings_test extends \advanced_testcase {
      */
     public function test_settings_login_url() {
 
-        $loginUrl = get_config('auth_cognito', 'lambda_serverless_login_url');
+        $loginUrl = get_config('auth_cognito', 'oomax_serverless_login_url');
         $this->assertIsString($loginUrl, 'Settings: Login url is missing');
     }
 

@@ -1,6 +1,6 @@
 {
-    "name": "lambdasolutions/moodle-auth_cognito",
-    "description": "OOMAX Cognito Authentication Module",
+    "name": "oomax/moodle-auth_cognito",
+    "description": "Oomax Pro Authentication Module",
     "type": "moodle-auth",
     "license": "MIT",
     "authors": [

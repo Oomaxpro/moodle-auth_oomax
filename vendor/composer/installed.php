@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
-        'name' => 'lambdasolutions/moodle-auth_cognito',
+        'name' => 'oomax/moodle-auth_cognito',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'e181372141f52a14f2119fd34b7c8da694ef8995',
+        'reference' => 'a7f9f1c0d96fc005c75a345c0a9cfe88526cd191',
         'type' => 'moodle-auth',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -37,10 +37,10 @@
             'aliases' => array(),
             'dev_requirement' => false,
         ),
-        'lambdasolutions/moodle-auth_cognito' => array(
+        'oomax/moodle-auth_cognito' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'e181372141f52a14f2119fd34b7c8da694ef8995',
+            'reference' => 'a7f9f1c0d96fc005c75a345c0a9cfe88526cd191',
             'type' => 'moodle-auth',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

@@ -36,7 +36,7 @@ class User
         $user->firstname = $firstname;
         $user->lastname = $lastname;
         $user->email = $payload['email'];
-        if($payload['locale']){
+        if(isset($payload['locale'])){
             $user->lang = $payload['locale'];
         }
 

@@ -15,13 +15,10 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file is part of the Lambda Solutions Cognito Authentication package.
- *
- * Copyright (c) 2020 Lambda Solutions
+ * This file is part of the Oomax Pro Authentication package.
  *
  * @package     auth_cognito
  * @author      Bojan Bazdar
- * @copyright   2022 Lambda Solutions
  * @license     MIT
  *
  * For the full copyright and license information, please view the LICENSE
@@ -31,8 +28,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2023102600;             // The current plugin version (Date: YYYYMMDDXX).
-$plugin->release   = '1.2.0.2';
+$plugin->version   = 2024022600;             // The current plugin version (Date: YYYYMMDDXX).
+$plugin->release   = '1.3.0.1';
 $plugin->requires  = 2015051100;             // MDL-2.9+
 $plugin->component = 'auth_cognito';         // Full name of the plugin (used for diagnostics).
 $plugin->maturity  = 'MATURITY_STABLE';
