@@ -28,5 +28,15 @@ $ADMIN->add('authsettings', new admin_category('auth_cognito', get_string('plugi
 $settings = new admin_settingpage($section, get_string('auth_cognito_settings', 'auth_cognito'), 'moodle/site:config');
 if ($ADMIN->fulltree) {
 
-	\auth_plugin_cognito\settings\TokenHelper::tokenSettings($settings);
+    \auth_plugin_cognito\settings\TokenHelper::tokenSettings($settings);
+
+    $settings->add(
+        new admin_setting_configcheckbox(
+            'auth_cognito/field_lock_email',
+            get_string('config_lock_email', 'auth_cognito'),
+            get_string('config_lock_email_desc', 'auth_cognito'),
+            'locked',
+            'locked',
+            'unlocked')
+        );
 }

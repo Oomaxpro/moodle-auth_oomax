@@ -16,13 +16,10 @@
 
 
 /**
- * This file is part of the Lambda Solutions Exam Activity package.
- *
- * Copyright (c) 2022 Lambda Solutions
+ * This file is part of the Oomax Pro Exam Activity package.
  *
  * @package     auth_cognito
  * @author      Bojan Bazdar
- * @copyright   2022 Lambda Solutions
  * @license     MIT
  *
  * For the full copyright and license information, please view the LICENSE
