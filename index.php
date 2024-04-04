@@ -29,6 +29,10 @@ require_once($CFG->dirroot .'/user/lib.php');
 
 global $SESSION;
 
+define('AUTH_COGNITO_ERROR_USER_SUSPENDED', 10);
+define('AUTH_COGNITO_ERROR_INVALID_TOKEN', 20);
+define('AUTH_COGNITO_ERROR_NO_EMAIL', 30);
+
 $user = new \auth_cognito\model\User();
 
 $token = required_param('token',    PARAM_RAW);
@@ -40,9 +44,17 @@ $SESSION->logout = $logout;
 
 $payload = $user->getDataFromToken($token);
 
+if (empty($payload)) {
+    redirect(new moodle_url($logout, ['code' => AUTH_COGNITO_ERROR_INVALID_TOKEN]));
+}
+
 // If payload exist process user
 if ($payload) {
     $payload = json_decode(json_encode($payload), true);
+
+    if (empty($payload['email'])) {
+        redirect(new moodle_url($logout, ['code' => AUTH_COGNITO_ERROR_NO_EMAIL]));
+    }
 
     if (isset($payload['locale'])) {
         // Convert language code from oomax format (e.g. fr-CA) to Moodle format (e.g. fr_ca).
@@ -67,6 +79,11 @@ if ($payload) {
     $student = $DB->get_record_select('user', 'LOWER(email) = ?', [$email]);
 
     if ($student) {
+        if (!empty($student->suspended)) {
+            $SESSION->loginerrormsg = get_string("invalidlogin");
+            redirect(new moodle_url($logout, ['code' => AUTH_COGNITO_ERROR_USER_SUSPENDED]));
+        }
+
         // If user exist perform login and redirect
         if (isset($payload['locale']) && $payload['locale'] != $student->lang) {
             $student->lang = $payload['locale'];
