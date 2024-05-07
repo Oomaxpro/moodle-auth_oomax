@@ -29,9 +29,9 @@ require_once($CFG->dirroot .'/user/lib.php');
 
 global $SESSION;
 
-define('AUTH_COGNITO_ERROR_USER_SUSPENDED', 10);
-define('AUTH_COGNITO_ERROR_INVALID_TOKEN', 20);
-define('AUTH_COGNITO_ERROR_NO_EMAIL', 30);
+define('AUTH_COGNITO_ERROR_USER_SUSPENDED', 'user_is_suspended');
+define('AUTH_COGNITO_ERROR_INVALID_TOKEN', 'invalid_token');
+define('AUTH_COGNITO_ERROR_NO_EMAIL', 'missing_email');
 
 $user = new \auth_cognito\model\User();
 
