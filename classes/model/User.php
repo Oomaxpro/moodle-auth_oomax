@@ -22,14 +22,18 @@ class User
     public function createUser($payload){
         global $CFG;
 
+        $firstnamefield = get_config('auth_cognito', 'firstname_field');
+        $lastnamefield = get_config('auth_cognito', 'lastname_field');
+
         $firstname = '';
         $lastname = '';
-        if(isset($payload['name']) && $payload['name']){
-            $firstname = $payload['name'];
+        if (!empty($firstnamefield) && !empty($payload[$firstnamefield])) {
+            $firstname = $payload[$firstnamefield];
         }
-        if(isset($payload['family_name']) && $payload['family_name']){
-            $lastname = $payload['family_name'];
+        if (!empty($lastnamefield) && !empty($payload[$lastnamefield])) {
+            $lastname = $payload[$lastnamefield];
         }
+
         $user = new \stdClass();
         $user->auth = 'cognito';
         $user->username = $payload['email'];
