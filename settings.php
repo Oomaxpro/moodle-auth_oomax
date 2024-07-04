@@ -39,4 +39,22 @@ if ($ADMIN->fulltree) {
             'locked',
             'unlocked')
         );
+
+    $settings->add(
+        new admin_setting_configtext(
+            'auth_cognito/firstname_field',
+            get_string('config_firstname_field', 'auth_cognito'),
+            get_string('config_firstname_field_desc', 'auth_cognito'),
+            ''
+        )
+    );
+
+    $settings->add(
+        new admin_setting_configtext(
+            'auth_cognito/lastname_field',
+            get_string('config_lastname_field', 'auth_cognito'),
+            get_string('config_lastname_field_desc', 'auth_cognito'),
+            ''
+        )
+    );
 }
