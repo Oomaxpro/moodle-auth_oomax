@@ -1,9 +1,7 @@
 <?php
 /**
- * Created by PhpStorm.
  * User: bojan
  * Date: 2022-10-13
- * Time: 00:28
  */
 
 namespace mod_myplugin;
