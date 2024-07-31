@@ -50,8 +50,7 @@ class auth_plugin_cognito extends auth_plugin_base {
 
         $plugin = 'cognito';
         $this->authtype = $plugin;
-        if (property_exists($SESSION, 'logout')) {
-            $this->logouturl = $SESSION->logout;
+        if (!is_null($SESSION) && property_exists($SESSION, 'logout')) { $this->logouturl = $SESSION->logout; }
         }
         $this->config = get_config('auth_cognito');
     }
