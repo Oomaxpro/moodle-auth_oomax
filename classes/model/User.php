@@ -1,9 +1,7 @@
 <?php
 /**
- * Created by PhpStorm.
  * User: bojan
  * Date: 2022-10-13
- * Time: 09:39
  */
 namespace auth_cognito\model;
 
