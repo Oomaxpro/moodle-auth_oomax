@@ -11,10 +11,6 @@
   *
   */
 
-global $CFG;
-
-require_once($CFG->dirroot.'/auth/cognito/vendor/autoload.php');
-
 $string['pluginname'] = 'Oomax Pro Authentication';
 $string['auth_cognitotitle'] = "Oomax Pro Authentication Plugin";
 $string['auth_cognito_description'] = "An Authentication Plugin by Oomax Pro";
