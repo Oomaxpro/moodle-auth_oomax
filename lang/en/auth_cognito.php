@@ -10,6 +10,7 @@
   * file that was distributed with this source code.
   *
   */
+  
 
 $string['pluginname'] = 'Oomax Pro Authentication';
 $string['auth_cognitotitle'] = "Oomax Pro Authentication Plugin";
