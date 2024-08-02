@@ -1,7 +1,7 @@
 <?php
 // …
 
-namespace moodle-auth_cognito\privacy;
+namespace auth_cognito\privacy;
 
 class provider implements
     // This plugin does not store any personal user data.
