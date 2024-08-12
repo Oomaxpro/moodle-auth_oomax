@@ -24,7 +24,6 @@
  */
 
 require_once __DIR__ . '/../../config.php';
-require_once(__DIR__.'/vendor/autoload.php');
 require_once($CFG->dirroot .'/user/lib.php');
 
 global $SESSION;
