@@ -36,9 +36,6 @@ $user = new \auth_cognito\model\User();
 
 $token = required_param('token',    PARAM_RAW);
 $logout = required_param('logout',    PARAM_RAW);
-$courses = optional_param('courses', '', PARAM_SEQUENCE);
-$groups = optional_param('groups', '', PARAM_SEQUENCE);
-$audiences = optional_param('audiences', '', PARAM_SEQUENCE);
 $SESSION->logout = $logout;
 
 $payload = $user->getDataFromToken($token);
@@ -99,11 +96,11 @@ if ($payload) {
         $USER = complete_user_login($userObj);
     }
 
-    if (!empty($courses)) {
+    if (!empty($payload['courses'])) {
         require_once($CFG->libdir . '/enrollib.php');
         $studentroles = get_archetype_roles('student');
         $studentroleid = reset($studentroles)->id;
-        $courseids = array_filter(array_unique(explode(',', $courses)));
+        $courseids = array_filter(array_unique(explode(',', $payload['courses'])));
         foreach ($courseids as $courseid) {
             $ctx = context_course::instance($courseid, IGNORE_MISSING);
             if (!$ctx) {
@@ -128,9 +125,9 @@ if ($payload) {
         }
     }
 
-    if (!empty($groups)) {
+    if (!empty($payload['groups'])) {
         require_once($CFG->dirroot .'/group/lib.php');
-        $groupids = array_filter(array_unique(explode(',', $groups)));
+        $groupids = array_filter(array_unique(explode(',', $payload['groups'])));
         foreach ($groupids as $groupid) {
             try {
                 // Function takes care if the user is already member of the group.
@@ -144,9 +141,9 @@ if ($payload) {
         }
     }
 
-    if (!empty($audiences)) {
+    if (!empty($payload['audiences'])) {
         require_once($CFG->dirroot .'/cohort/lib.php');
-        $cohortids = array_filter(array_unique(explode(',', $audiences)));
+        $cohortids = array_filter(array_unique(explode(',', $payload['audiences'])));
         foreach ($cohortids as $cohortid) {
             try {
                 // Check that cohort exists.

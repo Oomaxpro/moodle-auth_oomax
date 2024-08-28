@@ -28,7 +28,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2024081200;             // The current plugin version (Date: YYYYMMDDXX).
+$plugin->version   = 2024082800;             // The current plugin version (Date: YYYYMMDDXX).
 $plugin->release   = '1.6.0.0';
 $plugin->requires  = 2022041900;             // Moodle 4.0
 $plugin->component = 'auth_cognito';         // Full name of the plugin (used for diagnostics).
