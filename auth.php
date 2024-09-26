@@ -17,7 +17,7 @@
 /**
  * This file is part of the Oomax Pro Authentication package.
  *
- * @package     auth_cognito
+ * @package     auth_oomax
  * @author      Bojan Bazdar
  * @license     MIT
  *
@@ -32,7 +32,7 @@ require_once($CFG->libdir.'/authlib.php');
 require_once($CFG->dirroot.'/user/lib.php');
 
 /**
- * Class auth_plugin_cognito
+ * Class auth_plugin_oomax
  */
 class auth_plugin_cognito extends auth_plugin_base {
 
@@ -40,23 +40,28 @@ class auth_plugin_cognito extends auth_plugin_base {
      * @var string
      */
     private $logouturl = '';
+    private $plugin = '';
 
     /**
      * Constructor. No parameters given.
      * As non-static, create the AuthManage connect and get the mode
      */
     public function __construct() {
-        global $SESSION;
+        global $CFG, $SESSION;
 
         $plugin = 'cognito';
+        $this->plugin = "auth_{$plugin}";
         $this->authtype = $plugin;
-        if (!is_null($SESSION) && property_exists($SESSION, 'logout')) { 
-            $this->logouturl = $SESSION->logout; 
-            $this->config = get_config('auth_cognito');
+        if (!is_null($SESSION) && property_exists($SESSION, 'logout')) {
+            $this->logouturl = $SESSION->logout;
+        }
+        $this->config = get_config("auth_{$plugin}");
+
+        if (!isloggedin() && $_SERVER['SCRIPT_FILENAME'] == $CFG->dirroot.'/index.php' && (bool)$this->config->sso_bypass) {
+            redirect($CFG->wwwroot.'/login/index.php?sso='.optional_param('sso', '', PARAM_RAW));
         }
     }
-        
-    
+
     /**
      * @param stdClass $user
      * @throws moodle_exception
@@ -66,5 +71,111 @@ class auth_plugin_cognito extends auth_plugin_base {
             redirect($this->logouturl);
             exit;
         }
+    }
+
+    /**
+     * @return bool if false
+     */
+    public function can_change_password(): bool
+    {
+        return false;        
+    }
+    
+    /**
+     * 
+     */
+    public function can_edit_profile(): bool
+    {
+        return false;        
+    }
+
+    /**
+     * 
+     */
+    public function can_reset_password(): bool
+    {
+        return false;        
+    }
+
+    /**
+     * 
+     */
+    public function is_internal(): bool
+    {
+        return true;        
+    }
+
+
+    private function calculate_wantsurl()
+    {
+        global $SESSION; 
+
+        $sso_bypass = optional_param('sso', 0, PARAM_BOOL);
+        
+        if ((bool)$this->config->sso_bypass && !(bool)$sso_bypass && !empty($this->config->oomax_uri) && filter_var($this->config->oomax_uri, FILTER_VALIDATE_URL)) {
+            redirect($this->config->oomax_uri);
+        }
+    }
+
+    /**
+     * 
+     */
+    public function loginpage_hook()
+    {
+        global $CFG, $USER;
+
+        if (CLI_SCRIPT || AJAX_SCRIPT) {
+            return;
+        }
+        
+        $this->calculate_wantsurl();
+
+        $token = optional_param('token', '', PARAM_RAW);
+        $logout = optional_param('logout', '', PARAM_RAW);
+
+        if ($CFG->forcelogin == True) {
+            // force login!
+        } elseif ($USER->id == 0) {
+            // not logged in
+        } elseif ($CFG->autologinguests == False || $CFG->guestloginbutton == False) {
+            // no guest
+        }
+    }
+
+    private function is_ready_for_login_page(\core\oauth2\issuer $issuer) {
+        return $issuer->get('enabled') && $issuer->is_configured() && empty($issuer->get('showonloginpage'));
+    }
+
+    public function loginpage_idp_list($wantsurl, Bool $details = false)
+    {
+        $result = [];
+        $providers = \core\oauth2\api::get_all_issuers();
+        if (empty($wantsurl)) {
+            $wantsurl = '/';
+        }
+        foreach ($providers as $idp) {
+                if ($this->is_ready_for_login_page($idp)) {
+                $params = ['id' => $idp->get('id'), 'wantsurl' => $wantsurl, 'sesskey' => sesskey()];
+                $url = new moodle_url('/login/index.php', $params);
+                $icon = $idp->get('image');
+                $result[] = ['url' => $url, 'iconurl' => $icon, 'name' => $idp->get('name'), 'authtype' => 'oauth2'];
+            }
+        }
+        return $result;
+    }
+
+    public function pre_user_login_hook(&$user)
+    {
+        // magic
+        echo "<pre>";
+        echo var_dump($user);
+        echo "</pre>";
+        die();
+    }
+
+    public function user_exists($username)
+    {
+        echo "User Exists: ". $username .'<br>';
+        die();
     }
 }

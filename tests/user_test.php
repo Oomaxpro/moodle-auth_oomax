@@ -1,7 +1,9 @@
 <?php
 /**
+ * Created by PhpStorm.
  * User: bojan
  * Date: 2022-10-13
+ * Time: 00:28
  */
 
 namespace mod_myplugin;
@@ -24,7 +26,7 @@ class user_test extends \advanced_testcase {
      * @throws \dml_exception
      */
     public function test_token() {
-        $mock = $this->getMockBuilder('\auth_cognito\model\User')
+        $mock = $this->getMockBuilder('\auth_oomax\model\User')
             ->setMethods(array('getDataFromToken'))
             ->getMock();
 
@@ -41,7 +43,7 @@ class user_test extends \advanced_testcase {
     public function test_create_user() {
         global $DB;
 
-        $mock = $this->getMockBuilder('\auth_cognito\model\User')
+        $mock = $this->getMockBuilder('\auth_oomax\model\User')
             ->setMethods(array('createUser'))
             ->getMock();
 

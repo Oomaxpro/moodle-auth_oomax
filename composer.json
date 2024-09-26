@@ -1,5 +1,5 @@
 {
-    "name": "oomax/moodle-auth_cognito",
+    "name": "oomax/moodle-auth_oomax",
     "description": "Oomax Pro Authentication Module",
     "type": "moodle-auth",
     "license": "MIT",
@@ -10,7 +10,32 @@
             "homepage": "https://oomaxpro.com"
         }
     ],
+    "autoload": {
+        "psr-4" : {
+            "Oomax\\": "classes/"
+        }
+    },
     "extra": {
-        "installer-name": "cognito"
+        "installer-name": "oomax"
+    },
+    "config": {
+        "optimize-autoloader": true
+    },
+    "require": {
+        "php" : ">=7.4",
+        "firebase/php-jwt": "^6.0",
+        "web-token/jwt-framework": "^3.0",
+        "web-token/jwt-checker": "^3.0",
+        "web-token/jwt-signature": "^3.0"
+    },
+    "require-dev": {
+    },
+    "scripts" : {
+        "post-package-install": [
+            "@composer dump-autoload -o"
+        ],
+        "post-update-cmd": [
+            "@composer dump-autoload -o"
+        ]
     }
 }

@@ -17,7 +17,7 @@
 /**
  * This file is part of the Oomax Pro Authentication package.
  *
- * @package     auth_cognito
+ * @package     auth_oomax
  * @author      Bojan Bazdar
  * @license     MIT
  *
@@ -28,8 +28,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2024082800;             // The current plugin version (Date: YYYYMMDDXX).
-$plugin->release   = '1.6.0.0';
-$plugin->requires  = 2022041900;             // Moodle 4.0
+$plugin->version   = 2024092502;             // The current plugin version (Date: YYYYMMDDXX).
+$plugin->release   = '1.3.0.4';
+$plugin->requires  = 2015051100;             // MDL-2.9+
 $plugin->component = 'auth_cognito';         // Full name of the plugin (used for diagnostics).
 $plugin->maturity  = 'MATURITY_STABLE';
