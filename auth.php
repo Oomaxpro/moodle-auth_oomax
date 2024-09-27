@@ -56,10 +56,6 @@ class auth_plugin_cognito extends auth_plugin_base {
             $this->logouturl = $SESSION->logout;
         }
         $this->config = get_config("auth_{$plugin}");
-
-        if (!isloggedin() && $_SERVER['SCRIPT_FILENAME'] == $CFG->dirroot.'/index.php' && (bool)$this->config->sso_bypass) {
-            redirect($CFG->wwwroot.'/login/index.php?sso='.optional_param('sso', '', PARAM_RAW));
-        }
     }
 
     /**
@@ -105,43 +101,6 @@ class auth_plugin_cognito extends auth_plugin_base {
         return true;        
     }
 
-
-    private function calculate_wantsurl()
-    {
-        global $SESSION; 
-
-        $sso_bypass = optional_param('sso', 0, PARAM_BOOL);
-        
-        if ((bool)$this->config->sso_bypass && !(bool)$sso_bypass && !empty($this->config->oomax_uri) && filter_var($this->config->oomax_uri, FILTER_VALIDATE_URL)) {
-            redirect($this->config->oomax_uri);
-        }
-    }
-
-    /**
-     * 
-     */
-    public function loginpage_hook()
-    {
-        global $CFG, $USER;
-
-        if (CLI_SCRIPT || AJAX_SCRIPT) {
-            return;
-        }
-        
-        $this->calculate_wantsurl();
-
-        $token = optional_param('token', '', PARAM_RAW);
-        $logout = optional_param('logout', '', PARAM_RAW);
-
-        if ($CFG->forcelogin == True) {
-            // force login!
-        } elseif ($USER->id == 0) {
-            // not logged in
-        } elseif ($CFG->autologinguests == False || $CFG->guestloginbutton == False) {
-            // no guest
-        }
-    }
-
     private function is_ready_for_login_page(\core\oauth2\issuer $issuer) {
         return $issuer->get('enabled') && $issuer->is_configured() && empty($issuer->get('showonloginpage'));
     }
@@ -164,14 +123,6 @@ class auth_plugin_cognito extends auth_plugin_base {
         return $result;
     }
 
-    public function pre_user_login_hook(&$user)
-    {
-        // magic
-        echo "<pre>";
-        echo var_dump($user);
-        echo "</pre>";
-        die();
-    }
 
     public function user_exists($username)
     {

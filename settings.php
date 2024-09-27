@@ -39,23 +39,4 @@ if ($ADMIN->fulltree) {
 			'unlocked'
 		)
 	);
-
-	$settings->add(
-		new admin_setting_configcheckbox(
-			"{$pluginname}/sso_bypass",
-			get_string('sso_bypass', $pluginname),
-			get_string('sso_bypass_desc', $pluginname),
-			false,
-			true,
-			false
-		)
-	);
-
-    $settings->add(
-		new admin_setting_configtext(
-			"{$pluginname}/oomax_uri",
-            get_string('oomax_uri', $pluginname),
-            get_string('oomax_uri_desc', $pluginname),
-            '',
-            PARAM_RAW));
 }
