@@ -106,8 +106,14 @@ class auth_plugin_cognito extends auth_plugin_base {
     {
         if (isset($_COOKIE['oomaxHome'])) 
         {
-            // This is insecure
-            redirect("https://{$_COOKIE['oomaxHome']}");
+            global $CFG;
+            
+            $options = 0;
+            $ciphering = "AES-256-CBC";
+            $decryption_iv = substr(bin2hex($CFG->wwwroot), -16);
+            $decryption_key = parse_url($CFG->wwwroot)['host'];
+            $decryption = openssl_decrypt ($_COOKIE['oomaxHome'], $ciphering,  $decryption_key, $options, $decryption_iv);
+            redirect("https://{$decryption}");
         }
     }
 

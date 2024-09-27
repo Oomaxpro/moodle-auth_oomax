@@ -119,8 +119,17 @@ class User
         $oomaxHome = parse_url($_SERVER['HTTP_REFERER']);
         $oomaxGroups = $this->token->getGroups();
         $oomaxGroupIndex = $oomaxGroups[array_search($oomaxHome['host'], $oomaxGroups)];
-        $homePath = parse_url($CFG->wwwroot);fffffffff
-        setcookie('oomaxHome', $oomaxGroupIndex, time() + 60*60*24*30, $homePath['path'], $homePath['host'], true, true);
+        $homePath = parse_url($CFG->wwwroot);
+
+        $options = 0;
+        $ciphering = "AES-256-CBC";
+        $iv_length = openssl_cipher_iv_length($ciphering);
+        
+        $encryption_iv = substr(bin2hex($CFG->wwwroot), -16);
+        $encryption_key = $homePath['host'];
+        $encryption = openssl_encrypt($oomaxGroupIndex, $ciphering, $encryption_key, $options, $encryption_iv);
+
+        setcookie('oomaxHome', $encryption, time() + 60*60*24*30, $homePath['path'], $homePath['host'], true, true);
     }
 
 
