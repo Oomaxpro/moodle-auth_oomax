@@ -55,6 +55,7 @@ if ($oomaxToken->isAuthorized())
 
     $oomaxUser->processUserLocale();
     $USER = $oomaxUser->UserLogin($oomaxUser);
+    $oomaxUser->generateOomaxCookie();
 
     if (is_null($courses)) 
     {

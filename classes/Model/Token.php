@@ -48,6 +48,13 @@ class Token
         return $this->plugin;
     }
 
+    public function getGroups(): Array | null
+    {
+        $groups = 'cognito:groups';
+        if (!is_null($this->token)) return $this->payload->$groups;
+        return Null;
+    }
+
     /**
      * @return bool
      */

@@ -112,6 +112,18 @@ class User
         return complete_user_login($user);
     }
 
+    public function generateOomaxCookie()
+    {
+        global $CFG;
+
+        $oomaxHome = parse_url($_SERVER['HTTP_REFERER']);
+        $oomaxGroups = $this->token->getGroups();
+        $oomaxGroupIndex = $oomaxGroups[array_search($oomaxHome['host'], $oomaxGroups)];
+        $homePath = parse_url($CFG->wwwroot);
+        setcookie('oomaxHome', $oomaxGroupIndex, time() + 60*60*24*30, $homePath['path'], $homePath['host'], true, true);
+    }
+
+
     public function userId(): int
     {
         return $this->user->id;
