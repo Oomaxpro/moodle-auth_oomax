@@ -104,7 +104,9 @@ class auth_plugin_cognito extends auth_plugin_base {
 
     private function calculate_wantsurl()
     {
-        if (isset($_COOKIE['oomaxHome'])) {
+        if (isset($_COOKIE['oomaxHome'])) 
+        {
+            // This is insecure
             redirect("https://{$_COOKIE['oomaxHome']}");
         }
     }

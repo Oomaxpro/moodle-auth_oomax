@@ -119,7 +119,7 @@ class User
         $oomaxHome = parse_url($_SERVER['HTTP_REFERER']);
         $oomaxGroups = $this->token->getGroups();
         $oomaxGroupIndex = $oomaxGroups[array_search($oomaxHome['host'], $oomaxGroups)];
-        $homePath = parse_url($CFG->wwwroot);
+        $homePath = parse_url($CFG->wwwroot);fffffffff
         setcookie('oomaxHome', $oomaxGroupIndex, time() + 60*60*24*30, $homePath['path'], $homePath['host'], true, true);
     }
 
