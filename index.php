@@ -57,19 +57,19 @@ if ($oomaxToken->isAuthorized())
     $USER = $oomaxUser->UserLogin($oomaxUser);
     $oomaxUser->generateOomaxCookie();
 
-    if (is_null($courses)) 
+    if (!is_null($courses)) 
     {
         $oomaxCourses = new Model\Courses($oomaxToken, $courses);
         $oomaxCourses->processCourses($oomaxUser);
     }
 
-    if (is_null($groups)) 
+    if (!is_null($groups)) 
     {
         $oomaxGroups = new Model\Groups($oomaxToken, $groups);
         $oomaxGroups->processGroups($oomaxUser);
     }
 
-    if (is_null($audiences)) 
+    if (!is_null($audiences)) 
     {
         $oomaxAudiences = new Model\Audiences($oomaxToken, $audiences);
         $oomaxAudiences->processAudiences($oomaxUser);

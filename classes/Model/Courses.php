@@ -9,7 +9,7 @@ class Courses
     private $plugin;
     private $courses;
 
-    public function __construct(Token $plugin, Array | Null $courses = Array())
+    public function __construct(Token $plugin, String | Null $courses = "")
     {
         $this->plugin = $plugin->getPlugin();
         $this->courses = $courses;
@@ -18,12 +18,13 @@ class Courses
     public function processCourses(\Oomax\Model\User $oomaxUser): void
     {
         global $CFG;
-
+    
         if (!is_null($this->courses)) {
             require_once($CFG->libdir . '/enrollib.php');
             $userroles = get_archetype_roles('student');
             $userroleid = reset($userroles)->id;
-            $courseids = array_filter(array_unique(explode(',', $courses)));
+            $courseids = array_filter(array_unique(explode(',', $this->courses)));
+
             foreach ($courseids as $courseid) {
                 $ctx = \context_course::instance($courseid, IGNORE_MISSING);
 

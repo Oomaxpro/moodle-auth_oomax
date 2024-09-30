@@ -94,42 +94,45 @@ class User
         global $DB;
 
         // Get user by email
-        $user = $DB->get_record_select('user', 'LOWER(email) = ?', [strtolower($this->user->email)]);
+        $this->user = $DB->get_record_select('user', 'LOWER(email) = ?', [strtolower($this->user->email)]);
 
-        if ($user) {
+        if ($this->user) {
             // If user exist perform login and redirect
-            if (isset($this->user->locale) && $this->user->locale != $user->lang) {
-                $user->lang = $this->user->locale;
-                $user->auth = $this->token->auth;
-                user_update_user($user, false, false);
+            if (isset($this->user->locale) && $this->user->locale != $this->user->lang) {
+                $this->user->lang = $this->user->locale;
+                $this->user->auth = $this->token->auth;
+                user_update_user($this->user, false, false);
             }
         } else {
             // If user doesn't exist create user and perform login and redirect.
-            $userId = $user->createUser($this->user);
-            $user = $DB->get_record("user", ["id" => $userId]);
+            $userId = $this->createUser($this->user);
+            $this->user = $DB->get_record("user", ["id" => $userId]);
         }
 
-        return complete_user_login($user);
+        return complete_user_login($this->user);
     }
 
     public function generateOomaxCookie()
     {
         global $CFG;
 
-        $oomaxHome = parse_url($_SERVER['HTTP_REFERER']);
-        $oomaxGroups = $this->token->getGroups();
-        $oomaxGroupIndex = $oomaxGroups[array_search($oomaxHome['host'], $oomaxGroups)];
-        $homePath = parse_url($CFG->wwwroot);
-
-        $options = 0;
-        $ciphering = "AES-256-CBC";
-        $iv_length = openssl_cipher_iv_length($ciphering);
-        
-        $encryption_iv = substr(bin2hex($CFG->wwwroot), -16);
-        $encryption_key = $homePath['host'];
-        $encryption = openssl_encrypt($oomaxGroupIndex, $ciphering, $encryption_key, $options, $encryption_iv);
-
-        setcookie('oomaxHome', $encryption, time() + 60*60*24*30, $homePath['path'], $homePath['host'], true, true);
+        if (isset($_SERVER['HTTP_REFERER'])) {
+            $oomaxHome = parse_url($_SERVER['HTTP_REFERER']);
+            $oomaxGroups = $this->token->getGroups();
+            $oomaxGroupIndex = $oomaxGroups[array_search($oomaxHome['host'], $oomaxGroups)];
+            $homePath = parse_url($CFG->wwwroot);
+    
+            $options = 0;
+            $ciphering = "AES-256-CBC";
+            $iv_length = openssl_cipher_iv_length($ciphering);
+            
+            $encryption_iv = substr(bin2hex($CFG->wwwroot), -16);
+            $encryption_key = $homePath['host'];
+            $encryption = openssl_encrypt($oomaxGroupIndex, $ciphering, $encryption_key, $options, $encryption_iv);
+    
+            setcookie('oomaxHome', $encryption, time() + 60*60*24*30, $homePath['path'], $homePath['host'], true, true);
+    
+        }
     }
 
 

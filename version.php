@@ -28,8 +28,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2024092502;             // The current plugin version (Date: YYYYMMDDXX).
-$plugin->release   = '1.3.0.5';
+$plugin->version   = 2024093000;             // The current plugin version (Date: YYYYMMDDXX).
+$plugin->release   = '1.3.1.0';
 $plugin->requires  = 2015051100;             // MDL-2.9+
 $plugin->component = 'auth_cognito';         // Full name of the plugin (used for diagnostics).
 $plugin->maturity  = 'MATURITY_STABLE';

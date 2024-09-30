@@ -9,7 +9,7 @@ class Groups
     private $plugin;
     private $groups;
 
-    public function __construct(Token $plugin, Array | Null $groups)
+    public function __construct(Token $plugin, String | Null $groups = "")
     {
         $this->plugin = $plugin->getPlugin();
         $this->groups = $groups;
@@ -21,7 +21,7 @@ class Groups
 
         if (!is_null($this->groups)) {
             require_once($CFG->dirroot .'/group/lib.php');
-            $groupids = array_filter(array_unique(explode(',', $groups)));
+            $groupids = array_filter(array_unique(explode(',', $this->groups)));
 
             $message = new Messages($this->plugin);
             foreach ($groupids as $groupid) {

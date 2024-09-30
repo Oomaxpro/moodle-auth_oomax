@@ -11,7 +11,7 @@ class Audiences
     private $plugin;
     private $audiences;
 
-    public function __construct(Token $plugin, Array | Null $audiences)
+    public function __construct(Token $plugin, String | Null $audiences = "")
     {
         $this->plugin = $plugin->getPlugin();
         $this->audiences = $audiences;
@@ -23,7 +23,7 @@ class Audiences
 
         if (!is_null($this->audiences)) {
             require_once($CFG->dirroot .'/cohort/lib.php');
-            $cohortids = array_filter(array_unique(explode(',', $audiences)));
+            $cohortids = array_filter(array_unique(explode(',', $this->audiences)));
             foreach ($cohortids as $cohortid) {
                 try {
                     // Check that cohort exists.
