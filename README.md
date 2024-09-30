@@ -1,4 +1,4 @@
-Date: January 2023  
+Date: September 2024
 Name: oomax  
 Url: /auth/oomax/index.php?tokem=&logout=
 
@@ -8,10 +8,7 @@ Site Administration -> Plugins -> Authentication -> Manage Authentication
 
 ### Configure the plugin. ###
 
-1. oomax public key:  
-oomax key to decode user token data.   
-oomax key can be retrieved from: 
-https://oomax-idp.region.amazonaws.com/userPoolId/.well-known/jwks.json
+This plugin does not need any configuring to work, it does require an OOMAX subscription.
 
 ### Plugin functionality ###
 
