@@ -14,10 +14,10 @@ class Messages
 
     public function generateMessage(Array $message)
     {
-        $this->message = new \stdClass();
+        $this->message = Array();
         foreach ($message as $k => $m)
         {
-            $this->message->$k = $m;
+            $this->message[$k] = $m;
         } 
     }
 
