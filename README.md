@@ -1,6 +1,6 @@
-Date: January 2023  
-Name: cognito  
-Url: /auth/cognito/index.php?tokem=&logout=
+Date: September 2024
+Name: oomax  
+Url: /auth/oomax/index.php?tokem=&logout=
 
 ### Enable plugin ###
 
@@ -8,16 +8,13 @@ Site Administration -> Plugins -> Authentication -> Manage Authentication
 
 ### Configure the plugin. ###
 
-1. Cognito public key:  
-Cognito key to decode user token data.   
-Cognito key can be retrieved from: 
-https://cognito-idp.region.amazonaws.com/userPoolId/.well-known/jwks.json
+This plugin does not need any configuring to work, it does require an OOMAX subscription
 
 ### Plugin functionality ###
 
-Purpose of this plugin is to receive cognito user token and allow user access to LMS.
+Purpose of this plugin is to receive oomax user token and allow user access to LMS.
 
-**1. Cognito user token.**  
+**1. oomax user token.**  
 Plugin expect token as required query param in url.  
 Inside token system expect following attributes:
 ```bash
@@ -30,12 +27,12 @@ locale
 **2. User doesn't exist in LMS.**  
 If user doesn't exist in LMS, plugin will create user with following data:
 ```bash
-firstname: name from cognito token
-lastname: family_name from cognito token
-email: email from cognito token
-username: email from cognito token
-locale: locale from cognito token
-auth: cognito
+firstname: name from oomax token
+lastname: family_name from oomax token
+email: email from oomax token
+username: email from oomax token
+locale: locale from oomax token
+auth: oomax
 mnethostid: 1
 confirmed: 1
 suspended: 0
@@ -46,7 +43,7 @@ After successful creation user will be automatically logged in.
 **3. User exist in LMS.**   
 If user exist in LMS, plugin will update user with following data:
 ```bash
-locale: locale from cognito token
+locale: locale from oomax token
 ```
 After successful update user will be automatically logged in.
 

@@ -18,147 +18,69 @@
  * Authentication Plugin: Moodle Network Authentication
  * Multiple host authentication support for Moodle Network.
  *
- * @package auth_cognito
+ * @package auth_oomax
  * @author Bojan Bazdar
  * @license http://www.gnu.org/copyleft/gpl.html GNU Public License
  */
 
-require_once __DIR__ . '/../../config.php';
+require_once(__DIR__ . '/../../config.php');
+require_once(__DIR__.'/vendor/autoload.php');
 require_once($CFG->dirroot .'/user/lib.php');
+
+use Oomax\Model;
 
 global $SESSION;
 
-define('AUTH_COGNITO_ERROR_USER_SUSPENDED', 'user_is_suspended');
-define('AUTH_COGNITO_ERROR_INVALID_TOKEN', 'invalid_token');
-define('AUTH_COGNITO_ERROR_NO_EMAIL', 'missing_email');
-
-$user = new \auth_cognito\model\User();
-
-$token = required_param('token',    PARAM_RAW);
-$logout = required_param('logout',    PARAM_RAW);
+$token = required_param('token', PARAM_RAW);
+$logout = required_param('logout', PARAM_RAW);
+$courses = optional_param('courses', null, PARAM_SEQUENCE);
+$groups = optional_param('groups', null, PARAM_SEQUENCE);
+$audiences = optional_param('audiences', null, PARAM_SEQUENCE);
 $SESSION->logout = $logout;
 
-$payload = $user->getDataFromToken($token);
+$oomaxToken = new Model\Token($token);
+$oomaxToken->getDataFromToken();
 
-if (empty($payload)) {
-    redirect(new moodle_url($logout, ['code' => AUTH_COGNITO_ERROR_INVALID_TOKEN]));
+$wantsurl = Null;
+if (isset($SESSION->wantsurl)) 
+{
+    $wantsurl = $SESSION->wantsurl;
 }
 
 // If payload exist process user
-if ($payload) {
-    $payload = json_decode(json_encode($payload), true);
+if ($oomaxToken->isAuthorized()) 
+{
+    $oomaxToken->getPayload();
+    $oomaxUser = new Model\User($oomaxToken);
 
-    if (empty($payload['email'])) {
-        redirect(new moodle_url($logout, ['code' => AUTH_COGNITO_ERROR_NO_EMAIL]));
+    $oomaxUser->processUserLocale();
+    $USER = $oomaxUser->UserLogin($oomaxUser);
+    $oomaxUser->generateOomaxCookie();
+
+    if (!is_null($courses)) 
+    {
+        $oomaxCourses = new Model\Courses($oomaxToken, $courses);
+        $oomaxCourses->processCourses($oomaxUser);
     }
 
-    if (isset($payload['locale'])) {
-        // Convert language code from oomax format (e.g. fr-CA) to Moodle format (e.g. fr_ca).
-        $lang = strtolower(str_replace('-', '_', $payload['locale']));
-        $sm = get_string_manager();
-        // Find appropriate installed language, or use default system language.
-        if (!$sm->translation_exists($lang)) {
-            // Try base language.
-            $lang = explode('_', $lang)[0];
-            if (!$sm->translation_exists($lang)) {
-                // Use default language.
-                $lang = core_user::get_property_default('lang');
-            }
-        }
-        $payload['locale'] = $lang;
+    if (!is_null($groups)) 
+    {
+        $oomaxGroups = new Model\Groups($oomaxToken, $groups);
+        $oomaxGroups->processGroups($oomaxUser);
     }
 
-    // Convert email to lowercase
-    $email = strtolower($payload['email']);
-
-    // Get user by email
-    $student = $DB->get_record_select('user', 'LOWER(email) = ?', [$email]);
-
-    if ($student) {
-        if (!empty($student->suspended)) {
-            $SESSION->loginerrormsg = get_string("invalidlogin");
-            redirect(new moodle_url($logout, ['code' => AUTH_COGNITO_ERROR_USER_SUSPENDED]));
-        }
-
-        // If user exist perform login and redirect
-        if (isset($payload['locale']) && $payload['locale'] != $student->lang) {
-            $student->lang = $payload['locale'];
-
-            user_update_user($student, false, false);
-        }
-
-        $USER = complete_user_login($student);
-
-    } else {
-        // If user doesn't exist create user and perform login and redirect.
-        $userId = $user->createUser($payload);
-        $userObj = $DB->get_record("user", ["id" => $userId]);
-        $USER = complete_user_login($userObj);
+    if (!is_null($audiences)) 
+    {
+        $oomaxAudiences = new Model\Audiences($oomaxToken, $audiences);
+        $oomaxAudiences->processAudiences($oomaxUser);
     }
 
-    if (!empty($payload['courses'])) {
-        require_once($CFG->libdir . '/enrollib.php');
-        $studentroles = get_archetype_roles('student');
-        $studentroleid = reset($studentroles)->id;
-        $courseids = array_filter(array_unique(explode(',', $payload['courses'])));
-        foreach ($courseids as $courseid) {
-            $ctx = context_course::instance($courseid, IGNORE_MISSING);
-            if (!$ctx) {
-                // Course does not exist.
-                debugging("Course $courseid does not exist");
-                continue;
-            }
-            if (is_enrolled($ctx, $USER, '', true)) {
-                // Already enrolled.
-                debugging("User is already enrolled in course $courseid");
-                continue;
-            }
-            try {
-                // Enrol user using manual enrollment method.
-                if (!enrol_try_internal_enrol($courseid, $USER->id, $studentroleid)) {
-                    debugging("Failed to enrol user in course $courseid");
-                }
-            } catch (Exception $exc) {
-                // For now ignore errors when enrollment failed.
-                debugging("Failed to enrol user in course $courseid : " . $exc->getMessage());
-            }
-        }
+    if (is_null($wantsurl)) 
+    {
+        $wantsurl = new moodle_url(optional_param('wantsurl', $CFG->wwwroot, PARAM_URL));
     }
-
-    if (!empty($payload['groups'])) {
-        require_once($CFG->dirroot .'/group/lib.php');
-        $groupids = array_filter(array_unique(explode(',', $payload['groups'])));
-        foreach ($groupids as $groupid) {
-            try {
-                // Function takes care if the user is already member of the group.
-                if (!groups_add_member($groupid, $USER->id)) {
-                    debugging("Failed to add user to group $groupid");
-                }
-            } catch (Exception $exc) {
-                // For now ignore errors when adding to group failed.
-                debugging("Failed to add user to group $groupid : " . $exc->getMessage());
-            }
-        }
-    }
-
-    if (!empty($payload['audiences'])) {
-        require_once($CFG->dirroot .'/cohort/lib.php');
-        $cohortids = array_filter(array_unique(explode(',', $payload['audiences'])));
-        foreach ($cohortids as $cohortid) {
-            try {
-                // Check that cohort exists.
-                $DB->get_record('cohort', ['id' => $cohortid], 'id', MUST_EXIST);
-                // Function takes care if the user is already member of the cohort.
-                cohort_add_member($cohortid, $USER->id);
-            } catch (Exception $exc) {
-                // For now ignore errors when adding to cohort failed.
-                debugging("Failed to add user to audience $cohortid : " . $exc->getMessage());
-            }
-        }
-    }
-
-    redirect('/');
+    
+    redirect($wantsurl);
 } else {
-    throw new moodle_exception('cognitotoken', '', '', null,
-        'User token is invalid.');
+    throw new moodle_exception('oomaxtoken', '', '', null, get_string('invalid_token', 'auth_cognito'));
 }

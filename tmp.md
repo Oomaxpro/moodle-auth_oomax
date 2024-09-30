@@ -1,1 +1,1 @@
-# moodle-auth_cognito
+# moodle-auth_oomax

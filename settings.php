@@ -20,41 +20,23 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-require_once(__DIR__ . '/classes/settings/TokenHelper.php');
+// require_once(__DIR__ . '/classes/settings/TokenHelper.php');
 
 global $DB, $OUTPUT, $PAGE;
 
-$ADMIN->add('authsettings', new admin_category('auth_cognito', get_string('pluginname', 'auth_cognito')));
-$settings = new admin_settingpage($section, get_string('auth_cognito_settings', 'auth_cognito'), 'moodle/site:config');
+$pluginname = 'auth_cognito';
+$ADMIN->add('authsettings', new admin_category($pluginname, get_string('pluginname', $pluginname)));
+$settings = new admin_settingpage($section, get_string("{$pluginname}_settings", $pluginname), 'moodle/site:config');
 if ($ADMIN->fulltree) {
 
-    \auth_plugin_cognito\settings\TokenHelper::tokenSettings($settings);
-
-    $settings->add(
-        new admin_setting_configcheckbox(
-            'auth_cognito/field_lock_email',
-            get_string('config_lock_email', 'auth_cognito'),
-            get_string('config_lock_email_desc', 'auth_cognito'),
-            'locked',
-            'locked',
-            'unlocked')
-        );
-
-    $settings->add(
-        new admin_setting_configtext(
-            'auth_cognito/firstname_field',
-            get_string('config_firstname_field', 'auth_cognito'),
-            get_string('config_firstname_field_desc', 'auth_cognito'),
-            ''
-        )
-    );
-
-    $settings->add(
-        new admin_setting_configtext(
-            'auth_cognito/lastname_field',
-            get_string('config_lastname_field', 'auth_cognito'),
-            get_string('config_lastname_field_desc', 'auth_cognito'),
-            ''
-        )
-    );
+	$settings->add(
+		new admin_setting_configcheckbox(
+			"{$pluginname}/field_lock_email",
+			get_string('config_lock_email', $pluginname),
+			get_string('config_lock_email_desc', $pluginname),
+			'locked',
+			'locked',
+			'unlocked'
+		)
+	);
 }
