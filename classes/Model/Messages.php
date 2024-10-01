@@ -14,6 +14,7 @@ class Messages
 
     public function generateMessage(Array $message)
     {
+
         $this->message = Array();
         foreach ($message as $k => $m)
         {
