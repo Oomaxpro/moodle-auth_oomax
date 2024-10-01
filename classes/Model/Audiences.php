@@ -52,7 +52,7 @@ class Audiences {
      * @param Token plugin
      * @param String|null audiences
      */
-    public function __construct(Token $plugin, String | null $audiences = "") {
+    public function __construct(Token $plugin, $audiences = "") {
         $this->plugin = $plugin->getplugin();
         $this->audiences = $audiences;
     }

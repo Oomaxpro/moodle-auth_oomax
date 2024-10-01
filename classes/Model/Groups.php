@@ -49,7 +49,7 @@ class Groups {
     /**
      * Oomax Groups Constructor
      */
-    public function __construct(Token $plugin, String | null $groups = "") {
+    public function __construct(Token $plugin, $groups = "") {
         $this->plugin = $plugin->getplugin();
         $this->groups = $groups;
     }

@@ -56,7 +56,7 @@ class Token {
     /**
      * @var array
      */
-    private Array | null $keys;
+    private $keys;
 
     /**
      * @var cache
@@ -66,19 +66,20 @@ class Token {
     /**
      * @var string
      */
-    private String | null $token;
+    private $token;
 
     /**
      * @var string
      */
-    private String | null $keyuri;
+    private $keyuri;
 
     /**
      * @var stdClass
      */
-    private \stdClass | null $payload;
+    private $payload;
 
     /**
+     * Oomax Token Constructor
      * @param string $token
      */
     public function __construct(String $token = null) {
@@ -102,7 +103,7 @@ class Token {
     /**
      * Deciphers the groups payload
      */
-    public function getgroups(): Array | null {
+    public function getgroups() {
         $groups = 'cognito:groups';
         if (!is_null($this->token)) {
             return $this->payload->$groups;
@@ -142,11 +143,9 @@ class Token {
                 $pk = JWK::parseKey($key);
                 $this->payload = JWT::decode($this->token, $pk);
                 return true;
-            }
-            catch (SignatureInvalidException $e) {
+            } catch (SignatureInvalidException $e) {
                 continue;
-            }
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 return false;
             }
         }
@@ -167,7 +166,7 @@ class Token {
      * @return \stdClass
      * @return bool
      */
-    public function getpayload(): \stdClass | null {
+    public function getpayload() {
         return $this->payload;
     }
 

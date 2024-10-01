@@ -44,14 +44,14 @@ class Courses {
     /**
      * @var string | array | null
      */
-    private string | array | null $courses;
+    private $courses;
 
     /**
      * Constructor for Courses
      * @param Token plugin
      * @param String|Null courses
      */
-    public function __construct(Token $plugin, String | Null $courses = "") {
+    public function __construct(Token $plugin, $courses = "") {
         $this->plugin = $plugin->getplugin();
         $this->courses = $courses;
     }
