@@ -23,6 +23,13 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+ /**
+  * Moodle Uninstall for auth_cognito
+  */
 function xmldb_auth_cognito_uninstall() {
     global $CFG, $DB;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> CLDOPS-525v5

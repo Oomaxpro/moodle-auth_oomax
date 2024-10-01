@@ -1,4 +1,34 @@
 <?php
+<<<<<<< HEAD
+=======
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
+/**
+ * This file is part of the Oomax Pro Authentication package.
+ *
+ * @package     auth_cognito
+ * @copyright   Oomax
+ * @author      Dustin Brisebois
+ * @license     MIT
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ */
+>>>>>>> CLDOPS-525v5
 
 namespace Oomax\Model;
 
@@ -6,6 +36,7 @@ use Oomax\Model\Token;
 use Oomax\Model\User;
 use Oomax\Model\Messages;
 
+<<<<<<< HEAD
 class Audiences
 {
     private $plugin;
@@ -19,6 +50,38 @@ class Audiences
 
     public function processAudiences(User $oomaxUser): void
     {
+=======
+/**
+ * Oomax Audiences Class
+ */
+class Audiences {
+    /**
+     * @var string
+     */
+    private $plugin;
+
+    /**
+     * @var string|null
+     */
+    private $audiences;
+
+    /**
+     * Audience Oomax Constructor
+     * @param Token plugin
+     * @param String|null audiences
+     */
+    public function __construct(Token $plugin, $audiences = "") {
+        $this->plugin = $plugin->getplugin();
+        $this->audiences = $audiences;
+    }
+
+    /**
+     * Process Audiences for Oomax
+     * @param User oomaxuser
+     * @return void
+     */
+    public function processaudiences(User $oomaxuser): void {
+>>>>>>> CLDOPS-525v5
         global $CFG, $DB;
 
         if (!is_null($this->audiences)) {
@@ -29,14 +92,27 @@ class Audiences
                     // Check that cohort exists.
                     $DB->get_record('cohort', ['id' => $cohortid], 'id', MUST_EXIST);
                     // Function takes care if the user is already member of the cohort.
+<<<<<<< HEAD
                     cohort_add_member($cohortid, $oomaxUser->userId());
                 } catch (\Exception $exc) {
                     // For now ignore errors when adding to cohort failed.
                     $message = new Messages($this->plugin);
                     $message->generateMessage([ 'cohortid' => $cohortid, 'message' => $exc->getMessage()]);
                     debugging($message->returnMessage('audience_fail_enrol'));
+=======
+                    cohort_add_member($cohortid, $oomaxuser->userid());
+                } catch (\Exception $exc) {
+                    // For now ignore errors when adding to cohort failed.
+                    $message = new Messages($this->plugin);
+                    $message->generatemessage([ 'cohortid' => $cohortid, 'message' => $exc->getmessage()]);
+                    debugging($message->returnmessage('audience_fail_enrol'));
+>>>>>>> CLDOPS-525v5
                 }
             }
         }
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> CLDOPS-525v5

@@ -15,6 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+<<<<<<< HEAD
  * Authentication Plugin: Moodle Network Authentication
  * Multiple host authentication support for Moodle Network.
  *
@@ -28,3 +29,24 @@ $definitions = [
         'mode' => cache_store::MODE_APPLICATION,
     ]
 ];
+=======
+ * This file is part of the Oomax Pro Authentication package.
+ *
+ * @package     auth_cognito
+ * @author      Bojan Bazdar / Dustin Brisebois
+ * @license     GPL
+ * @copyright   Oomax
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ */
+
+defined('MOODLE_INTERNAL') || die;
+
+$definitions = [
+    'oomax_cache' => [
+        'mode' => cache_store::MODE_APPLICATION,
+    ],
+];
+>>>>>>> CLDOPS-525v5

@@ -15,16 +15,30 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+<<<<<<< HEAD
  * auth_oomax block settings
  *
  * @package    auth_oomax
  * @copyright  2022
  * @author     Bojan Bazdar
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+=======
+ * This file is part of the Oomax Pro Authentication package.
+ *
+ * @package     auth_cognito
+ * @author      Bojan Bazdar / Dustin Brisebois
+ * @license     GPL
+ * @copyright   Oomax
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+>>>>>>> CLDOPS-525v5
  */
 
 defined('MOODLE_INTERNAL') || die;
 
+<<<<<<< HEAD
 $lambdaprocessupload = Array(
         'classname' => 'cognito_external',
         'methodname' => 'process_upload',
@@ -46,6 +60,29 @@ $lambdacreatessouser = Array(
 $functions = Array(
   'cognito_create_sso_user' => $lambdacreatessouser
 );
+=======
+$lambdaprocessupload = [
+  'classname' => 'cognito_external',
+  'methodname' => 'process_upload',
+  'classpath' => 'auth/cognito/externallib.php',
+  'description' => 'Upload Processable Files.',
+  'type' => 'write',
+  'capabilities' => 'moodle/user:create',
+];
+
+$lambdacreatessouser = [
+  'classname' => 'cognito_external',
+  'methodname' => 'create_users',
+  'classpath' => 'auth/cognito/externallib.php',
+  'description' => 'Create cognito users.',
+  'type' => 'write',
+  'capabilities' => 'moodle/user:create',
+];
+
+$functions = [
+  'cognito_create_sso_user' => $lambdacreatessouser,
+];
+>>>>>>> CLDOPS-525v5
 
 if (isset($CFG->SSO_EXPERIMENTAL) && $CFG->SSO_EXPERIMENTAL) {
     $functions['cognito_process_upload'] = $lambdaprocessupload;
