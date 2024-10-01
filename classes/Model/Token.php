@@ -1,10 +1,32 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
- * Created by PhpStorm.
- * User: bojan
- * Date: 2022-10-13
- * Time: 09:39
+ * This file is part of the Oomax Pro Authentication package.
+ *
+ * @package     auth_cognito
+ * @copyright   Oomax
+ * @author      Dustin Brisebois
+ * @license     MIT
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
  */
+
 namespace Oomax\Model;
 
 use Firebase\JWT\JWT;
@@ -15,54 +37,89 @@ use Firebase\JWT\SignatureInvalidException;
  * Class Token
  * @package Oomax\Model
  */
-class Token
-{
+class Token {
+    /**
+     * @var int
+     */
     private Int $retry;
+
+    /**
+     * @var string
+     */
     public String $auth = '';
+
+    /**
+     * @var string
+     */
     private String $plugin = '';
-    private Array | Null $keys;
+
+    /**
+     * @var array
+     */
+    private Array | null $keys;
+
+    /**
+     * @var cache
+     */
     private \cache $cache;
-    private String | Null $token;
-    private String | Null $key_uri;
-    private \stdClass | Null $payload;
+
+    /**
+     * @var string
+     */
+    private String | null $token;
+
+    /**
+     * @var string
+     */
+    private String | null $keyuri;
+
+    /**
+     * @var stdClass
+     */
+    private \stdClass | null $payload;
 
     /**
      * @param string $token
      */
-    public function __construct(String $token = Null)
-    {
+    public function __construct(String $token = null) {
         $this->retry = 1;
         $this->auth = 'cognito';
         $this->plugin = "auth_{$this->auth}";
         $this->cache = \cache::make($this->plugin, 'oomax_cache');
         $this->token = $token;
-        $this->key_uri = "https://cognito-idp.ca-central-1.amazonaws.com/ca-central-1_SiaYTCMC1/.well-known/jwks.json";
-        $this->cache_keys();
+        $this->keyuri = "https://cognito-idp.ca-central-1.amazonaws.com/ca-central-1_SiaYTCMC1/.well-known/jwks.json";
+        $this->cachekeys();
     }
 
     /**
+     * Returns the plugin information
      * @return string
      */
-    public function getPlugin(): string
-    {
+    public function getplugin(): string {
         return $this->plugin;
     }
 
-    public function getGroups(): Array | null
-    {
+    /**
+     * Deciphers the groups payload
+     */
+    public function getgroups(): Array | null {
         $groups = 'cognito:groups';
-        if (!is_null($this->token)) return $this->payload->$groups;
-        return Null;
+        if (!is_null($this->token)) {
+            return $this->payload->$groups;
+        }
+        return null;
     }
 
     /**
+     * Returns the Data from the Token
      * @return bool
      */
-    public function getDataFromToken(): bool {
-        while ($this->retry > 0)
-        {
+    public function getdatafromtoken(): bool {
+        while ($this->retry > 0) {
             $result = $this->decipherToken();
-            if ($result) return $result;
+            if ($result) {
+                return $result;
+            }
             $this->cache->delete('keys');
             $this->retry--;
         }
@@ -70,13 +127,16 @@ class Token
     }
 
     /**
+     * Deciphers the Token for Data
      * @return bool
      * @throws \SignatureInvalidException
      * @throws \Exception
      */
-    private function decipherToken(): bool {
+    private function deciphertoken(): bool {
         $data = '';
-        if (is_null($this->keys)) return false;
+        if (is_null($this->keys)) {
+            return false;
+        }
         foreach ($this->keys['keys'] as $key) {
             try {
                 $pk = JWK::parseKey($key);
@@ -85,7 +145,7 @@ class Token
             }
             catch (SignatureInvalidException $e) {
                 continue;
-            } 
+            }
             catch (\Exception $e) {
                 return false;
             }
@@ -98,8 +158,7 @@ class Token
      * Checks if JWT has been decoded
      * @return bool
      */
-    public function isAuthorized(): bool 
-    {
+    public function isauthorized(): bool {
         return !is_null($this->payload);
     }
 
@@ -108,8 +167,7 @@ class Token
      * @return \stdClass
      * @return bool
      */
-    public function getPayload(): \stdClass | Null
-    {
+    public function getpayload(): \stdClass | null {
         return $this->payload;
     }
 
@@ -117,10 +175,10 @@ class Token
      * Get public key file
      * @return void
      */
-    private function get_public_key(): void {
+    private function getpublickey(): void {
         $curl = curl_init();
-        curl_setopt_array($curl, array(
-          CURLOPT_URL => $this->key_uri,
+        curl_setopt_array($curl, [
+          CURLOPT_URL => $this->keyuri,
           CURLOPT_RETURNTRANSFER => true,
           CURLOPT_ENCODING => '',
           CURLOPT_MAXREDIRS => 10,
@@ -128,10 +186,10 @@ class Token
           CURLOPT_FOLLOWLOCATION => true,
           CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
           CURLOPT_CUSTOMREQUEST => 'GET',
-        ));
-        
+        ]);
+
         $response = curl_exec($curl);
-       
+
         curl_close($curl);
         $this->keys = json_decode($response, true);
     }
@@ -140,12 +198,11 @@ class Token
      * Cache the Keys locally
      * @return void
      */
-    private function cache_keys(): void
-    {
+    private function cachekeys(): void {
         $this->keys = json_decode($this->cache->get('keys'), true);
         if (is_null($this->keys)) {
-            $this->get_public_key();
+            $this->getpublickey();
             $this->cache->set('keys', json_encode($this->keys));
-        } 
+        }
     }
 }

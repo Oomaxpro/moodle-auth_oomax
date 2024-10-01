@@ -1,10 +1,32 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
- * Created by PhpStorm.
- * User: bojan
- * Date: 2022-10-13
- * Time: 09:39
+ * This file is part of the Oomax Pro Authentication package.
+ *
+ * @package     auth_cognito
+ * @copyright   Oomax
+ * @author      Dustin Brisebois
+ * @license     MIT
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
  */
+
 namespace Oomax\Model;
 
 use Firebase\JWT\JWT;
@@ -15,27 +37,35 @@ use Firebase\JWT\SignatureInvalidException;
  * Class User
  * @package auth_oomax\model
  */
-class User
-{
+class User {
+    /**
+     * @var token
+     */
     protected \Oomax\Model\Token $token;
+
+    /**
+     * @var stdClass
+     */
     public \stdClass $user;
 
-    public function __construct(\Oomax\Model\Token $token) 
-    {
+    /**
+     * Oomax User Constructor
+     * @param Token token
+     */
+    public function __construct(\Oomax\Model\Token $token) {
         $this->token = $token;
-        $this->user = $this->token->getPayload();
+        $this->user = $this->token->getpayload();
     }
 
 
     /**
-     * @param $this->user->
+     * Generates the User for Oomax
      * @return int
      * @throws \moodle_exception
      */
-    public function createUser(): int
-    {
+    public function createuser(): int {
         global $CFG;
-        
+
         $firstname = '';
         $lastname = '';
         if (isset($this->user->name) && $this->user->name) {
@@ -50,7 +80,7 @@ class User
         $user->firstname = trim($firstname);
         $user->lastname = trim($lastname);
         $user->email = $this->user->email;
-        if(isset($this->user->locale)){
+        if (isset($this->user->locale)) {
             $user->lang = $this->user->locale;
         }
 
@@ -59,16 +89,14 @@ class User
         $user->suspended = 0;
         $user->lastlogin = 0;
 
-        $userId = user_create_user($user, false, true);
-
-        return $userId;
+        return user_create_user($user, false, true);
     }
 
     /**
      * Process Locale Handling at the Token Level
+     * @return void
      */
-    public function processUserLocale(): void
-    {
+    public function processuserlocale(): void {
         if (isset($this->puserayload->locale)) {
             // Convert language code from oomax format (e.g. fr-CA) to Moodle format (e.g. fr_ca).
             $lang = strtolower(str_replace('-', '_', $this->user->locale));
@@ -83,14 +111,14 @@ class User
                 }
             }
             $this->user->locale = $lang;
-        }    
+        }
     }
 
     /**
      * Log User in; if user doesn't exist create user first
+     * @return stdClass
      */
-    public function UserLogin(): \stdClass
-    {
+    public function userlogin(): \stdClass {
         global $DB;
 
         // Get user by email
@@ -105,39 +133,42 @@ class User
             }
         } else {
             // If user doesn't exist create user and perform login and redirect.
-            $userId = $this->createUser($this->user);
-            $this->user = $DB->get_record("user", ["id" => $userId]);
+            $userid = $this->createuser($this->user);
+            $this->user = $DB->get_record("user", ["id" => $userid]);
         }
 
         return complete_user_login($this->user);
     }
 
-    public function generateOomaxCookie()
-    {
+    /**
+     * Generates Oomax Cookie
+     * @return void
+     */
+    public function generateoomaxcookie(): void {
         global $CFG;
 
         if (isset($_SERVER['HTTP_REFERER'])) {
-            $oomaxHome = parse_url($_SERVER['HTTP_REFERER']);
-            $oomaxGroups = $this->token->getGroups();
-            $oomaxGroupIndex = $oomaxGroups[array_search($oomaxHome['host'], $oomaxGroups)];
-            $homePath = parse_url($CFG->wwwroot);
-    
+            $oomaxhome = parse_url($_SERVER['HTTP_REFERER']);
+            $oomaxgroups = $this->token->getgroups();
+            $oomaxgroupindex = $oomaxgroups[array_search($oomaxhome['host'], $oomaxgroups)];
+            $homepath = parse_url($CFG->wwwroot);
+
             $options = 0;
             $ciphering = "AES-256-CBC";
-            $iv_length = openssl_cipher_iv_length($ciphering);
-            
-            $encryption_iv = substr(bin2hex($CFG->wwwroot), -16);
-            $encryption_key = $homePath['host'];
-            $encryption = openssl_encrypt($oomaxGroupIndex, $ciphering, $encryption_key, $options, $encryption_iv);
-    
-            setcookie('oomaxHome', $encryption, time() + 60*60*24*30, $homePath['path'], $homePath['host'], true, true);
-    
+
+            $encryptioniv = substr(bin2hex($CFG->wwwroot), -16);
+            $encryptionkey = $homepath['host'];
+            $encryption = openssl_encrypt($oomaxgroupindex, $ciphering, $encryptionkey, $options, $encryptioniv);
+
+            setcookie('oomaxhome', $encryption, time() + 60 * 60 * 24 * 30, $homepath['path'], $homepath['host'], true, true);
         }
     }
 
-
-    public function userId(): int
-    {
+    /**
+     * Return User ID
+     * @return int
+     */
+    public function userid(): int {
         return $this->user->id;
     }
 }

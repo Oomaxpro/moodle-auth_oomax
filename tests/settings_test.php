@@ -1,16 +1,37 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
- * Created by PhpStorm.
- * User: bojan
- * Date: 2022-10-13
- * Time: 00:28
+ * This file is part of the Oomax Pro Authentication package.
+ *
+ * @package     auth_cognito
+ * @author      Bojan Bazdar / Dustin Brisebois
+ * @license     https://opensource.org/license/mit MIT
+ * @copyright   Oomax
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
  */
 
-namespace mod_myplugin;
+namespace Oomax;
 
 /**
  * Class test_user
- * @package mod_myplugin
+ * @package oomax
  */
 class settings_test extends \advanced_testcase {
 
@@ -19,15 +40,7 @@ class settings_test extends \advanced_testcase {
      */
     public function test_settings_login_url() {
 
-        $loginUrl = get_config('auth_oomax', 'oomax_serverless_login_url');
-        $this->assertIsString($loginUrl, 'Settings: Login url is missing');
-    }
-
-    /**
-     * @throws \dml_exception
-     */
-    public function test_settings_public_key() {
-        $publickey = get_config('auth_oomax', 'public_key');
-        $this->assertIsString($publickey, 'Settings: Public key is missing');
+        $loginurl = get_config('auth_cognito', 'oomax_serverless_login_url');
+        $this->assertIsString($loginurl, 'Settings: Login url is missing');
     }
 }

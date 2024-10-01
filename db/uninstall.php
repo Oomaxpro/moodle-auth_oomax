@@ -17,12 +17,15 @@
 /**
  * auth_oomax auth settings
  *
- * @package    auth_oomax
+ * @package    auth_cognito
  * @copyright  2022
  * @author     Bojan Bazdar
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+ /**
+  * Moodle Uninstall for auth_cognito
+  */
 function xmldb_auth_cognito_uninstall() {
     global $CFG, $DB;
 }

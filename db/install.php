@@ -15,14 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * auth_oomax auth settings
+ * This file is part of the Oomax Pro Authentication package.
  *
- * @package    auth_oomax
- * @copyright  2022
- * @author     Bojan Bazdar
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     auth_cognito
+ * @author      Bojan Bazdar / Dustin Brisebois
+ * @license     GPL
+ * @copyright   Oomax
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
  */
 
+ /**
+  * Moodle install method for auth_cognito
+  */
 function xmldb_auth_cognito_install() {
     global $CFG, $DB;
 

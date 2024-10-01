@@ -15,13 +15,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Authentication Plugin: Moodle Network Authentication
- * Multiple host authentication support for Moodle Network.
+ * This file is part of the Oomax Pro Authentication package.
  *
- * @package auth_cognito
- * @copyright OOMAX
- * @author Bojan Bazdar
- * @license http://www.gnu.org/copyleft/gpl.html GNU Public License
+ * @package     auth_cognito
+ * @author      Bojan Bazdar / Dustin Brisebois
+ * @license     https://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright   Oomax
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
  */
 
 require_once(__DIR__ . '/../../config.php');
@@ -40,35 +43,35 @@ $audiences = optional_param('audiences', null, PARAM_SEQUENCE);
 $SESSION->logout = $logout;
 
 $oomaxtoken = new Model\Token($token);
-$oomaxtoken->getDataFromToken();
+$oomaxtoken->getdatafromtoken();
 
 $wantsurl = null;
 if (isset($SESSION->wantsurl)) {
     $wantsurl = $SESSION->wantsurl;
 }
 
-// If payload exist process user
-if ($oomaxtoken->isAuthorized()) {
-    $oomaxtoken->getPayload();
+// If payload exist process user.
+if ($oomaxtoken->isauthorized()) {
+    $oomaxtoken->getpayload();
     $oomaxuser = new Model\User($oomaxtoken);
 
-    $oomaxuser->processUserLocale();
-    $USER = $oomaxuser->UserLogin($oomaxuser);
-    $oomaxuser->generateOomaxCookie();
+    $oomaxuser->processuserlocale();
+    $USER = $oomaxuser->userlogin($oomaxuser);
+    $oomaxuser->generateoomaxcookie();
 
     if (!is_null($courses)) {
         $oomaxcourses = new Model\Courses($oomaxtoken, $courses);
-        $oomaxcourses->processCourses($oomaxuser);
+        $oomaxcourses->processcourses($oomaxuser);
     }
 
     if (!is_null($groups)) {
         $oomaxgroups = new Model\Groups($oomaxtoken, $groups);
-        $oomaxgroups->processGroups($oomaxuser);
+        $oomaxgroups->processgroups($oomaxuser);
     }
 
     if (!is_null($audiences)) {
         $oomaxaudiences = new Model\Audiences($oomaxtoken, $audiences);
-        $oomaxaudiences->processAudiences($oomaxuser);
+        $oomaxaudiences->processaudiences($oomaxuser);
     }
 
     if (is_null($wantsurl)) {

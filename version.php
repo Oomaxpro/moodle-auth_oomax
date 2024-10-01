@@ -17,9 +17,10 @@
 /**
  * This file is part of the Oomax Pro Authentication package.
  *
- * @package     auth_oomax
- * @author      Bojan Bazdar
- * @license     MIT
+ * @package     auth_cognito
+ * @author      Bojan Bazdar / Dustin Brisebois
+ * @license     https://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright   Oomax
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.

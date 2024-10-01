@@ -18,15 +18,14 @@
  * This file is part of the Oomax Pro Authentication package.
  *
  * @package     auth_cognito
+ * @author      Bojan Bazdar / Dustin Brisebois
+ * @license     GPL
  * @copyright   Oomax
- * @author      Bojan Bazdar
- * @license     MIT
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  */
-
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->libdir.'/authlib.php');
@@ -41,6 +40,10 @@ class auth_plugin_cognito extends auth_plugin_base {
      * @var string
      */
     private $logouturl = '';
+
+    /**
+     * @var string
+     */
     private $plugin = '';
 
     /**
@@ -60,6 +63,7 @@ class auth_plugin_cognito extends auth_plugin_base {
     }
 
     /**
+     * Postlogout_Hook for Redirecting User on Logout
      * @param stdClass $user
      * @throws moodle_exception
      */
@@ -71,6 +75,7 @@ class auth_plugin_cognito extends auth_plugin_base {
     }
 
     /**
+     * Can change password?
      * @return bool if false
      */
     public function can_change_password(): bool {
@@ -78,6 +83,7 @@ class auth_plugin_cognito extends auth_plugin_base {
     }
 
     /**
+     * Can edit profile?
      * @return bool
      */
     public function can_edit_profile(): bool {
@@ -85,6 +91,7 @@ class auth_plugin_cognito extends auth_plugin_base {
     }
 
     /**
+     * Can reset password?
      * @return bool
      */
     public function can_reset_password(): bool {
@@ -92,15 +99,19 @@ class auth_plugin_cognito extends auth_plugin_base {
     }
 
     /**
+     * Is plugin internal?
      * @return bool
      */
     public function is_internal(): bool {
         return true;
     }
 
+    /**
+     * Encrypted Cookie manager for wantsurl
+     * @return void
+     */
     private function calculate_wantsurl() {
-        if (isset($_COOKIE['oomaxHome']))
-        {
+        if (isset($_COOKIE['oomaxHome'])) {
             global $CFG;
 
             $options = 0;
@@ -112,28 +123,8 @@ class auth_plugin_cognito extends auth_plugin_base {
         }
     }
 
-    public function loginpage_hook() {
-        global $CFG, $USER;
-
-        if (CLI_SCRIPT || AJAX_SCRIPT) {
-            return;
-        }
-
-        $this->calculate_wantsurl();
-
-        $token = optional_param('token', '', PARAM_RAW);
-        $logout = optional_param('logout', '', PARAM_RAW);
-
-        if ($CFG->forcelogin == true) {
-            // force login!
-        } else if ($USER->id == 0) {
-            // not logged in
-        } else if ($CFG->autologinguests == false || $CFG->guestloginbutton == false) {
-            // no guest
-        }
-    }
-
     /**
+     * OAuth smart handler for UI mapping
      * @param \core\outh2\issuer issuer
      * @return bool
      */
@@ -141,6 +132,12 @@ class auth_plugin_cognito extends auth_plugin_base {
         return $issuer->get('enabled') && $issuer->is_configured() && empty($issuer->get('showonloginpage'));
     }
 
+    /**
+     * Login Idp List handler for UI artifacts
+     * @param $wantsurl
+     * @param bool $details = false
+     * @return Array
+     */
     public function loginpage_idp_list($wantsurl, Bool $details = false) {
         $result = [];
         $providers = \core\oauth2\api::get_all_issuers();
@@ -156,18 +153,5 @@ class auth_plugin_cognito extends auth_plugin_base {
             }
         }
         return $result;
-    }
-
-    public function pre_user_login_hook(&$user) {
-        // magic
-        echo "<pre>";
-        echo var_dump($user);
-        echo "</pre>";
-        die();
-    }
-
-    public function user_exists($username) {
-        echo "User Exists: ". $username .'<br>';
-        die();
     }
 }
