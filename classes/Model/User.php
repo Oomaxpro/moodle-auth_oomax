@@ -121,11 +121,11 @@ class User {
     public function userlogin(): \stdClass {
         global $DB;
 
-        // Get user by email
+        // Get user by email.
         $this->user = $DB->get_record_select('user', 'LOWER(email) = ?', [strtolower($this->user->email)]);
 
         if ($this->user) {
-            // If user exist perform login and redirect
+            // If user exist perform login and redirect.
             if (isset($this->user->locale) && $this->user->locale != $this->user->lang) {
                 $this->user->lang = $this->user->locale;
                 $this->user->auth = $this->token->auth;
