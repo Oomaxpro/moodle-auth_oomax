@@ -15,6 +15,14 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+<<<<<<< HEAD
+ * auth_oomax auth settings
+ *
+ * @package    auth_oomax
+ * @copyright  2022
+ * @author     Bojan Bazdar
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+=======
  * This file is part of the Oomax Pro Authentication package.
  *
  * @package     auth_cognito
@@ -25,6 +33,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
+>>>>>>> CLDOPS-525v5
  */
 
  /**

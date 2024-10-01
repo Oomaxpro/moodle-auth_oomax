@@ -1,4 +1,6 @@
 <?php
+<<<<<<< HEAD
+=======
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -26,6 +28,7 @@
  * file that was distributed with this source code.
  *
  */
+>>>>>>> CLDOPS-525v5
 
 namespace Oomax\Model;
 
@@ -33,6 +36,21 @@ use Oomax\Model\Token;
 use Oomax\Model\User;
 use Oomax\Model\Messages;
 
+<<<<<<< HEAD
+class Audiences
+{
+    private $plugin;
+    private $audiences;
+
+    public function __construct(Token $plugin, String | Null $audiences = "")
+    {
+        $this->plugin = $plugin->getPlugin();
+        $this->audiences = $audiences;
+    }
+
+    public function processAudiences(User $oomaxUser): void
+    {
+=======
 /**
  * Oomax Audiences Class
  */
@@ -63,6 +81,7 @@ class Audiences {
      * @return void
      */
     public function processaudiences(User $oomaxuser): void {
+>>>>>>> CLDOPS-525v5
         global $CFG, $DB;
 
         if (!is_null($this->audiences)) {
@@ -73,14 +92,27 @@ class Audiences {
                     // Check that cohort exists.
                     $DB->get_record('cohort', ['id' => $cohortid], 'id', MUST_EXIST);
                     // Function takes care if the user is already member of the cohort.
+<<<<<<< HEAD
+                    cohort_add_member($cohortid, $oomaxUser->userId());
+                } catch (\Exception $exc) {
+                    // For now ignore errors when adding to cohort failed.
+                    $message = new Messages($this->plugin);
+                    $message->generateMessage([ 'cohortid' => $cohortid, 'message' => $exc->getMessage()]);
+                    debugging($message->returnMessage('audience_fail_enrol'));
+=======
                     cohort_add_member($cohortid, $oomaxuser->userid());
                 } catch (\Exception $exc) {
                     // For now ignore errors when adding to cohort failed.
                     $message = new Messages($this->plugin);
                     $message->generatemessage([ 'cohortid' => $cohortid, 'message' => $exc->getmessage()]);
                     debugging($message->returnmessage('audience_fail_enrol'));
+>>>>>>> CLDOPS-525v5
                 }
             }
         }
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> CLDOPS-525v5

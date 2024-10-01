@@ -1,4 +1,12 @@
 <?php
+<<<<<<< HEAD
+/**
+ * Created by PhpStorm.
+ * User: bojan
+ * Date: 2022-10-13
+ * Time: 09:39
+ */
+=======
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -27,6 +35,7 @@
  *
  */
 
+>>>>>>> CLDOPS-525v5
 namespace Oomax\Model;
 
 use Firebase\JWT\JWT;
@@ -37,6 +46,17 @@ use Firebase\JWT\SignatureInvalidException;
  * Class User
  * @package auth_oomax\model
  */
+<<<<<<< HEAD
+class User
+{
+    protected \Oomax\Model\Token $token;
+    public \stdClass $user;
+
+    public function __construct(\Oomax\Model\Token $token) 
+    {
+        $this->token = $token;
+        $this->user = $this->token->getPayload();
+=======
 class User {
     /**
      * @var token
@@ -55,10 +75,21 @@ class User {
     public function __construct(\Oomax\Model\Token $token) {
         $this->token = $token;
         $this->user = $this->token->getpayload();
+>>>>>>> CLDOPS-525v5
     }
 
 
     /**
+<<<<<<< HEAD
+     * @param $this->user->
+     * @return int
+     * @throws \moodle_exception
+     */
+    public function createUser(): int
+    {
+        global $CFG;
+        
+=======
      * Generates the User for Oomax
      * @return int
      * @throws \moodle_exception
@@ -66,6 +97,7 @@ class User {
     public function createuser(): int {
         global $CFG;
 
+>>>>>>> CLDOPS-525v5
         $firstname = '';
         $lastname = '';
         if (isset($this->user->name) && $this->user->name) {
@@ -80,7 +112,11 @@ class User {
         $user->firstname = trim($firstname);
         $user->lastname = trim($lastname);
         $user->email = $this->user->email;
+<<<<<<< HEAD
+        if(isset($this->user->locale)){
+=======
         if (isset($this->user->locale)) {
+>>>>>>> CLDOPS-525v5
             $user->lang = $this->user->locale;
         }
 
@@ -89,14 +125,26 @@ class User {
         $user->suspended = 0;
         $user->lastlogin = 0;
 
+<<<<<<< HEAD
+        $userId = user_create_user($user, false, true);
+
+        return $userId;
+=======
         return user_create_user($user, false, true);
+>>>>>>> CLDOPS-525v5
     }
 
     /**
      * Process Locale Handling at the Token Level
+<<<<<<< HEAD
+     */
+    public function processUserLocale(): void
+    {
+=======
      * @return void
      */
     public function processuserlocale(): void {
+>>>>>>> CLDOPS-525v5
         if (isset($this->puserayload->locale)) {
             // Convert language code from oomax format (e.g. fr-CA) to Moodle format (e.g. fr_ca).
             $lang = strtolower(str_replace('-', '_', $this->user->locale));
@@ -111,11 +159,27 @@ class User {
                 }
             }
             $this->user->locale = $lang;
+<<<<<<< HEAD
+        }    
+=======
         }
+>>>>>>> CLDOPS-525v5
     }
 
     /**
      * Log User in; if user doesn't exist create user first
+<<<<<<< HEAD
+     */
+    public function UserLogin(): \stdClass
+    {
+        global $DB;
+
+        // Get user by email
+        $this->user = $DB->get_record_select('user', 'LOWER(email) = ?', [strtolower($this->user->email)]);
+
+        if ($this->user) {
+            // If user exist perform login and redirect
+=======
      * @return stdClass
      */
     public function userlogin(): \stdClass {
@@ -126,6 +190,7 @@ class User {
 
         if ($this->user) {
             // If user exist perform login and redirect.
+>>>>>>> CLDOPS-525v5
             if (isset($this->user->locale) && $this->user->locale != $this->user->lang) {
                 $this->user->lang = $this->user->locale;
                 $this->user->auth = $this->token->auth;
@@ -133,13 +198,49 @@ class User {
             }
         } else {
             // If user doesn't exist create user and perform login and redirect.
+<<<<<<< HEAD
+            $userId = $this->createUser($this->user);
+            $this->user = $DB->get_record("user", ["id" => $userId]);
+=======
             $userid = $this->createuser($this->user);
             $this->user = $DB->get_record("user", ["id" => $userid]);
+>>>>>>> CLDOPS-525v5
         }
 
         return complete_user_login($this->user);
     }
 
+<<<<<<< HEAD
+    public function generateOomaxCookie()
+    {
+        global $CFG;
+
+        if (isset($_SERVER['HTTP_REFERER'])) {
+            $oomaxHome = parse_url($_SERVER['HTTP_REFERER']);
+            $oomaxGroups = $this->token->getGroups();
+            $oomaxGroupIndex = $oomaxGroups[array_search($oomaxHome['host'], $oomaxGroups)];
+            $homePath = parse_url($CFG->wwwroot);
+    
+            $options = 0;
+            $ciphering = "AES-256-CBC";
+            $iv_length = openssl_cipher_iv_length($ciphering);
+            
+            $encryption_iv = substr(bin2hex($CFG->wwwroot), -16);
+            $encryption_key = $homePath['host'];
+            $encryption = openssl_encrypt($oomaxGroupIndex, $ciphering, $encryption_key, $options, $encryption_iv);
+    
+            setcookie('oomaxHome', $encryption, time() + 60*60*24*30, $homePath['path'], $homePath['host'], true, true);
+    
+        }
+    }
+
+
+    public function userId(): int
+    {
+        return $this->user->id;
+    }
+}
+=======
     /**
      * Generates Oomax Cookie
      * @return void
@@ -172,3 +273,4 @@ class User {
         return $this->user->id;
     }
 }
+>>>>>>> CLDOPS-525v5

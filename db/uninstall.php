@@ -17,7 +17,7 @@
 /**
  * auth_oomax auth settings
  *
- * @package    auth_cognito
+ * @package    auth_oomax
  * @copyright  2022
  * @author     Bojan Bazdar
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -28,4 +28,8 @@
   */
 function xmldb_auth_cognito_uninstall() {
     global $CFG, $DB;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> CLDOPS-525v5

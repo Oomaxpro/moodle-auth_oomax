@@ -25,6 +25,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
+<<<<<<< HEAD
+ * @package auth_cognito
+ * @copyright OOMAX
+
+ * @author Bojan Bazdar
+ * @license http://www.gnu.org/copyleft/gpl.html GNU Public License
+=======
+>>>>>>> CLDOPS-525v5
  */
 
 require_once(__DIR__ . '/../../config.php');
@@ -43,6 +51,28 @@ $audiences = optional_param('audiences', null, PARAM_SEQUENCE);
 $SESSION->logout = $logout;
 
 $oomaxtoken = new Model\Token($token);
+<<<<<<< HEAD
+$oomaxtoken->getDataFromToken();
+
+$wantsurl = null;
+if (isset($SESSION->wantsurl)) {
+
+    $wantsurl = $SESSION->wantsurl;
+}
+
+// If payload exist process user
+if ($oomaxtoken->isAuthorized()) {
+    $oomaxtoken->getPayload();
+    $oomaxuser = new Model\User($oomaxtoken);
+
+    $oomaxuser->processUserLocale();
+    $USER = $oomaxuser->UserLogin($oomaxuser);
+    $oomaxuser->generateOomaxCookie();
+
+    if (!is_null($courses)) {
+        $oomaxcourses = new Model\Courses($oomaxtoken, $courses);
+        $oomaxcourses->processCourses($oomaxuser);
+=======
 $oomaxtoken->getdatafromtoken();
 
 $wantsurl = null;
@@ -62,16 +92,25 @@ if ($oomaxtoken->isauthorized()) {
     if (!is_null($courses)) {
         $oomaxcourses = new Model\Courses($oomaxtoken, $courses);
         $oomaxcourses->processcourses($oomaxuser);
+>>>>>>> CLDOPS-525v5
     }
 
     if (!is_null($groups)) {
         $oomaxgroups = new Model\Groups($oomaxtoken, $groups);
+<<<<<<< HEAD
+        $oomaxgroups->processGroups($oomaxuser);
+=======
         $oomaxgroups->processgroups($oomaxuser);
+>>>>>>> CLDOPS-525v5
     }
 
     if (!is_null($audiences)) {
         $oomaxaudiences = new Model\Audiences($oomaxtoken, $audiences);
+<<<<<<< HEAD
+        $oomaxaudiences->processAudiences($oomaxuser);
+=======
         $oomaxaudiences->processaudiences($oomaxuser);
+>>>>>>> CLDOPS-525v5
     }
 
     if (is_null($wantsurl)) {
