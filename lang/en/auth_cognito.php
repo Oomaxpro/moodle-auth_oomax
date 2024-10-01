@@ -34,12 +34,11 @@ $string['oomax_uri_desc'] = 'Oomax Pro Server URI Address';
 $string['cachedef_oomax_cache'] = 'Oomax Cache Store';
 
 $string['invalid_token'] = 'User token is invalid.';
-
-$string['audience_fail_enrol'] = "Failed to add user to audience {$a->cohortid} : {$a->message}";
-$string['course_not_exist'] = "Course {$a->courseid} does not exist";
-$string['course_user_enrolled'] = "User is already enrolled in course {$a->courseid}";
-$string['course_failed_enrol'] = "Failed to enrol user in course {$a->courseid}";
-$string['course_failed_enrol_msg'] = "Failed to enrol user in course {$a->courseid} : {$a->message}";
-$string['groups_failed_user_group'] = "Failed to add user to group {$a->groupid}";
-$string['groups_failed_user_group_msg'] = "Failed to add user to group {$a->groupid} : {$a->message}";
+$string['audience_fail_enrol'] = 'Failed to add user to audience {$a->cohortid} : {$a->message}';
+$string['course_not_exist'] = 'Course {$a->courseid} does not exist';
+$string['course_user_enrolled'] = 'User is already enrolled in course {$a->courseid}';
+$string['course_failed_enrol'] = 'Failed to enrol user in course {$a->courseid}';
+$string['course_failed_enrol_msg'] = 'Failed to enrol user in course {$a->courseid} : {$a->message}';
+$string['groups_failed_user_group'] = 'Failed to add user to group {$a->groupid}';
+$string['groups_failed_user_group_msg'] = 'Failed to add user to group {$a->groupid} : {$a->message}';
 

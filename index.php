@@ -18,7 +18,9 @@
  * Authentication Plugin: Moodle Network Authentication
  * Multiple host authentication support for Moodle Network.
  *
- * @package auth_oomax
+ * @package auth_cognito
+ * @copyright OOMAX
+
  * @author Bojan Bazdar
  * @license http://www.gnu.org/copyleft/gpl.html GNU Public License
  */
@@ -38,48 +40,43 @@ $groups = optional_param('groups', null, PARAM_SEQUENCE);
 $audiences = optional_param('audiences', null, PARAM_SEQUENCE);
 $SESSION->logout = $logout;
 
-$oomaxToken = new Model\Token($token);
-$oomaxToken->getDataFromToken();
+$oomaxtoken = new Model\Token($token);
+$oomaxtoken->getDataFromToken();
 
-$wantsurl = Null;
-if (isset($SESSION->wantsurl)) 
-{
+$wantsurl = null;
+if (isset($SESSION->wantsurl)) {
+
     $wantsurl = $SESSION->wantsurl;
 }
 
 // If payload exist process user
-if ($oomaxToken->isAuthorized()) 
-{
-    $oomaxToken->getPayload();
-    $oomaxUser = new Model\User($oomaxToken);
+if ($oomaxtoken->isAuthorized()) {
+    $oomaxtoken->getPayload();
+    $oomaxuser = new Model\User($oomaxtoken);
 
-    $oomaxUser->processUserLocale();
-    $USER = $oomaxUser->UserLogin($oomaxUser);
-    $oomaxUser->generateOomaxCookie();
+    $oomaxuser->processUserLocale();
+    $USER = $oomaxuser->UserLogin($oomaxuser);
+    $oomaxuser->generateOomaxCookie();
 
-    if (!is_null($courses)) 
-    {
-        $oomaxCourses = new Model\Courses($oomaxToken, $courses);
-        $oomaxCourses->processCourses($oomaxUser);
+    if (!is_null($courses)) {
+        $oomaxcourses = new Model\Courses($oomaxtoken, $courses);
+        $oomaxcourses->processCourses($oomaxuser);
     }
 
-    if (!is_null($groups)) 
-    {
-        $oomaxGroups = new Model\Groups($oomaxToken, $groups);
-        $oomaxGroups->processGroups($oomaxUser);
+    if (!is_null($groups)) {
+        $oomaxgroups = new Model\Groups($oomaxtoken, $groups);
+        $oomaxgroups->processGroups($oomaxuser);
     }
 
-    if (!is_null($audiences)) 
-    {
-        $oomaxAudiences = new Model\Audiences($oomaxToken, $audiences);
-        $oomaxAudiences->processAudiences($oomaxUser);
+    if (!is_null($audiences)) {
+        $oomaxaudiences = new Model\Audiences($oomaxtoken, $audiences);
+        $oomaxaudiences->processAudiences($oomaxuser);
     }
 
-    if (is_null($wantsurl)) 
-    {
+    if (is_null($wantsurl)) {
         $wantsurl = new moodle_url(optional_param('wantsurl', $CFG->wwwroot, PARAM_URL));
     }
-    
+
     redirect($wantsurl);
 } else {
     throw new moodle_exception('oomaxtoken', '', '', null, get_string('invalid_token', 'auth_cognito'));
