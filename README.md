@@ -8,7 +8,9 @@ Site Administration -> Plugins -> Authentication -> Manage Authentication
 
 ### Configure the plugin. ###
 
-This plugin does not need any configuring to work, it does require an OOMAX subscription
+
+This plugin does not need any configuring to work, it does require an OOMAX subscription.
+
 
 ### Plugin functionality ###
 
