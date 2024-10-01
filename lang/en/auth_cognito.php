@@ -41,3 +41,4 @@ $string['course_failed_enrol'] = 'Failed to enrol user in course {$a->courseid}'
 $string['course_failed_enrol_msg'] = 'Failed to enrol user in course {$a->courseid} : {$a->message}';
 $string['groups_failed_user_group'] = 'Failed to add user to group {$a->groupid}';
 $string['groups_failed_user_group_msg'] = 'Failed to add user to group {$a->groupid} : {$a->message}';
+

@@ -20,6 +20,7 @@
  *
  * @package auth_cognito
  * @copyright OOMAX
+
  * @author Bojan Bazdar
  * @license http://www.gnu.org/copyleft/gpl.html GNU Public License
  */
@@ -44,6 +45,7 @@ $oomaxtoken->getDataFromToken();
 
 $wantsurl = null;
 if (isset($SESSION->wantsurl)) {
+
     $wantsurl = $SESSION->wantsurl;
 }
 

@@ -17,8 +17,10 @@
 /**
  * This file is part of the Oomax Pro Authentication package.
  *
+
  * @package     auth_cognito
  * @copyright   Oomax
+
  * @author      Bojan Bazdar
  * @license     MIT
  *
@@ -73,6 +75,7 @@ class auth_plugin_cognito extends auth_plugin_base {
     /**
      * @return bool if false
      */
+
     public function can_change_password(): bool {
         return false;
     }
@@ -108,11 +111,13 @@ class auth_plugin_cognito extends auth_plugin_base {
             $decryptioniv = substr(bin2hex($CFG->wwwroot), -16);
             $decryptionkey = parse_url($CFG->wwwroot)['host'];
             $decryption = openssl_decrypt ($_COOKIE['oomaxHome'], $ciphering,  $decryptionkey, $options, $decryptioniv);
+
             redirect("https://{$decryption}");
         }
     }
 
     public function loginpage_hook() {
+
         global $CFG, $USER;
 
         if (CLI_SCRIPT || AJAX_SCRIPT) {
@@ -129,26 +134,32 @@ class auth_plugin_cognito extends auth_plugin_base {
         } else if ($USER->id == 0) {
             // not logged in
         } else if ($CFG->autologinguests == false || $CFG->guestloginbutton == false) {
+
             // no guest
         }
     }
+
 
     /**
      * @param \core\outh2\issuer issuer
      * @return bool
      */
+
     private function is_ready_for_login_page(\core\oauth2\issuer $issuer) {
         return $issuer->get('enabled') && $issuer->is_configured() && empty($issuer->get('showonloginpage'));
     }
 
     public function loginpage_idp_list($wantsurl, Bool $details = false) {
+
         $result = [];
         $providers = \core\oauth2\api::get_all_issuers();
         if (empty($wantsurl)) {
             $wantsurl = '/';
         }
         foreach ($providers as $idp) {
+
             if ($this->is_ready_for_login_page($idp)) {
+
                 $params = ['id' => $idp->get('id'), 'wantsurl' => $wantsurl, 'sesskey' => sesskey()];
                 $url = new moodle_url('/login/index.php', $params);
                 $icon = $idp->get('image');
@@ -158,7 +169,9 @@ class auth_plugin_cognito extends auth_plugin_base {
         return $result;
     }
 
+
     public function pre_user_login_hook(&$user) {
+
         // magic
         echo "<pre>";
         echo var_dump($user);
@@ -171,3 +184,4 @@ class auth_plugin_cognito extends auth_plugin_base {
         die();
     }
 }
+
