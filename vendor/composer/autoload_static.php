@@ -617,6 +617,7 @@ class ComposerStaticInit6d8357acdf16881a84cef604ba6233f0
         'Oomax\\Model\\Audiences' => __DIR__ . '/../..' . '/classes/Model/Audiences.php',
         'Oomax\\Model\\Courses' => __DIR__ . '/../..' . '/classes/Model/Courses.php',
         'Oomax\\Model\\Groups' => __DIR__ . '/../..' . '/classes/Model/Groups.php',
+        'Oomax\\Model\\Messages' => __DIR__ . '/../..' . '/classes/Model/Messages.php',
         'Oomax\\Model\\Token' => __DIR__ . '/../..' . '/classes/Model/Token.php',
         'Oomax\\Model\\User' => __DIR__ . '/../..' . '/classes/Model/User.php',
         'Override' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/Override.php',

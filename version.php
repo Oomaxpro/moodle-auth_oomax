@@ -17,16 +17,10 @@
 /**
  * This file is part of the Oomax Pro Authentication package.
  *
-<<<<<<< HEAD
- * @package     auth_oomax
- * @author      Bojan Bazdar
- * @license     MIT
-=======
  * @package     auth_cognito
  * @author      Bojan Bazdar / Dustin Brisebois
  * @license     https://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright   Oomax
->>>>>>> CLDOPS-525v5
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -35,12 +29,8 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2024093000;             // The current plugin version (Date: YYYYMMDDXX).
-$plugin->release   = '1.3.1.0';
-<<<<<<< HEAD
+$plugin->version   = 2024100100;             // The current plugin version (Date: YYYYMMDDXX).
+$plugin->release   = '1.4.0.0';
 $plugin->requires  = 2015051100;             // MDL-2.9+
-=======
-$plugin->requires  = 2015051100;             // MDL-2.9+.
->>>>>>> CLDOPS-525v5
 $plugin->component = 'auth_cognito';         // Full name of the plugin (used for diagnostics).
 $plugin->maturity  = 'MATURITY_STABLE';

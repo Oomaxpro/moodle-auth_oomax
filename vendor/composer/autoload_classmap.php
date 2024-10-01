@@ -391,6 +391,7 @@ return array(
     'Oomax\\Model\\Audiences' => $baseDir . '/classes/Model/Audiences.php',
     'Oomax\\Model\\Courses' => $baseDir . '/classes/Model/Courses.php',
     'Oomax\\Model\\Groups' => $baseDir . '/classes/Model/Groups.php',
+    'Oomax\\Model\\Messages' => $baseDir . '/classes/Model/Messages.php',
     'Oomax\\Model\\Token' => $baseDir . '/classes/Model/Token.php',
     'Oomax\\Model\\User' => $baseDir . '/classes/Model/User.php',
     'Override' => $vendorDir . '/symfony/polyfill-php83/Resources/stubs/Override.php',

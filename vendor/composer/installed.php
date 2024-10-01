@@ -1,11 +1,11 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => 'dev-master',
-        'version' => 'dev-master',
+        'pretty_version' => 'dev-develop',
+        'version' => 'dev-develop',
         'type' => 'moodle-auth',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'fbd78725ffd4880d8774fd914b373617f647e2e5',
+        'reference' => 'be3028292882701d330b74a5b17d35a224141b86',
         'name' => 'oomax/moodle-auth_oomax',
         'dev' => true,
     ),
@@ -29,12 +29,12 @@
             'dev_requirement' => false,
         ),
         'oomax/moodle-auth_oomax' => array(
-            'pretty_version' => 'dev-master',
-            'version' => 'dev-master',
+            'pretty_version' => 'dev-develop',
+            'version' => 'dev-develop',
             'type' => 'moodle-auth',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'fbd78725ffd4880d8774fd914b373617f647e2e5',
+            'reference' => 'be3028292882701d330b74a5b17d35a224141b86',
             'dev_requirement' => false,
         ),
         'paragonie/constant_time_encoding' => array(
