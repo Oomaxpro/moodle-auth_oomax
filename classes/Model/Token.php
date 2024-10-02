@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: bojan
- * Date: 2022-10-13
- * Time: 09:39
- */
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -30,7 +24,6 @@
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
  */
 
 namespace Oomax\Model;
