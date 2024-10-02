@@ -17,15 +17,13 @@
 /**
  * This file is part of the Oomax Pro Authentication package.
  *
-
- * @package     auth_cognito
- * @author      Bojan Bazdar / Dustin Brisebois
- * @license     GPL
- * @copyright   Oomax
+ * @package   auth_cognito
+ * @author    Bojan Bazdar / Dustin Brisebois <dustin@oomaxpro.com>
+ * @license   https://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2024 OOMAX PRO SOFTWARE INC
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
  */
 defined('MOODLE_INTERNAL') || die();
 
@@ -34,11 +32,19 @@ require_once($CFG->dirroot.'/user/lib.php');
 
 /**
  * Class auth_plugin_oomax
+ * 
+ * @category Engine
+ * @package  Auth_Cognito
+ * @author   Bojan Bazdar / Dustin Brisebois <dustin@oomaxpro.com>
+ * 
  */
 class auth_plugin_cognito extends auth_plugin_base {
 
     /**
-     * @var string
+     * Control auth requests from OOMAX
+     * 
+     * @var $logouturl string
+     * @var $plugin string
      */
     private $logouturl = '';
     private $plugin = '';
@@ -46,6 +52,7 @@ class auth_plugin_cognito extends auth_plugin_base {
     /**
      * Constructor. No parameters given.
      * As non-static, create the AuthManage connect and get the mode
+     * @author Bojan Bazdar / Dustin Brisebois <dustin@oomaxpro.com>
      */
     public function __construct() {
         global $CFG, $SESSION;
@@ -61,8 +68,12 @@ class auth_plugin_cognito extends auth_plugin_base {
 
     /**
      * Postlogout_Hook for Redirecting User on Logout
-     * @param stdClass $user
+     * 
+     * @param $user stdClass 
+     * 
      * @throws moodle_exception
+     * 
+     * @return boolean
      */
     public function postlogout_hook($user) {
         if ($this->logouturl) {
@@ -81,6 +92,7 @@ class auth_plugin_cognito extends auth_plugin_base {
 
     /**
      * Can edit profile?
+     * 
      * @return bool
      */
     public function can_edit_profile(): bool {
@@ -97,6 +109,7 @@ class auth_plugin_cognito extends auth_plugin_base {
 
     /**
      * Is plugin internal?
+     * 
      * @return bool
      */
     public function is_internal(): bool {
@@ -105,6 +118,7 @@ class auth_plugin_cognito extends auth_plugin_base {
 
     /**
      * Encrypted Cookie manager for wantsurl
+     * 
      * @return void
      */
     private function calculate_wantsurl() {
@@ -115,14 +129,16 @@ class auth_plugin_cognito extends auth_plugin_base {
             $ciphering = "AES-256-CBC";
             $decryptioniv = substr(bin2hex($CFG->wwwroot), -16);
             $decryptionkey = parse_url($CFG->wwwroot)['host'];
-            $decryption = openssl_decrypt ($_COOKIE['oomaxHome'], $ciphering,  $decryptionkey, $options, $decryptioniv);
+            $decryption = openssl_decrypt($_COOKIE['oomaxHome'], $ciphering,  $decryptionkey, $options, $decryptioniv);
             redirect("https://{$decryption}");
         }
     }
 
     /**
      * OAuth smart handler for UI mapping
-     * @param \core\outh2\issuer issuer
+     * 
+     * @param $issuer \core\outh2\issuer 
+     * 
      * @return bool
      */
     private function is_ready_for_login_page(\core\oauth2\issuer $issuer) {
@@ -131,8 +147,10 @@ class auth_plugin_cognito extends auth_plugin_base {
 
     /**
      * Login Idp List handler for UI artifacts
-     * @param $wantsurl
-     * @param bool $details = false
+     * 
+     * @param $wantsurl string
+     * @param $details  bool  = false
+     * 
      * @return Array
      */
     public function loginpage_idp_list($wantsurl, Bool $details = false) {

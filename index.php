@@ -17,14 +17,13 @@
 /**
  * This file is part of the Oomax Pro Authentication package.
  *
- * @package     auth_cognito
- * @author      Bojan Bazdar / Dustin Brisebois
- * @license     https://opensource.org/licenses/gpl-license.php GNU Public License
- * @copyright   Oomax
+ * @package   auth_cognito
+ * @author    Bojan Bazdar / Dustin Brisebois <dustin@oomaxpro.com>
+ * @license   https://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2024 OOMAX PRO SOFTWARE INC
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
  */
 
 require_once(__DIR__ . '/../../config.php');
@@ -47,7 +46,6 @@ $oomaxtoken->getDataFromToken();
 
 $wantsurl = null;
 if (isset($SESSION->wantsurl)) {
-
     $wantsurl = $SESSION->wantsurl;
 }
 
@@ -59,12 +57,12 @@ if ($oomaxtoken->isAuthorized()) {
     $oomaxuser->processUserLocale();
     $USER = $oomaxuser->UserLogin($oomaxuser);
     $oomaxuser->generateOomaxCookie();
-
-    if (!is_null($courses)) {
-        $oomaxcourses = new Model\Courses($oomaxtoken, $courses);
-        $oomaxcourses->processCourses($oomaxuser);
-$oomaxtoken->getdatafromtoken();
-
+}
+if (!is_null($courses)) {
+    $oomaxcourses = new Model\Courses($oomaxtoken, $courses);
+    $oomaxcourses->processCourses($oomaxuser);
+    $oomaxtoken->getdatafromtoken();
+}
 $wantsurl = null;
 if (isset($SESSION->wantsurl)) {
     $wantsurl = $SESSION->wantsurl;
