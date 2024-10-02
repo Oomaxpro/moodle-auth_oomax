@@ -54,7 +54,6 @@ class Groups {
         $this->groups = $groups;
     }
 
-      
     /**
      * processgroups
      *

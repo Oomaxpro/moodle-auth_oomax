@@ -54,7 +54,6 @@ class Courses {
         $this->courses = $courses;
     }
 
-       
     /**
      * processcourses
      *
@@ -108,7 +107,6 @@ class Courses {
         return true;
     }
 
-        
     /**
      * checkenrolled
      *

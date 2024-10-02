@@ -123,7 +123,6 @@ class auth_plugin_cognito extends auth_plugin_base {
         }
     }
 
-      
     /**
      * is_ready_for_login_page
      *
@@ -134,7 +133,6 @@ class auth_plugin_cognito extends auth_plugin_base {
         return $issuer->get('enabled') && $issuer->is_configured() && empty($issuer->get('showonloginpage'));
     }
 
-       
     /**
      * loginpage_idp_list
      *

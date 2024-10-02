@@ -77,7 +77,6 @@ class Token {
      */
     private $payload;
 
-        
     /**
      * __construct
      *

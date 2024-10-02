@@ -47,7 +47,6 @@ class User {
      */
     public \stdClass $user;
 
-      
     /**
      * __construct
      *
