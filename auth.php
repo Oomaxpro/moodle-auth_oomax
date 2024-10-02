@@ -37,12 +37,11 @@ require_once($CFG->dirroot.'/user/lib.php');
  */
 class auth_plugin_cognito extends auth_plugin_base {
 
-    /**
-     * Control auth requests from OOMAX
-     * @var string $logouturl
-     * @var string $plugin
-     */
+
+    /** @var string The passed logout URL for the origin brand */
     private $logouturl = '';
+
+    /** @var string The plugin making the request */
     private $plugin = '';
 
     /**
