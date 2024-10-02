@@ -54,9 +54,11 @@ class Groups {
         $this->groups = $groups;
     }
 
+      
     /**
-     * Oomax Groups Processor
-     * @param string $oomaxuser Holds OOMAX user.
+     * processgroups
+     *
+     * @param  mixed $oomaxuser
      * @return void
      */
     public function processgroups(\Oomax\Model\User $oomaxuser): void {

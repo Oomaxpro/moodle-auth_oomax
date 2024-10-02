@@ -40,17 +40,22 @@ class Messages {
      */
     private \stdClass $message;
 
+    
     /**
-     * Constructor for Oomax Debug Messages
-     * @param String $plugin
+     * __construct
+     *
+     * @param  mixed $plugin
+     * @return void
      */
     public function __construct(String $plugin) {
         $this->plugin = $plugin;
     }
 
+       
     /**
-     * Generates the Message
-     * @param string $message This is message string.
+     * generatemessage
+     *
+     * @param  mixed $message
      * @return void
      */
     public function generatemessage(Array $message): void {
@@ -60,9 +65,11 @@ class Messages {
         }
     }
 
+      
     /**
-     * Returns the string for messsaging
-     * @param String $name
+     * returnmessage
+     *
+     * @param  mixed $name
      * @return string
      */
     public function returnmessage(String $name): string {

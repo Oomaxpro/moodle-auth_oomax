@@ -54,9 +54,11 @@ class Courses {
         $this->courses = $courses;
     }
 
+       
     /**
-     * Process Courses for User
-     * @param string $oomaxuser Holds user.
+     * processcourses
+     *
+     * @param  mixed $oomaxuser
      * @return void
      */
     public function processcourses(\Oomax\Model\User $oomaxuser): void {
@@ -106,11 +108,13 @@ class Courses {
         return true;
     }
 
+        
     /**
-     * Sanity Check if is enrolled
-     * @param string $ctx This checks for courses.
-     * @param string $oomaxuser This is the passed user.
-     * @param int $courseid This checks for courseIDs.
+     * checkenrolled
+     *
+     * @param  mixed $ctx
+     * @param  mixed $oomaxuser
+     * @param  mixed $courseid
      * @return bool
      */
     private function checkenrolled($ctx, \Oomax\Model\User $oomaxuser, int $courseid): bool {

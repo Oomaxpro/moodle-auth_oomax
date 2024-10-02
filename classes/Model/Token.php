@@ -77,9 +77,12 @@ class Token {
      */
     private $payload;
 
+        
     /**
-     * Oomax Token Constructor
-     * @param string $token This is jwt token
+     * __construct
+     *
+     * @param  mixed $token
+     * @return void
      */
     public function __construct(String $token) {
         $this->retry = 1;
