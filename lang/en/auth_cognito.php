@@ -1,21 +1,4 @@
 <?php
-<<<<<<< HEAD
- /**
-  * This file is part of the Oomax Pro Authentication package.
-  *
-  * @package     auth_oomax
-  * @author      Bojan Bazdar
-  * @license     MIT
-  *
-  * For the full copyright and license information, please view the LICENSE
-  * file that was distributed with this source code.
-  *
-  */
-
-global $CFG;
-
-// require_once($CFG->dirroot.'/auth/oomax/vendor/autoload.php');
-=======
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -45,7 +28,6 @@ global $CFG;
  */
 
 global $CFG;
->>>>>>> CLDOPS-525v5
 
 $string['pluginname'] = 'Oomax Pro Authentication';
 $string['auth_cognito_title'] = "Oomax Pro Authentication Plugin";
@@ -73,7 +55,3 @@ $string['course_failed_enrol'] = 'Failed to enrol user in course {$a->courseid}'
 $string['course_failed_enrol_msg'] = 'Failed to enrol user in course {$a->courseid} : {$a->message}';
 $string['groups_failed_user_group'] = 'Failed to add user to group {$a->groupid}';
 $string['groups_failed_user_group_msg'] = 'Failed to add user to group {$a->groupid} : {$a->message}';
-<<<<<<< HEAD
-
-=======
->>>>>>> CLDOPS-525v5

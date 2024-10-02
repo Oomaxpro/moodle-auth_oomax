@@ -29,30 +29,12 @@
 
 defined('MOODLE_INTERNAL') || die;
 
-<<<<<<< HEAD
-// require_once(__DIR__ . '/classes/settings/TokenHelper.php');
-
-=======
->>>>>>> CLDOPS-525v5
 global $DB, $OUTPUT, $PAGE;
 
 $pluginname = 'auth_cognito';
 $ADMIN->add('authsettings', new admin_category($pluginname, get_string('pluginname', $pluginname)));
 $settings = new admin_settingpage($section, get_string("{$pluginname}_settings", $pluginname), 'moodle/site:config');
 if ($ADMIN->fulltree) {
-<<<<<<< HEAD
-
-	$settings->add(
-		new admin_setting_configcheckbox(
-			"{$pluginname}/field_lock_email",
-			get_string('config_lock_email', $pluginname),
-			get_string('config_lock_email_desc', $pluginname),
-			'locked',
-			'locked',
-			'unlocked'
-		)
-	);
-=======
     $settings->add(
         new admin_setting_configcheckbox(
             "{$pluginname}/field_lock_email",
@@ -63,5 +45,4 @@ if ($ADMIN->fulltree) {
             'unlocked'
         )
     );
->>>>>>> CLDOPS-525v5
 }

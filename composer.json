@@ -22,11 +22,7 @@
         "optimize-autoloader": true
     },
     "require": {
-<<<<<<< HEAD
-        "php" : ">=7.4",
-=======
         "php" : ">=8.1",
->>>>>>> CLDOPS-525v5
         "firebase/php-jwt": "^6.0",
         "web-token/jwt-framework": "^3.0",
         "web-token/jwt-checker": "^3.0",

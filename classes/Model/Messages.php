@@ -1,6 +1,4 @@
 <?php
-<<<<<<< HEAD
-
 namespace Oomax\Model;
 
 class Messages
@@ -101,4 +99,3 @@ class Messages {
         return get_string($name, $this->plugin, $this->message);
     }
 }
->>>>>>> CLDOPS-525v5

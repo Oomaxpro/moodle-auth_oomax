@@ -28,8 +28,4 @@
   */
 function xmldb_auth_cognito_uninstall() {
     global $CFG, $DB;
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> CLDOPS-525v5

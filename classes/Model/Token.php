@@ -1,5 +1,4 @@
 <?php
-<<<<<<< HEAD
 /**
  * Created by PhpStorm.
  * User: bojan
@@ -28,14 +27,13 @@
  * @package     auth_cognito
  * @copyright   Oomax
  * @author      Dustin Brisebois
- * @license     MIT
+ * @license     GPL
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
  */
 
->>>>>>> CLDOPS-525v5
 namespace Oomax\Model;
 
 use Firebase\JWT\JWT;
@@ -46,24 +44,6 @@ use Firebase\JWT\SignatureInvalidException;
  * Class Token
  * @package Oomax\Model
  */
-<<<<<<< HEAD
-class Token
-{
-    private Int $retry;
-    public String $auth = '';
-    private String $plugin = '';
-    private Array | Null $keys;
-    private \cache $cache;
-    private String | Null $token;
-    private String | Null $key_uri;
-    private \stdClass | Null $payload;
-
-    /**
-     * @param string $token
-     */
-    public function __construct(String $token = Null)
-    {
-=======
 class Token {
     /**
      * @var int
@@ -110,41 +90,11 @@ class Token {
      * @param string $token
      */
     public function __construct(String $token = null) {
->>>>>>> CLDOPS-525v5
         $this->retry = 1;
         $this->auth = 'cognito';
         $this->plugin = "auth_{$this->auth}";
         $this->cache = \cache::make($this->plugin, 'oomax_cache');
         $this->token = $token;
-<<<<<<< HEAD
-        $this->key_uri = "https://cognito-idp.ca-central-1.amazonaws.com/ca-central-1_SiaYTCMC1/.well-known/jwks.json";
-        $this->cache_keys();
-    }
-
-    /**
-     * @return string
-     */
-    public function getPlugin(): string
-    {
-        return $this->plugin;
-    }
-
-    public function getGroups(): Array | null
-    {
-        $groups = 'cognito:groups';
-        if (!is_null($this->token)) return $this->payload->$groups;
-        return Null;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getDataFromToken(): bool {
-        while ($this->retry > 0)
-        {
-            $result = $this->decipherToken();
-            if ($result) return $result;
-=======
         $this->keyuri = "https://cognito-idp.ca-central-1.amazonaws.com/ca-central-1_SiaYTCMC1/.well-known/jwks.json";
         $this->cachekeys();
     }
@@ -178,7 +128,6 @@ class Token {
             if ($result) {
                 return $result;
             }
->>>>>>> CLDOPS-525v5
             $this->cache->delete('keys');
             $this->retry--;
         }
@@ -186,41 +135,24 @@ class Token {
     }
 
     /**
-<<<<<<< HEAD
-=======
      * Deciphers the Token for Data
->>>>>>> CLDOPS-525v5
      * @return bool
      * @throws \SignatureInvalidException
      * @throws \Exception
      */
-<<<<<<< HEAD
-    private function decipherToken(): bool {
-        $data = '';
-        if (is_null($this->keys)) return false;
-=======
     private function deciphertoken(): bool {
         $data = '';
         if (is_null($this->keys)) {
             return false;
         }
->>>>>>> CLDOPS-525v5
         foreach ($this->keys['keys'] as $key) {
             try {
                 $pk = JWK::parseKey($key);
                 $this->payload = JWT::decode($this->token, $pk);
                 return true;
-<<<<<<< HEAD
-            }
-            catch (SignatureInvalidException $e) {
-                continue;
-            } 
-            catch (\Exception $e) {
-=======
             } catch (SignatureInvalidException $e) {
                 continue;
             } catch (\Exception $e) {
->>>>>>> CLDOPS-525v5
                 return false;
             }
         }
@@ -232,12 +164,7 @@ class Token {
      * Checks if JWT has been decoded
      * @return bool
      */
-<<<<<<< HEAD
-    public function isAuthorized(): bool 
-    {
-=======
     public function isauthorized(): bool {
->>>>>>> CLDOPS-525v5
         return !is_null($this->payload);
     }
 
@@ -246,12 +173,7 @@ class Token {
      * @return \stdClass
      * @return bool
      */
-<<<<<<< HEAD
-    public function getPayload(): \stdClass | Null
-    {
-=======
     public function getpayload() {
->>>>>>> CLDOPS-525v5
         return $this->payload;
     }
 
@@ -259,17 +181,10 @@ class Token {
      * Get public key file
      * @return void
      */
-<<<<<<< HEAD
-    private function get_public_key(): void {
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-          CURLOPT_URL => $this->key_uri,
-=======
     private function getpublickey(): void {
         $curl = curl_init();
         curl_setopt_array($curl, [
           CURLOPT_URL => $this->keyuri,
->>>>>>> CLDOPS-525v5
           CURLOPT_RETURNTRANSFER => true,
           CURLOPT_ENCODING => '',
           CURLOPT_MAXREDIRS => 10,
@@ -277,17 +192,10 @@ class Token {
           CURLOPT_FOLLOWLOCATION => true,
           CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
           CURLOPT_CUSTOMREQUEST => 'GET',
-<<<<<<< HEAD
-        ));
-        
-        $response = curl_exec($curl);
-       
-=======
         ]);
 
         $response = curl_exec($curl);
 
->>>>>>> CLDOPS-525v5
         curl_close($curl);
         $this->keys = json_decode($response, true);
     }
@@ -296,17 +204,6 @@ class Token {
      * Cache the Keys locally
      * @return void
      */
-<<<<<<< HEAD
-    private function cache_keys(): void
-    {
-        $this->keys = json_decode($this->cache->get('keys'), true);
-        if (is_null($this->keys)) {
-            $this->get_public_key();
-            $this->cache->set('keys', json_encode($this->keys));
-        } 
-    }
-}
-=======
     private function cachekeys(): void {
         $this->keys = json_decode($this->cache->get('keys'), true);
         if (is_null($this->keys)) {
@@ -315,4 +212,3 @@ class Token {
         }
     }
 }
->>>>>>> CLDOPS-525v5

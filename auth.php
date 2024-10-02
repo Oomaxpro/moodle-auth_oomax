@@ -19,16 +19,9 @@
  *
 
  * @package     auth_cognito
-<<<<<<< HEAD
- * @copyright   Oomax
-
- * @author      Bojan Bazdar
- * @license     MIT
-=======
  * @author      Bojan Bazdar / Dustin Brisebois
  * @license     GPL
  * @copyright   Oomax
->>>>>>> CLDOPS-525v5
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -84,24 +77,15 @@ class auth_plugin_cognito extends auth_plugin_base {
     }
 
     /**
-<<<<<<< HEAD
-     * @return bool if false
-     */
-
-=======
      * Can change password?
      * @return bool if false
      */
->>>>>>> CLDOPS-525v5
     public function can_change_password(): bool {
         return false;
     }
 
     /**
-<<<<<<< HEAD
-=======
      * Can edit profile?
->>>>>>> CLDOPS-525v5
      * @return bool
      */
     public function can_edit_profile(): bool {
@@ -109,10 +93,7 @@ class auth_plugin_cognito extends auth_plugin_base {
     }
 
     /**
-<<<<<<< HEAD
-=======
      * Can reset password?
->>>>>>> CLDOPS-525v5
      * @return bool
      */
     public function can_reset_password(): bool {
@@ -120,28 +101,19 @@ class auth_plugin_cognito extends auth_plugin_base {
     }
 
     /**
-<<<<<<< HEAD
-=======
      * Is plugin internal?
->>>>>>> CLDOPS-525v5
      * @return bool
      */
     public function is_internal(): bool {
         return true;
     }
 
-<<<<<<< HEAD
-    private function calculate_wantsurl() {
-        if (isset($_COOKIE['oomaxHome']))
-        {
-=======
     /**
      * Encrypted Cookie manager for wantsurl
      * @return void
      */
     private function calculate_wantsurl() {
         if (isset($_COOKIE['oomaxHome'])) {
->>>>>>> CLDOPS-525v5
             global $CFG;
 
             $options = 0;
@@ -149,59 +121,19 @@ class auth_plugin_cognito extends auth_plugin_base {
             $decryptioniv = substr(bin2hex($CFG->wwwroot), -16);
             $decryptionkey = parse_url($CFG->wwwroot)['host'];
             $decryption = openssl_decrypt ($_COOKIE['oomaxHome'], $ciphering,  $decryptionkey, $options, $decryptioniv);
-<<<<<<< HEAD
-
-=======
->>>>>>> CLDOPS-525v5
             redirect("https://{$decryption}");
         }
     }
 
-<<<<<<< HEAD
-    public function loginpage_hook() {
-
-        global $CFG, $USER;
-
-        if (CLI_SCRIPT || AJAX_SCRIPT) {
-            return;
-        }
-
-        $this->calculate_wantsurl();
-
-        $token = optional_param('token', '', PARAM_RAW);
-        $logout = optional_param('logout', '', PARAM_RAW);
-
-        if ($CFG->forcelogin == true) {
-            // force login!
-        } else if ($USER->id == 0) {
-            // not logged in
-        } else if ($CFG->autologinguests == false || $CFG->guestloginbutton == false) {
-
-            // no guest
-        }
-    }
-
-
-    /**
-     * @param \core\outh2\issuer issuer
-     * @return bool
-     */
-
-=======
     /**
      * OAuth smart handler for UI mapping
      * @param \core\outh2\issuer issuer
      * @return bool
      */
->>>>>>> CLDOPS-525v5
     private function is_ready_for_login_page(\core\oauth2\issuer $issuer) {
         return $issuer->get('enabled') && $issuer->is_configured() && empty($issuer->get('showonloginpage'));
     }
 
-<<<<<<< HEAD
-    public function loginpage_idp_list($wantsurl, Bool $details = false) {
-
-=======
     /**
      * Login Idp List handler for UI artifacts
      * @param $wantsurl
@@ -209,20 +141,13 @@ class auth_plugin_cognito extends auth_plugin_base {
      * @return Array
      */
     public function loginpage_idp_list($wantsurl, Bool $details = false) {
->>>>>>> CLDOPS-525v5
         $result = [];
         $providers = \core\oauth2\api::get_all_issuers();
         if (empty($wantsurl)) {
             $wantsurl = '/';
         }
         foreach ($providers as $idp) {
-<<<<<<< HEAD
-
             if ($this->is_ready_for_login_page($idp)) {
-
-=======
-            if ($this->is_ready_for_login_page($idp)) {
->>>>>>> CLDOPS-525v5
                 $params = ['id' => $idp->get('id'), 'wantsurl' => $wantsurl, 'sesskey' => sesskey()];
                 $url = new moodle_url('/login/index.php', $params);
                 $icon = $idp->get('image');
@@ -231,23 +156,5 @@ class auth_plugin_cognito extends auth_plugin_base {
         }
         return $result;
     }
-<<<<<<< HEAD
-
-
-    public function pre_user_login_hook(&$user) {
-
-        // magic
-        echo "<pre>";
-        echo var_dump($user);
-        echo "</pre>";
-        die();
-    }
-
-    public function user_exists($username) {
-        echo "User Exists: ". $username .'<br>';
-        die();
-    }
-=======
->>>>>>> CLDOPS-525v5
 }
 

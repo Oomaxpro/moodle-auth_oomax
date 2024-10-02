@@ -1,6 +1,4 @@
 <?php
-<<<<<<< HEAD
-=======
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -22,7 +20,7 @@
  * @package     auth_cognito
  * @copyright   Oomax
  * @author      Dustin Brisebois
- * @license     MIT
+ * @license     GPL
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -35,21 +33,6 @@ namespace Oomax\Model;
 
 use Oomax\Model\Token;
 
-<<<<<<< HEAD
-class Groups
-{
-    private $plugin;
-    private $groups;
-
-    public function __construct(Token $plugin, String | Null $groups = "")
-    {
-        $this->plugin = $plugin->getPlugin();
-        $this->groups = $groups;
-    }
-
-    public function processGroups(\Oomax\Model\User $oomaxUser)
-    {
-=======
 /**
  * Oomax Groups Constructor
  */
@@ -78,7 +61,6 @@ class Groups {
      * @return void
      */
     public function processgroups(\Oomax\Model\User $oomaxuser): void {
->>>>>>> CLDOPS-525v5
         global $CFG;
 
         if (!is_null($this->groups)) {
@@ -89,22 +71,6 @@ class Groups {
             foreach ($groupids as $groupid) {
                 try {
                     // Function takes care if the user is already member of the group.
-<<<<<<< HEAD
-                    if (!groups_add_member($groupid, $oomaxUser->userId())) {
-                        $message->generateMessage([ 'groupid' => $groupid ]);
-                        debugging($message->returnMessage('groups_failed_user_group'));
-                    }
-                } catch (\Exception $exc) {
-                    // For now ignore errors when adding to group failed.
-                    $message->generateMessage([ 'groupid' => $groupid, 'message' => $exc->getMessage() ]);
-                    debugging($message->returnMessage('groups_failed_user_group_msg'));
-                }
-            }
-        }
-
-    }
-}
-=======
                     if (!groups_add_member($groupid, $oomaxuser->userId())) {
                         $message->generatemessage([ 'groupid' => $groupid ]);
                         debugging($message->returnmessage('groups_failed_user_group'));
@@ -118,4 +84,3 @@ class Groups {
         }
     }
 }
->>>>>>> CLDOPS-525v5

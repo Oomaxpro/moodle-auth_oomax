@@ -8,13 +8,7 @@ Site Administration -> Plugins -> Authentication -> Manage Authentication
 
 ### Configure the plugin. ###
 
-<<<<<<< HEAD
-
 This plugin does not need any configuring to work, it does require an OOMAX subscription.
-
-=======
-This plugin does not need any configuring to work, it does require an OOMAX subscription.
->>>>>>> CLDOPS-525v5
 
 ### Plugin functionality ###
 
