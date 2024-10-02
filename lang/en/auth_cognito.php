@@ -26,7 +26,7 @@
  * file that was distributed with this source code.
  */
 
-global $CFG;
+/** global $CFG; - Variable "$CFG" is not expected in a lang file */
 
 $string['pluginname'] = 'Oomax Pro Authentication';
 $string['auth_cognito_title'] = "Oomax Pro Authentication Plugin";
