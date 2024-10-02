@@ -34,15 +34,12 @@ require_once($CFG->dirroot.'/user/lib.php');
  * Class auth_plugin_oomax
  * @package  Auth_Cognito
  * @author   Bojan Bazdar / Dustin Brisebois <dustin@oomaxpro.com>
- * 
  */
 class auth_plugin_cognito extends auth_plugin_base {
 
     /**
      * Control auth requests from OOMAX
-     * 
      * @var $logouturl
-     * @var $plugin 
      */
     private $logouturl = '';
     private $plugin = '';
@@ -50,6 +47,7 @@ class auth_plugin_cognito extends auth_plugin_base {
     /**
      * Constructor. No parameters given.
      * As non-static, create the AuthManage connect and get the mode
+     * @var $plugin string
      */
     public function __construct() {
         global $CFG, $SESSION;
@@ -65,7 +63,6 @@ class auth_plugin_cognito extends auth_plugin_base {
 
     /**
      * Postlogout_Hook for Redirecting User on Logout
-     * 
      * @param $user stdClass
      * @throws moodle_exception
      * @return boolean
@@ -128,7 +125,7 @@ class auth_plugin_cognito extends auth_plugin_base {
 
     /**
      * OAuth smart handler for UI mapping
-     * @param $issuer \core\outh2\issuer 
+     * @param $issuer \core\outh2\issuer
      * @return bool
      */
     private function is_ready_for_login_page(\core\oauth2\issuer $issuer) {
