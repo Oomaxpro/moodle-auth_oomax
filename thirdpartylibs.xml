@@ -43,43 +43,43 @@
         <licenseversion>3</licenseversion>
     </library>
     <library>
-        <location>psr/cache</location>
+        <location>vendor/psr/cache</location>
         <name>Common interface for caching libraries</name>
         <version>3.0.0</version>
         <license>MIT</license>
     </library>
     <library>
-        <location>psr/clock</location>
+        <location>vendor/psr/clock</location>
         <name>Common interface for reading the clock</name>
         <version>1.0</version>
         <license>MIT</license>
     </library>
     <library>
-        <location>psr/container</location>
+        <location>vendor/psr/container</location>
         <name>Common Container Interface (PHP FIG PSR-11)</name>
         <version>2.0.2</version>
         <license>MIT</license>
     </library>
     <library>
-        <location>psr/event-dispatcher</location>
+        <location>vendor/psr/event-dispatcher</location>
         <name>Standard interfaces for event handling</name>
         <version>1.0.0</version>
         <license>MIT</license>
     </library>
     <library>
-        <location>psr/http-client</location>
+        <location>vendor/psr/http-client</location>
         <name>Common interface for HTTP clients</name>
         <version>1.0.3</version>
         <license>MIT</license>
     </library>
     <library>
-        <location>psr/http-factory</location>
+        <location>vendor/psr/http-factory</location>
         <name>PSR-17: Common interfaces for PSR-7 HTTP message factories</name>
         <version>1.1.0</version>
         <license>MIT</license>
     </library>
     <library>
-        <location>psr/http-message</location>
+        <location>vendor/psr/http-message</location>
         <name>Common interface for HTTP messages</name>
         <version>2.0</version>
         <license>MIT</license>
@@ -91,31 +91,31 @@
         <license>MIT</license>
     </library>
     <library>
-        <location>spomky-labs/aes-key-wrap</location>
+        <location>vendor/spomky-labs/aes-key-wrap</location>
         <name>CAES Key Wrap for PHPs</name>
         <version>7.0.0</version>
         <license>MIT</license>
     </library>
     <library>
-        <location>spomky-labs/pki-framework</location>
+        <location>vendor/spomky-labs/pki-framework</location>
         <name>Managing Public Key Infrastructures</name>
         <version>1.2.1</version>
         <license>MIT</license>
     </library>
     <library>
-        <location>symfony/config</location>
+        <location>vendor/symfony/config</location>
         <name>Symfony Community</name>
         <version>6.4.8</version>
         <license>MIT</license>
     </library>
     <library>
-        <location>symfony/console</location>
+        <location>vendor/symfony/console</location>
         <name>Symfony Console</name>
         <version>6.4.12</version>
         <license>MIT</license>
     </library>
     <library>
-        <location>symfony/dependency-injection</location>
+        <location>vendor/symfony/dependency-injection</location>
         <name>Symfony dependency-injection</name>
         <version>6.4.12</version>
         <license>MIT</license>
@@ -127,13 +127,13 @@
         <license>MIT</license>
     </library>
     <library>
-        <location>symfony/error-handler</location>
+        <location>vendor/symfony/error-handler</location>
         <name>Symfony error handlers</name>
         <version>6.4.10</version>
         <license>MIT</license>
     </library>
     <library>
-        <location>symfony/event-dispatcher</location>
+        <location>vendor/symfony/event-dispatcher</location>
         <name>Symfony event dispatcher</name>
         <version>6.4.8</version>
         <license>MIT</license>
@@ -145,79 +145,79 @@
         <license>MIT</license>
     </library>
     <library>
-        <location>symfony/filesystem</location>
+        <location>vendor/symfony/filesystem</location>
         <name>Symfony filesystem</name>
         <version>6.4.12</version>
         <license>MIT</license>
     </library>
     <library>
-        <location>symfony/http-client</location>
+        <location>vendor/symfony/http-client</location>
         <name>Symfony http client</name>
         <version>6.4.12</version>
         <license>MIT</license>
     </library>
     <library>
-        <location>symfony/http-client-contracts</location>
+        <location>vendor/symfony/http-client-contracts</location>
         <name>Symfony http client contracts</name>
         <version>3.5.0</version>
         <license>MIT</license>
     </library>
     <library>
-        <location>symfony/http-foundation</location>
+        <location>vendor/symfony/http-foundation</location>
         <name>Symfony http foundation</name>
         <version>6.4.12</version>
         <license>MIT</license>
     </library>
     <library>
-        <location>symfony/http-kernel</location>
+        <location>vendor/symfony/http-kernel</location>
         <name>Symfony http-kernel</name>
         <version>6.4.12</version>
         <license>MIT</license>
     </library>
     <library>
-        <location>symfony/polyfill-ctype</location>
+        <location>vendor/symfony/polyfill-ctype</location>
         <name>Symfony polyfill-ctype</name>
         <version>1.31.0</version>
         <license>MIT</license>
     </library>
     <library>
-        <location>symfony/polyfill-intl-grapheme</location>
+        <location>vendor/symfony/polyfill-intl-grapheme</location>
         <name>Symfony polyfill-intl-grapheme</name>
         <version>1.31.0</version>
         <license>MIT</license>
     </library>
     <library>
-        <location>symfony/polyfill-intl-normalizer</location>
+        <location>vendor/symfony/polyfill-intl-normalizer</location>
         <name>Symfony polyfill-intl-normalizer</name>
         <version>1.31.0</version>
         <license>MIT</license>
     </library>
     <library>
-        <location>symfony/polyfill-php83</location>
+        <location>vendor/symfony/polyfill-php83</location>
         <name>Symfony polyfill-php83</name>
         <version>1.31.0</version>
         <license>MIT</license>
     </library>
     <library>
-        <location>symfony/service-contracts</location>
+        <location>vendor/symfony/service-contracts</location>
         <name>Symfony service-contracts</name>
         <version>3.5.0</version>
         <license>MIT</license>
     </library>
     <library>
-        <location>symfony/string</location>
+        <location>vendor/symfony/string</location>
         <name>Symfony string</name>
         <version>6.4.12</version>
         <license>MIT</license>
     </library>
     <library>
-        <location>symfony/var-exporter</location>
+        <location>vendor/symfony/var-exporter</location>
         <name>Symfony var-exporter</name>
         <version>6.4.9</version>
         <license>MIT</license>
     </library>
     <library>
-        <location>web-token/jwt-framework</location>
+        <location>vendor/web-token/jwt-framework</location>
         <name>Webtoken JWT Framework</name>
         <version>3.4.6</version>
         <license>MIT</license>
