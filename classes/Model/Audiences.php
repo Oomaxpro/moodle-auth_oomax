@@ -1,28 +1,30 @@
 <?php
-/** 
- * This file is part of Moodle - http://moodle.org/
- * Moodle is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Moodle is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
- * php version 8.1.1
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
- * @category Engine
-
- * @package   Auth_Oomax
- * @author    Dustin Brisebois <dustin@oomaxpro.com>
- * @copyright 2022 OOMAX PRO SOFTWARE INC.
- 
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @link    http://www.gnu.org/copyleft/gpl.html
+/**
+ * This file is part of the Oomax Pro Authentication package.
+ *
+ * @package     auth_cognito
+ * @copyright   Oomax
+ * @author      Dustin Brisebois
+ * @license     GPL
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
  */
 
 
@@ -35,57 +37,38 @@ use Oomax\Model\Messages;
 
 /**
  * Oomax Audiences Class
- * 
- * @category Engine
-
- * @package   Auth_Oomax
- * @author    Dustin Brisebois <dustin@oomaxpro.com>
- * @copyright 2022 OOMAX PRO SOFTWARE INC.
- 
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @link    http://www.gnu.org/copyleft/gpl.html
  */
-class Audiences
-{
+class Audiences {
     /**
-     * This class controls audience enrolment
-     * 
      * @var string
      */
     private $plugin;
 
     /**
-     * This is the audience integers that we need to enrol
-     * 
      * @var string|null
      */
     private $audiences;
 
     /**
      * Audience Oomax Constructor
-     * 
-     * @param $plugin    Token        what is the decrypt
-     * @param String|null $audiences what audiences should we deal with
+     * @param Token plugin
+     * @param String|null audiences
      */
-    public function __construct(Token $plugin, $audiences = "")
-    {
+    public function __construct(Token $plugin, $audiences = "") {
         $this->plugin = $plugin->getplugin();
         $this->audiences = $audiences;
     }
 
     /**
      * Process Audiences for Oomax
-     * 
-     * @param $oomaxuser this is the passed user var
-     * 
+     * @param User oomaxuser
      * @return void
      */
-    public function processaudiences(User $oomaxuser): void
-    {
+    public function processaudiences(User $oomaxuser): void {
         global $CFG, $DB;
 
         if (!is_null($this->audiences)) {
-            include_once $CFG->dirroot .'/cohort/lib.php';
+            require_once($CFG->dirroot .'/cohort/lib.php');
             $cohortids = array_filter(array_unique(explode(',', $this->audiences)));
             foreach ($cohortids as $cohortid) {
                 try {

@@ -1,28 +1,30 @@
 <?php
-/** 
- * This file is part of Moodle - http://moodle.org/
- * Moodle is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * Moodle is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
- * php version 8.1.1
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
- * @category Engine
-
- * @package   Auth_Oomax
- * @author    Dustin Brisebois <dustin@oomaxpro.com>
- * @copyright 2022 OOMAX PRO SOFTWARE INC.
- 
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @link    http://www.gnu.org/copyleft/gpl.html
+/**
+ * This file is part of the Oomax Pro Authentication package.
+ *
+ * @package     auth_cognito
+ * @copyright   Oomax
+ * @author      Dustin Brisebois
+ * @license     GPL
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
  */
 
 namespace Oomax\Model;
@@ -31,57 +33,38 @@ use Oomax\Model\Token;
 
 /**
  * Oomax Courses Class
- * 
- * @category Engine
-
- * @package   Auth_Oomax
- * @author    Dustin Brisebois <dustin@oomaxpro.com>
- * @copyright 2022 OOMAX PRO SOFTWARE INC.
- 
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * @link    http://www.gnu.org/copyleft/gpl.html
  */
-class Courses
-{
+class Courses {
     /**
-     * This class handles course enrolment
-     * 
-     * @var $plugin string 
+     * @var string
      */
     private string $plugin;
 
     /**
-     * Courses list
-     * 
-     * @var $courses string | array | null
+     * @var string | array | null
      */
     private $courses;
 
     /**
      * Constructor for Courses
-     * 
-     * @param $plugin  Token 
-     * @param $courses String|Null 
+     * @param Token plugin
+     * @param String|Null courses
      */
-    public function __construct(Token $plugin, $courses = "")
-    {
+    public function __construct(Token $plugin, $courses = "") {
         $this->plugin = $plugin->getplugin();
         $this->courses = $courses;
     }
 
     /**
      * Process Courses for User
-     * 
-     * @param $oomaxuser Oomax\Model\User 
-     * 
+     * @param Oomax\Model\User oomaxuser
      * @return void
      */
-    public function processcourses(\Oomax\Model\User $oomaxuser): void
-    {
+    public function processcourses(\Oomax\Model\User $oomaxuser): void {
         global $CFG;
 
         if (!is_null($this->courses)) {
-            include_once $CFG->libdir . '/enrollib.php';
+            require_once($CFG->libdir . '/enrollib.php');
             $userroles = get_archetype_roles('student');
             $userroleid = reset($userroles)->id;
             $courseids = array_filter(array_unique(explode(',', $this->courses)));
@@ -110,14 +93,11 @@ class Courses
 
     /**
      * Sanity Check if is context
-     * 
-     * @param $ctx      any
-     * @param $courseid int
-     * 
+     * @param any ctx
+     * @param int courseid
      * @return bool
      */
-    private function checkctx($ctx, int $courseid): bool
-    {
+    private function checkctx($ctx, int $courseid): bool {
         if (!$ctx) {
             $message = new Messages($this->plugin);
             $message->generatemessage([ 'courseid' => $courseid ]);
@@ -129,15 +109,12 @@ class Courses
 
     /**
      * Sanity Check if is enrolled
-     * 
-     * @param $ctx       any
-     * @param $oomaxuser Oomax\Model\User 
-     * @param $courseid  int 
-     * 
+     * @param any ctx
+     * @param Oomax\Model\User oomaxuser
+     * @param int courseid
      * @return bool
      */
-    private function checkenrolled($ctx, \Oomax\Model\User $oomaxuser, int $courseid): bool
-    {
+    private function checkenrolled($ctx, \Oomax\Model\User $oomaxuser, int $courseid): bool {
         if (is_enrolled($ctx, $oomaxuser->user, '', true)) {
             $message = new Messages($this->plugin);
             $message->generatemessage([ 'courseid' => $courseid ]);
