@@ -85,7 +85,7 @@
         <license>MIT</license>
     </library>
     <library>
-        <location>psr/log</location>
+        <location>vendor/psr/log</location>
         <name>Common interface for logging libraries</name>
         <version>3.0.2</version>
         <license>MIT</license>
@@ -121,7 +121,7 @@
         <license>MIT</license>
     </library>
     <library>
-        <location>symfony/deprecation-contracts</location>
+        <location>vendor/symfony/deprecation-contracts</location>
         <name>Symfony deprecation-contracts</name>
         <version>3.5.0</version>
         <license>MIT</license>
@@ -139,7 +139,7 @@
         <license>MIT</license>
     </library>
     <library>
-        <location>symfony/event-dispatcher-contracts</location>
+        <location>vendor/symfony/event-dispatcher-contracts</location>
         <name>Symfony event dispatcher contracts</name>
         <version>3.5.0</version>
         <license>MIT</license>
@@ -222,5 +222,4 @@
         <version>3.4.6</version>
         <license>MIT</license>
     </library>
-
 </libraries>

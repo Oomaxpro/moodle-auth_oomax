@@ -15,18 +15,15 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file is part of the Lambda Solutions Cognito Authentication package.
+ * This file is part of the Oomax Pro Authentication package.
  *
- * Copyright (c) 2020 Lambda Solutions
- *
- * @package     auth_oomax
- * @author      Bojan Bazdar
- * @copyright   2022 Lambda Solutions
- * @license     MIT
+ * @package   auth_cognito
+ * @copyright 2024 OOMAX PRO SOFTWARE INC
+ * @author    Dustin Brisebois <dustin@oomaxpro.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
- *
  */
 
 defined('MOODLE_INTERNAL') || die();
