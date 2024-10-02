@@ -19,7 +19,7 @@
  *
  * @package   auth_cognito
  * @author    Bojan Bazdar / Dustin Brisebois <dustin@oomaxpro.com>
- * @license   https://opensource.org/licenses/gpl-license.php GNU Public License
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @copyright 2024 OOMAX PRO SOFTWARE INC
  *
  * For the full copyright and license information, please view the LICENSE

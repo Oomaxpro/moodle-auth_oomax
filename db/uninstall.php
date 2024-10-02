@@ -15,12 +15,12 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * auth_oomax auth settings
+ * Auth_oomax auth settings
  *
- * @package    auth_oomax
- * @copyright  2022
- * @author     Bojan Bazdar
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   auth_cognito
+ * @copyright 2024 OOMAX PRO SOFTWARE INC
+ * @author    Dustin Brisebois <dustin@oomaxpro.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
  /**

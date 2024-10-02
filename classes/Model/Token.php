@@ -23,10 +23,10 @@
 /**
  * This file is part of the Oomax Pro Authentication package.
  *
- * @package     auth_cognito
- * @copyright   Oomax
- * @author      Dustin Brisebois
- * @license     GPL
+ * @package   auth_cognito
+ * @copyright 2024 OOMAX PRO SOFTWARE INC
+ * @author    Dustin Brisebois <dustin@oomaxpro.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
