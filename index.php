@@ -49,7 +49,7 @@ if (isset($SESSION->wantsurl)) {
     $wantsurl = $SESSION->wantsurl;
 }
 
-/** If payload exist process user. */
+// If payload exist process user.
 if ($oomaxtoken->isAuthorized()) {
     $oomaxtoken->getPayload();
     $oomaxuser = new Model\User($oomaxtoken);

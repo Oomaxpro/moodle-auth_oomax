@@ -50,8 +50,8 @@ class Audiences {
 
     /**
      * Audience Oomax Constructor
-     * @param plugin
-     * @param audiences
+     * @param $plugin
+     * @param $audiences
      */
     public function __construct(Token $plugin, $audiences = "") {
         $this->plugin = $plugin->getplugin();
@@ -60,7 +60,7 @@ class Audiences {
 
     /**
      * Process Audiences for Oomax
-     * @param oomaxuser
+     * @param $oomaxuser
      * @return void
      */
     public function processaudiences(User $oomaxuser): void {

@@ -49,7 +49,7 @@ class User {
 
     /**
      * Oomax User Constructor
-     * @param Token token
+     * @param $Token
      */
     public function __construct(\Oomax\Model\Token $token) {
         $this->token = $token;

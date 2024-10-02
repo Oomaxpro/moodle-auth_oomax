@@ -42,7 +42,7 @@ class Messages {
 
     /**
      * Constructor for Oomax Debug Messages
-     * @param string $plugin
+     * @param $plugin
      */
     public function __construct(String $plugin) {
         $this->plugin = $plugin;
@@ -50,7 +50,7 @@ class Messages {
 
     /**
      * Generates the Message
-     * @param array $message
+     * @param $message
      * @return void
      */
     public function generatemessage(Array $message): void {
@@ -62,7 +62,7 @@ class Messages {
 
     /**
      * Returns the string for messsaging
-     * @param string $name
+     * @param $name
      * @return string
      */
     public function returnmessage(String $name): string {

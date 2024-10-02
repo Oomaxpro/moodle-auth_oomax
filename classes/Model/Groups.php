@@ -35,12 +35,12 @@ use Oomax\Model\Token;
  */
 class Groups {
     /**
-     * @var string
+     * @var $plugin
      */
     private $plugin;
 
     /**
-     * @var string|null
+     * @var $groups
      */
     private $groups;
 
@@ -54,7 +54,7 @@ class Groups {
 
     /**
      * Oomax Groups Processor
-     * @param User oomaxuser
+     * @param $oomaxuser
      * @return void
      */
     public function processgroups(\Oomax\Model\User $oomaxuser): void {
