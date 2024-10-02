@@ -79,7 +79,7 @@ class Token {
 
     /**
      * Oomax Token Constructor
-     * @param string $token
+     * @param token
      */
     public function __construct(String $token) {
         $this->retry = 1;
