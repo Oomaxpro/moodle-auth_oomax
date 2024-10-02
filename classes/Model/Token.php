@@ -81,7 +81,7 @@ class Token {
      * Oomax Token Constructor
      * @param string $token
      */
-    public function __construct(String $token = null) {
+    public function __construct(String $token) {
         $this->retry = 1;
         $this->auth = 'cognito';
         $this->plugin = "auth_{$this->auth}";
