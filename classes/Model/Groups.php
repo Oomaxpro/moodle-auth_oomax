@@ -17,9 +17,9 @@
 /**
  * This file is part of the Oomax Pro Authentication package.
  *
- * @package     auth_cognito
+ * @package   auth_cognito
  * @copyright   Oomax
- * @author      Dustin Brisebois
+ * @author      Dustin Brisebois <dus
  * @license     GPL
  *
  * For the full copyright and license information, please view the LICENSE
