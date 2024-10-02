@@ -1,43 +1,50 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
-//
-// Moodle is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// Moodle is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+/** 
+ * This file is part of Moodle - http://moodle.org/
+ * Moodle is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Moodle is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+ * php version 8.1.1
 
-/**
- * This file is part of the Oomax Pro Authentication package.
- *
-
- * @package     auth_cognito
- * @author      Bojan Bazdar / Dustin Brisebois
- * @license     GPL
- * @copyright   Oomax
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
+ * @category Engine
+ 
+ * @package   Auth_Oomax
+ * @author    Dustin Brisebois <dustin@oomaxpro.com>
+ * @copyright 2022 OOMAX PRO SOFTWARE INC.
+ 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @link    http://www.gnu.org/copyleft/gpl.html
  */
+
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->libdir.'/authlib.php');
-require_once($CFG->dirroot.'/user/lib.php');
+require_once $CFG->libdir.'/authlib.php';
+require_once $CFG->dirroot.'/user/lib.php';
 
-/**
- * Class auth_plugin_oomax
+/** 
+ * OOmax Login class
+ * 
+ * @category  Engine
+ * @package   Auth_Oomax
+ * @author    Dustin Brisebois <dustin@oomaxpro.com>
+ * @copyright 2022 OOMAX PRO SOFTWARE INC.
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @link      http://www.gnu.org/copyleft/gpl.html
  */
-class auth_plugin_cognito extends auth_plugin_base {
-
+class Auth_Plugin_Cognito extends auth_plugin_base
+{
     /**
+     * This class contains functions to handle authentication from Oomax Pro
+     * 
      * @var string
      */
     private $logouturl = '';
@@ -47,7 +54,8 @@ class auth_plugin_cognito extends auth_plugin_base {
      * Constructor. No parameters given.
      * As non-static, create the AuthManage connect and get the mode
      */
-    public function __construct() {
+    public function __construct()
+    {
         global $CFG, $SESSION;
 
         $plugin = 'cognito';
@@ -60,9 +68,12 @@ class auth_plugin_cognito extends auth_plugin_base {
     }
 
     /**
-     * Postlogout_Hook for Redirecting User on Logout
-     * @param stdClass $user
+     * PostLogout_Hook for Redirecting User on Logout
+     * 
+     * @param stdClass $user ##PostLogout_Hook for Redirecting User on Logout
+     * 
      * @throws moodle_exception
+     * @return boolean
      */
     public function postlogout_hook($user) {
         if ($this->logouturl) {
@@ -73,41 +84,51 @@ class auth_plugin_cognito extends auth_plugin_base {
 
     /**
      * Can change password?
+     * 
      * @return bool if false
      */
-    public function can_change_password(): bool {
+    public function can_change_password(): bool
+    {
         return false;
     }
 
     /**
      * Can edit profile?
+     * 
      * @return bool
      */
-    public function can_edit_profile(): bool {
+    public function can_edit_profile(): bool
+    {
         return false;
     }
 
     /**
      * Can reset password?
+     * 
      * @return bool
      */
-    public function can_reset_password(): bool {
+    public function can_reset_password(): bool
+    {
         return false;
     }
 
     /**
      * Is plugin internal?
+     * 
      * @return bool
      */
-    public function is_internal(): bool {
+    public function is_internal(): bool
+    {
         return true;
     }
 
     /**
      * Encrypted Cookie manager for wantsurl
+     * 
      * @return void
      */
-    private function calculate_wantsurl() {
+    private function calculate_wantsurl()
+    {
         if (isset($_COOKIE['oomaxHome'])) {
             global $CFG;
 
@@ -115,27 +136,33 @@ class auth_plugin_cognito extends auth_plugin_base {
             $ciphering = "AES-256-CBC";
             $decryptioniv = substr(bin2hex($CFG->wwwroot), -16);
             $decryptionkey = parse_url($CFG->wwwroot)['host'];
-            $decryption = openssl_decrypt ($_COOKIE['oomaxHome'], $ciphering,  $decryptionkey, $options, $decryptioniv);
+            $decryption = openssl_decrypt($_COOKIE['oomaxHome'], $ciphering,  $decryptionkey, $options, $decryptioniv);
             redirect("https://{$decryption}");
         }
     }
 
     /**
      * OAuth smart handler for UI mapping
-     * @param \core\outh2\issuer issuer
+     * 
+     * @param $issuer collects where the oatuh call came from
+     * 
      * @return bool
      */
-    private function is_ready_for_login_page(\core\oauth2\issuer $issuer) {
+    private function is_ready_for_login_page(\core\oauth2\issuer $issuer)
+    {
         return $issuer->get('enabled') && $issuer->is_configured() && empty($issuer->get('showonloginpage'));
     }
 
     /**
      * Login Idp List handler for UI artifacts
-     * @param $wantsurl
-     * @param bool $details = false
+     * 
+     * @param $wantsurl what url is being requested
+     * @param $details  bool = false
+     * 
      * @return Array
      */
-    public function loginpage_idp_list($wantsurl, Bool $details = false) {
+    public function loginpage_idp_list($wantsurl, Bool $details = false)
+    {
         $result = [];
         $providers = \core\oauth2\api::get_all_issuers();
         if (empty($wantsurl)) {

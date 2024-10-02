@@ -1,30 +1,28 @@
 <?php
-// This file is part of Moodle - http://moodle.org/
-//
-// Moodle is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// Moodle is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+/** 
+ * This file is part of Moodle - http://moodle.org/
+ * Moodle is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Moodle is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+ * php version 8.1.1
 
-/**
- * This file is part of the Oomax Pro Authentication package.
- *
- * @package     auth_cognito
- * @copyright   Oomax
- * @author      Dustin Brisebois
- * @license     GPL
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
+ * @category Engine
+
+ * @package   Auth_Oomax
+ * @author    Dustin Brisebois <dustin@oomaxpro.com>
+ * @copyright 2022 OOMAX PRO SOFTWARE INC.
+ 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @link    http://www.gnu.org/copyleft/gpl.html
  */
 
 namespace Oomax\Model;
@@ -33,36 +31,57 @@ use Oomax\Model\Token;
 
 /**
  * Oomax Groups Constructor
+ * 
+ * @category Engine
+
+ * @package   Auth_Oomax
+ * @author    Dustin Brisebois <dustin@oomaxpro.com>
+ * @copyright 2022 OOMAX PRO SOFTWARE INC.
+ 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @link    http://www.gnu.org/copyleft/gpl.html
  */
-class Groups {
+class Groups
+{
     /**
-     * @var string
+     * This class handles group enrolment 
+     * 
+     * @var $plugin string
      */
     private $plugin;
 
     /**
-     * @var string|null
+     * Collect groups to enrol
+     * 
+     * @var $groups string|null
      */
     private $groups;
 
     /**
      * Oomax Groups Constructor
+     * 
+     * @param $plugin string
+     * @param $groups string
      */
-    public function __construct(Token $plugin, $groups = "") {
+    public function __construct(Token $plugin, $groups = "")
+    {
         $this->plugin = $plugin->getplugin();
         $this->groups = $groups;
     }
 
     /**
      * Oomax Groups Processor
-     * @param User oomaxuser
+     * 
+     * @param $oomaxuser User 
+     * 
      * @return void
      */
-    public function processgroups(\Oomax\Model\User $oomaxuser): void {
+    public function processgroups(\Oomax\Model\User $oomaxuser): void
+    {
         global $CFG;
 
         if (!is_null($this->groups)) {
-            require_once($CFG->dirroot .'/group/lib.php');
+            include_once $CFG->dirroot .'/group/lib.php';
             $groupids = array_filter(array_unique(explode(',', $this->groups)));
 
             $message = new Messages($this->plugin);

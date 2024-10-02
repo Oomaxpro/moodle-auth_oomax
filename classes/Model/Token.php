@@ -1,36 +1,28 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: bojan
- * Date: 2022-10-13
- * Time: 09:39
- */
-// This file is part of Moodle - http://moodle.org/
-//
-// Moodle is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// Moodle is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+/** 
+ * This file is part of Moodle - http://moodle.org/
+ * Moodle is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Moodle is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+ * php version 8.1.1
 
-/**
- * This file is part of the Oomax Pro Authentication package.
- *
- * @package     auth_cognito
- * @copyright   Oomax
- * @author      Dustin Brisebois
- * @license     GPL
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
+ * @category Engine
+
+ * @package   Auth_Oomax
+ * @author    Dustin Brisebois <dustin@oomaxpro.com>
+ * @copyright 2022 OOMAX PRO SOFTWARE INC.
+ 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @link    http://www.gnu.org/copyleft/gpl.html
  */
 
 namespace Oomax\Model;
@@ -41,54 +33,80 @@ use Firebase\JWT\SignatureInvalidException;
 
 /**
  * Class Token
- * @package Oomax\Model
+ * @category Engine
+
+ * @package   Auth_Oomax
+ * @author    Dustin Brisebois <dustin@oomaxpro.com>
+ * @copyright 2022 OOMAX PRO SOFTWARE INC.
+ 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @link    http://www.gnu.org/copyleft/gpl.html
  */
-class Token {
+class Token
+{
     /**
+     * This Class handles the user tokens
+     * 
      * @var int
      */
     private Int $retry;
 
     /**
+     * Hold the auth string
+     * 
      * @var string
      */
     public String $auth = '';
 
     /**
+     * Hold the plugin string
+     * 
      * @var string
      */
     private String $plugin = '';
 
     /**
+     * Hold the keys string
+     * 
      * @var array
      */
     private $keys;
 
     /**
+     * Hold cache
+     * 
      * @var cache
      */
     private \cache $cache;
 
     /**
+     * Hold token
+     * 
      * @var string
      */
     private $token;
 
     /**
+     * Hold Key URI
+     * 
      * @var string
      */
     private $keyuri;
 
     /**
+     * Hold Payload
+     * 
      * @var stdClass
      */
     private $payload;
 
     /**
      * Oomax Token Constructor
-     * @param string $token
+     * 
+     * @param $token string 
      */
-    public function __construct(String $token = null) {
+    public function __construct(String $token = null)
+    {
         $this->retry = 1;
         $this->auth = 'cognito';
         $this->plugin = "auth_{$this->auth}";
@@ -100,16 +118,21 @@ class Token {
 
     /**
      * Returns the plugin information
+     * 
      * @return string
      */
-    public function getplugin(): string {
+    public function getplugin(): string
+    {
         return $this->plugin;
     }
 
     /**
      * Deciphers the groups payload
+     * 
+     * @return null
      */
-    public function getgroups() {
+    public function getgroups()
+    {
         $groups = 'cognito:groups';
         if (!is_null($this->token)) {
             return $this->payload->$groups;
@@ -119,9 +142,11 @@ class Token {
 
     /**
      * Returns the Data from the Token
+     * 
      * @return bool
      */
-    public function getdatafromtoken(): bool {
+    public function getdatafromtoken(): bool
+    {
         while ($this->retry > 0) {
             $result = $this->decipherToken();
             if ($result) {
@@ -135,11 +160,13 @@ class Token {
 
     /**
      * Deciphers the Token for Data
+     * 
      * @return bool
      * @throws \SignatureInvalidException
      * @throws \Exception
      */
-    private function deciphertoken(): bool {
+    private function deciphertoken(): bool
+    {
         $data = '';
         if (is_null($this->keys)) {
             return false;
@@ -161,37 +188,44 @@ class Token {
 
     /**
      * Checks if JWT has been decoded
+     * 
      * @return bool
      */
-    public function isauthorized(): bool {
+    public function isauthorized(): bool
+    {
         return !is_null($this->payload);
     }
 
     /**
      * Get the JWT payload
-     * @return \stdClass
-     * @return bool
+     * 
+     * @return \stdClass bool
      */
-    public function getpayload() {
+    public function getpayload()
+    {
         return $this->payload;
     }
 
     /**
      * Get public key file
+     * 
      * @return void
      */
-    private function getpublickey(): void {
+    private function getpublickey(): void
+    {
         $curl = curl_init();
-        curl_setopt_array($curl, [
-          CURLOPT_URL => $this->keyuri,
-          CURLOPT_RETURNTRANSFER => true,
-          CURLOPT_ENCODING => '',
-          CURLOPT_MAXREDIRS => 10,
-          CURLOPT_TIMEOUT => 0,
-          CURLOPT_FOLLOWLOCATION => true,
-          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-          CURLOPT_CUSTOMREQUEST => 'GET',
-        ]);
+        curl_setopt_array(
+            $curl, [
+            CURLOPT_URL => $this->keyuri,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'GET',
+            ]
+        );
 
         $response = curl_exec($curl);
 
@@ -201,9 +235,11 @@ class Token {
 
     /**
      * Cache the Keys locally
+     * 
      * @return void
      */
-    private function cachekeys(): void {
+    private function cachekeys(): void
+    {
         $this->keys = json_decode($this->cache->get('keys'), true);
         if (is_null($this->keys)) {
             $this->getpublickey();

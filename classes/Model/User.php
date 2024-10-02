@@ -1,36 +1,28 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: bojan
- * Date: 2022-10-13
- * Time: 09:39
- */
-// This file is part of Moodle - http://moodle.org/
-//
-// Moodle is free software: you can redistribute it and/or modify
-// it under the terms of the GNU General Public License as published by
-// the Free Software Foundation, either version 3 of the License, or
-// (at your option) any later version.
-//
-// Moodle is distributed in the hope that it will be useful,
-// but WITHOUT ANY WARRANTY; without even the implied warranty of
-// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-// GNU General Public License for more details.
-//
-// You should have received a copy of the GNU General Public License
-// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+/** 
+ * This file is part of Moodle - http://moodle.org/
+ * Moodle is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Moodle is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+ * php version 8.1.1
 
-/**
- * This file is part of the Oomax Pro Authentication package.
- *
- * @package     auth_cognito
- * @copyright   Oomax
- * @author      Dustin Brisebois
- * @license     GPL
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- *
+ * @category Engine
+
+ * @package   Auth_Oomax
+ * @author    Dustin Brisebois <dustin@oomaxpro.com>
+ * @copyright 2022 OOMAX PRO SOFTWARE INC.
+ 
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @link    http://www.gnu.org/copyleft/gpl.html
  */
 
 namespace Oomax\Model;
@@ -41,6 +33,7 @@ use Firebase\JWT\SignatureInvalidException;
 
 /**
  * Class User
+ * 
  * @package auth_oomax\model
  */
 class User {
@@ -58,7 +51,8 @@ class User {
      * Oomax User Constructor
      * @param Token token
      */
-    public function __construct(\Oomax\Model\Token $token) {
+    public function __construct(\Oomax\Model\Token $token)
+    {
         $this->token = $token;
         $this->user = $this->token->getpayload();
     }
@@ -66,10 +60,12 @@ class User {
 
     /**
      * Generates the User for Oomax
+     * 
      * @return int
      * @throws \moodle_exception
      */
-    public function createuser(): int {
+    public function createuser(): int
+    {
         global $CFG;
 
         $firstname = '';
@@ -100,9 +96,11 @@ class User {
 
     /**
      * Process Locale Handling at the Token Level
+     * 
      * @return void
      */
-    public function processuserlocale(): void {
+    public function processuserlocale(): void
+    {
         if (isset($this->puserayload->locale)) {
             // Convert language code from oomax format (e.g. fr-CA) to Moodle format (e.g. fr_ca).
             $lang = strtolower(str_replace('-', '_', $this->user->locale));
@@ -122,9 +120,11 @@ class User {
 
     /**
      * Log User in; if user doesn't exist create user first
+     * 
      * @return stdClass
      */
-    public function userlogin(): \stdClass {
+    public function userlogin(): \stdClass
+    {
         global $DB;
 
         // Get user by email.
@@ -148,9 +148,11 @@ class User {
 
     /**
      * Generates Oomax Cookie
+     * 
      * @return void
      */
-    public function generateoomaxcookie(): void {
+    public function generateoomaxcookie(): void
+    {
         global $CFG;
 
         if (isset($_SERVER['HTTP_REFERER'])) {
@@ -172,9 +174,11 @@ class User {
 
     /**
      * Return User ID
+     * 
      * @return int
      */
-    public function userid(): int {
+    public function userid(): int
+    {
         return $this->user->id;
     }
 }
