@@ -49,7 +49,7 @@ class User {
 
     /**
      * Oomax User Constructor
-     * @param Token $Token
+     * @param string $Token This is jwt token.
      */
     public function __construct(\Oomax\Model\Token $token) {
         $this->token = $token;

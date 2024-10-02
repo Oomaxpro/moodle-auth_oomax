@@ -50,7 +50,7 @@ class Messages {
 
     /**
      * Generates the Message
-     * @param String $message
+     * @param string $message This is message string.
      * @return void
      */
     public function generatemessage(Array $message): void {

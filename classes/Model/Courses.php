@@ -56,7 +56,7 @@ class Courses {
 
     /**
      * Process Courses for User
-     * @param User $oomaxuser
+     * @param string $oomaxuser Holds user.
      * @return void
      */
     public function processcourses(\Oomax\Model\User $oomaxuser): void {
@@ -92,8 +92,8 @@ class Courses {
 
     /**
      * Sanity Check if is context
-     * @param String $ctx
-     * @param Int $courseid
+     * @param string $ctx Checking context.
+     * @param int $courseid Store course IDs.
      * @return bool
      */
     private function checkctx($ctx, int $courseid): bool {
@@ -108,9 +108,9 @@ class Courses {
 
     /**
      * Sanity Check if is enrolled
-     * @param String $ctx
-     * @param User $oomaxuser
-     * @param Int $courseid
+     * @param string $ctx This checks for courses.
+     * @param string $oomaxuser This is the passed user.
+     * @param int $courseid This checks for courseIDs.
      * @return bool
      */
     private function checkenrolled($ctx, \Oomax\Model\User $oomaxuser, int $courseid): bool {

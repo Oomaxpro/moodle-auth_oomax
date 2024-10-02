@@ -125,7 +125,7 @@ class auth_plugin_cognito extends auth_plugin_base {
 
     /**
      * OAuth smart handler for UI mapping
-     * @param String $issuer
+     * @param string $issuer This is Oauth issuer.
      * @return bool
      */
     private function is_ready_for_login_page(\core\oauth2\issuer $issuer) {
@@ -134,8 +134,8 @@ class auth_plugin_cognito extends auth_plugin_base {
 
     /**
      * Login Idp List handler for UI artifacts
-     * @param String $wantsurl
-     * @param Bool $details
+     * @param string $wantsurl This is passed URL.
+     * @param bool $details This is true/false.
      * @return Array
      */
     public function loginpage_idp_list($wantsurl, Bool $details = false) {
