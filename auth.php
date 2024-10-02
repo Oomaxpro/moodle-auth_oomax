@@ -39,7 +39,8 @@ class auth_plugin_cognito extends auth_plugin_base {
 
     /**
      * Control auth requests from OOMAX
-     * @var $logouturl
+     * @var string $logouturl
+     * @var string $plugin
      */
     private $logouturl = '';
     private $plugin = '';
