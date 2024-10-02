@@ -2,7 +2,7 @@
     "name": "oomax/moodle-auth_oomax",
     "description": "Oomax Pro Authentication Module",
     "type": "moodle-auth",
-    "license": "GPL",
+    "license": "MIT",
     "authors": [
         {
             "name": "Dustin Brisbois",
