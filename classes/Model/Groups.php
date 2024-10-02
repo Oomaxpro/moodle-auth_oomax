@@ -46,6 +46,8 @@ class Groups {
 
     /**
      * Oomax Groups Constructor
+     * @param Token $plugin
+     * @param String $groups
      */
     public function __construct(Token $plugin, $groups = "") {
         $this->plugin = $plugin->getplugin();
@@ -54,7 +56,7 @@ class Groups {
 
     /**
      * Oomax Groups Processor
-     * @param $oomaxuser
+     * @param User $oomaxuser
      * @return void
      */
     public function processgroups(\Oomax\Model\User $oomaxuser): void {

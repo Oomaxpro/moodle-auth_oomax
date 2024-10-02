@@ -46,8 +46,8 @@ class Courses {
 
     /**
      * Constructor for Courses
-     * @param $plugin
-     * @param $courses
+     * @param Token $plugin
+     * @param String $courses
      */
     public function __construct(Token $plugin, $courses = "") {
         $this->plugin = $plugin->getplugin();
@@ -56,7 +56,7 @@ class Courses {
 
     /**
      * Process Courses for User
-     * @param $oomaxuser
+     * @param User $oomaxuser
      * @return void
      */
     public function processcourses(\Oomax\Model\User $oomaxuser): void {
@@ -92,8 +92,8 @@ class Courses {
 
     /**
      * Sanity Check if is context
-     * @param $ctx
-     * @param $courseid
+     * @param String $ctx
+     * @param Int $courseid
      * @return bool
      */
     private function checkctx($ctx, int $courseid): bool {
@@ -108,9 +108,9 @@ class Courses {
 
     /**
      * Sanity Check if is enrolled
-     * @param $ctx
-     * @param $oomaxuser
-     * @param $courseid
+     * @param String $ctx
+     * @param User $oomaxuser
+     * @param Int $courseid
      * @return bool
      */
     private function checkenrolled($ctx, \Oomax\Model\User $oomaxuser, int $courseid): bool {

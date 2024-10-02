@@ -63,7 +63,7 @@ class auth_plugin_cognito extends auth_plugin_base {
 
     /**
      * Postlogout_Hook for Redirecting User on Logout
-     * @param $user
+     * @param User $user
      * @throws moodle_exception
      * @return boolean
      */
@@ -125,7 +125,7 @@ class auth_plugin_cognito extends auth_plugin_base {
 
     /**
      * OAuth smart handler for UI mapping
-     * @param $issuer
+     * @param String $issuer
      * @return bool
      */
     private function is_ready_for_login_page(\core\oauth2\issuer $issuer) {
@@ -134,8 +134,8 @@ class auth_plugin_cognito extends auth_plugin_base {
 
     /**
      * Login Idp List handler for UI artifacts
-     * @param $wantsurl
-     * @param $details
+     * @param String $wantsurl
+     * @param Bool $details
      * @return Array
      */
     public function loginpage_idp_list($wantsurl, Bool $details = false) {
