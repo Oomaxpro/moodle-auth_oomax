@@ -27,8 +27,6 @@
  *
  */
 
->>>>>>> CLDOPS-525v5
-
 namespace Oomax\Model;
 
 use Oomax\Model\Token;

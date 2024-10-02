@@ -25,7 +25,6 @@ class Messages
         return get_string($name, $this->plugin, $this->message);
     }
 }
-=======
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify

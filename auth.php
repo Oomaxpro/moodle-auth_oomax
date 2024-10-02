@@ -44,11 +44,6 @@ class auth_plugin_cognito extends auth_plugin_base {
     private $plugin = '';
 
     /**
-     * @var string
-     */
-    private $plugin = '';
-
-    /**
      * Constructor. No parameters given.
      * As non-static, create the AuthManage connect and get the mode
      */

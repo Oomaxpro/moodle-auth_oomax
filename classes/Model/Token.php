@@ -5,7 +5,6 @@
  * Date: 2022-10-13
  * Time: 09:39
  */
-=======
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
