@@ -154,6 +154,7 @@ class User {
             $oomaxgroups = $this->token->getgroups();
             $oomaxgroupindex = $oomaxgroups[array_search($oomaxhome['host'], $oomaxgroups)];
             $homepath = parse_url($CFG->wwwroot);
+
             $homepath['path'] = !isset($homepath['path']) ? '/' : $homepath['path'];
 
             $options = 0;
@@ -164,6 +165,7 @@ class User {
             $encryption = openssl_encrypt($oomaxgroupindex, $ciphering, $encryptionkey, $options, $encryptioniv);
             $expiry = time() + 60 * 60 * 24 * 30;
             setcookie('oomaxhome', $encryption, $expiry, $homepath['path'], $homepath['host'], true, true);
+
         }
     }
 

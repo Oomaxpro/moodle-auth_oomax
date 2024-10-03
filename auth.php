@@ -69,6 +69,7 @@ class auth_plugin_cognito extends auth_plugin_base {
         if (!isloggedin() && empty($SESSION->wantsurl) &&
         strpos($_SERVER['DOCUMENT_URI'], '/login/index.php') == 0) {
             $SESSION->wantsurl = $_SERVER['SERVER_NAME'].'/'.$_SERVER['REQUEST_URI'];
+
         }
     }
 
@@ -121,8 +122,10 @@ class auth_plugin_cognito extends auth_plugin_base {
      * @return void
      */
     private function calculate_wantsurl() {
+
         $bypass = optional_param('oomax', null, PARAM_RAW);
         if (isset($_COOKIE['oomaxhome']) && is_null($bypass) && $bypass == 'stop') {
+
             global $CFG;
 
             $options = 0;
@@ -220,6 +223,7 @@ class auth_plugin_cognito extends auth_plugin_base {
             } else {
                 throw new moodle_exception('oomaxtoken', '', '', null, get_string('invalid_token', 'auth_cognito'));
             }
+
         }
     }
 
