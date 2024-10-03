@@ -50,7 +50,7 @@ class User {
     /**
      * __construct
      *
-     * @param  mixed $token
+     * @param  \Oomax\Model\Token $token
      * @return void
      */
     public function __construct(\Oomax\Model\Token $token) {

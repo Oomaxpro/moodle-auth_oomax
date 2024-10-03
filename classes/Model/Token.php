@@ -75,12 +75,12 @@ class Token {
     /**
      * @var stdClass
      */
-    private $payload;
+    private \stdClass $payload;
 
     /**
      * __construct
      *
-     * @param  mixed $token
+     * @param  String $token
      * @return void
      */
     public function __construct(String $token) {
@@ -135,7 +135,6 @@ class Token {
      * @throws \Exception
      */
     private function deciphertoken(): bool {
-        $data = '';
         if (is_null($this->keys)) {
             return false;
         }
@@ -165,7 +164,6 @@ class Token {
     /**
      * Get the JWT payload
      * @return \stdClass
-     * @return bool
      */
     public function getpayload() {
         return $this->payload;

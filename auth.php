@@ -27,8 +27,11 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
+require_once(__DIR__.'/vendor/autoload.php');
 require_once($CFG->libdir.'/authlib.php');
 require_once($CFG->dirroot.'/user/lib.php');
+
+use Oomax\Model;
 
 /**
  * Class auth_plugin_oomax
@@ -50,7 +53,7 @@ class auth_plugin_cognito extends auth_plugin_base {
      * @var $plugin string
      */
     public function __construct() {
-        global $CFG, $SESSION;
+        global $SESSION;
 
         $plugin = 'cognito';
         $this->plugin = "auth_{$plugin}";
@@ -70,7 +73,6 @@ class auth_plugin_cognito extends auth_plugin_base {
     public function postlogout_hook($user) {
         if ($this->logouturl) {
             redirect($this->logouturl);
-            exit;
         }
     }
 
@@ -126,7 +128,7 @@ class auth_plugin_cognito extends auth_plugin_base {
     /**
      * is_ready_for_login_page
      *
-     * @param  mixed $issuer
+     * @param \core\oauth2\issuer $issuer
      * @return void
      */
     private function is_ready_for_login_page(\core\oauth2\issuer $issuer) {
@@ -136,11 +138,15 @@ class auth_plugin_cognito extends auth_plugin_base {
     /**
      * loginpage_idp_list
      *
-     * @param  mixed $wantsurl
-     * @param  mixed $details
+     * @param String $wantsurl
+     * @param Bool $details
      * @return void
      */
     public function loginpage_idp_list($wantsurl, Bool $details = false) {
+        if (!$details) {
+            return [];
+        }
+
         $result = [];
         $providers = \core\oauth2\api::get_all_issuers();
         if (empty($wantsurl)) {
@@ -156,5 +162,101 @@ class auth_plugin_cognito extends auth_plugin_base {
         }
         return $result;
     }
-}
 
+    /**
+     * auth prelogin hook
+     *
+     * @return void
+     * @return Exception
+     */
+    public function loginpage_hook() {
+        $this->calculate_wantsurl();
+
+        global $CFG, $SESSION;
+
+        $token = required_param('token', PARAM_RAW);
+        $logout = required_param('logout', PARAM_RAW);
+        $courses = optional_param('courses', null, PARAM_SEQUENCE);
+        $groups = optional_param('groups', null, PARAM_SEQUENCE);
+        $audiences = optional_param('audiences', null, PARAM_SEQUENCE);
+        $SESSION->logout = $logout;
+
+        $oomaxtoken = new Model\Token($token);
+        $oomaxtoken->getdatafromtoken();
+
+        list($oomaxuser, $wantsurl) = $this->loginuser($oomaxtoken);
+
+        // If payload exist process user.
+        if ($oomaxtoken->isauthorized()) {
+            $oomaxtoken->getpayload();
+            $oomaxuser = new Model\User($oomaxtoken);
+
+            $oomaxuser->processuserlocale();
+            $oomaxuser->userlogin($oomaxuser);
+            $oomaxuser->generateoomaxcookie();
+
+            $this->processgca($courses, $groups, $audiences, $oomaxtoken, $oomaxuser);
+            if (is_null($wantsurl)) {
+                $wantsurl = new moodle_url(optional_param('wantsurl', $CFG->wwwroot, PARAM_URL));
+            }
+
+            redirect($wantsurl);
+        } else {
+            throw new moodle_exception('oomaxtoken', '', '', null, get_string('invalid_token', 'auth_cognito'));
+        }
+    }
+
+    /**
+     * Login User
+     * @param \Oomax\Model\Token $token
+     * @return Array
+     */
+    private function loginuser(\Oomax\Model\Token $oomaxtoken): Array {
+        $wantsurl = null;
+        if (isset($SESSION->wantsurl)) {
+            $wantsurl = $SESSION->wantsurl;
+        }
+
+        if ($oomaxtoken->isauthorized()) {
+            $oomaxtoken->getpayload();
+            $oomaxuser = new Model\User($oomaxtoken);
+
+            $oomaxuser->processuserlocale();
+            $oomaxuser->Userlogin($oomaxuser);
+            $oomaxuser->generateoomaxcookie();
+        }
+        $wantsurl = null;
+        if (isset($SESSION->wantsurl)) {
+            $wantsurl = $SESSION->wantsurl;
+        }
+        return [$oomaxuser, $wantsurl];
+    }
+
+    /**
+     * Process G (groups) C (courses) A (audiences)
+     * @param Array $courses
+     * @param Array $groups
+     * @param Array $audiences
+     * @param \Oomax\Model\Token $oomaxtoken
+     * @param \Oomax\Model\User $oomaxuser
+     * @return void
+     */
+    private function processgca(
+        Array $courses, Array $groups, Array $audiences,
+        \Oomax\Model\Token $oomaxtoken, \Oomax\Model\User $oomaxuser) {
+        if (!is_null($courses)) {
+            $oomaxcourses = new Model\Courses($oomaxtoken, $courses);
+            $oomaxcourses->processcourses($oomaxuser);
+        }
+
+        if (!is_null($groups)) {
+            $oomaxgroups = new Model\Groups($oomaxtoken, $groups);
+            $oomaxgroups->processgroups($oomaxuser);
+        }
+
+        if (!is_null($audiences)) {
+            $oomaxaudiences = new Model\Audiences($oomaxtoken, $audiences);
+            $oomaxaudiences->processaudiences($oomaxuser);
+        }
+    }
+}

@@ -43,7 +43,7 @@ class Messages {
     /**
      * __construct
      *
-     * @param  mixed $plugin
+     * @param  String $plugin
      * @return void
      */
     public function __construct(String $plugin) {
@@ -53,7 +53,7 @@ class Messages {
     /**
      * generatemessage
      *
-     * @param  mixed $message
+     * @param  Array $message
      * @return void
      */
     public function generatemessage(Array $message): void {
@@ -66,7 +66,7 @@ class Messages {
     /**
      * returnmessage
      *
-     * @param  mixed $name
+     * @param  String $name
      * @return string
      */
     public function returnmessage(String $name): string {

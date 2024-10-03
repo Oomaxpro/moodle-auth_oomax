@@ -57,7 +57,7 @@ class Courses {
     /**
      * processcourses
      *
-     * @param  mixed $oomaxuser
+     * @param  \Oomax\Model\User $oomaxuser
      * @return void
      */
     public function processcourses(\Oomax\Model\User $oomaxuser): void {
@@ -110,9 +110,9 @@ class Courses {
     /**
      * checkenrolled
      *
-     * @param  mixed $ctx
-     * @param  mixed $oomaxuser
-     * @param  mixed $courseid
+     * @param  int $ctx
+     * @param  \Oomax\Model\User $oomaxuser
+     * @param  int $courseid
      * @return bool
      */
     private function checkenrolled($ctx, \Oomax\Model\User $oomaxuser, int $courseid): bool {
