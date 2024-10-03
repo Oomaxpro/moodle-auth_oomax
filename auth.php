@@ -53,7 +53,7 @@ class auth_plugin_cognito extends auth_plugin_base {
      * @var $plugin string
      */
     public function __construct() {
-        global $CFG, $SESSION;
+        global $SESSION;
 
         $plugin = 'cognito';
         $this->plugin = "auth_{$plugin}";
@@ -73,7 +73,6 @@ class auth_plugin_cognito extends auth_plugin_base {
     public function postlogout_hook($user) {
         if ($this->logouturl) {
             redirect($this->logouturl);
-            exit;
         }
     }
 
@@ -144,6 +143,10 @@ class auth_plugin_cognito extends auth_plugin_base {
      * @return void
      */
     public function loginpage_idp_list($wantsurl, Bool $details = false) {
+        if (!$details) {
+            return [];
+        }
+
         $result = [];
         $providers = \core\oauth2\api::get_all_issuers();
         if (empty($wantsurl)) {
@@ -178,7 +181,7 @@ class auth_plugin_cognito extends auth_plugin_base {
         $SESSION->logout = $logout;
 
         $oomaxtoken = new Model\Token($token);
-        $oomaxtoken->getDataFromToken();
+        $oomaxtoken->getdatafromtoken();
 
         $wantsurl = null;
         if (isset($SESSION->wantsurl)) {
@@ -191,7 +194,7 @@ class auth_plugin_cognito extends auth_plugin_base {
             $oomaxuser = new Model\User($oomaxtoken);
 
             $oomaxuser->processUserLocale();
-            $USER = $oomaxuser->UserLogin($oomaxuser);
+            $oomaxuser->UserLogin($oomaxuser);
             $oomaxuser->generateOomaxCookie();
         }
         if (!is_null($courses)) {
@@ -210,7 +213,7 @@ class auth_plugin_cognito extends auth_plugin_base {
             $oomaxuser = new Model\User($oomaxtoken);
 
             $oomaxuser->processuserlocale();
-            $USER = $oomaxuser->userlogin($oomaxuser);
+            $oomaxuser->userlogin($oomaxuser);
             $oomaxuser->generateoomaxcookie();
 
             if (!is_null($courses)) {
@@ -220,6 +223,7 @@ class auth_plugin_cognito extends auth_plugin_base {
 
             if (!is_null($groups)) {
                 $oomaxgroups = new Model\Groups($oomaxtoken, $groups);
+                $oomaxgroups->processgroups($oomaxuser);
             }
 
             if (!is_null($audiences)) {

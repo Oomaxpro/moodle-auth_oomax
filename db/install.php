@@ -30,8 +30,6 @@
   * Moodle install method for auth_cognito
   */
 function xmldb_auth_cognito_install() {
-    global $CFG, $DB;
-
     /*
     Need to find all auth_cognito and change to auth_oomax
     */

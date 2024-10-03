@@ -29,5 +29,4 @@
   * @return null
   */
 function xmldb_auth_cognito_uninstall() {
-    global $CFG, $DB;
 }
