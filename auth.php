@@ -66,7 +66,7 @@ class auth_plugin_cognito extends auth_plugin_base {
         }
         $this->config = get_config("auth_{$plugin}");
 
-        if (!isloggedin() && empty($SESSION->wantsurl) && 
+        if (!isloggedin() && empty($SESSION->wantsurl) &&
         strpos($_SERVER['DOCUMENT_URI'], '/login/index.php') == 0) {
             $SESSION->wantsurl = $_SERVER['SERVER_NAME'].'/'.$_SERVER['REQUEST_URI'];
         }
@@ -121,7 +121,8 @@ class auth_plugin_cognito extends auth_plugin_base {
      * @return void
      */
     private function calculate_wantsurl() {
-        if (isset($_COOKIE['oomaxhome'])) {
+        $bypass = optional_param('oomax', null, PARAM_RAW);
+        if (isset($_COOKIE['oomaxhome']) && is_null($bypass) && $bypass == 'stop') {
             global $CFG;
 
             $options = 0;
@@ -200,7 +201,7 @@ class auth_plugin_cognito extends auth_plugin_base {
             if (!empty($SESSION->wantsurl)) {
                 $this->wantsurl = $SESSION->wantsurl;
             }
-    
+
             // If payload exist process user.
             if ($oomaxtoken->isauthorized()) {
                 $oomaxtoken->getpayload();
