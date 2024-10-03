@@ -174,8 +174,8 @@ class auth_plugin_cognito extends auth_plugin_base {
 
         global $CFG, $SESSION;
 
-        $token = required_param('token', PARAM_RAW);
-        $logout = required_param('logout', PARAM_RAW);
+        $token = optional_param('token', null, PARAM_RAW);
+        $logout = optional_param('logout', null, PARAM_RAW);
         $courses = optional_param('courses', null, PARAM_SEQUENCE);
         $groups = optional_param('groups', null, PARAM_SEQUENCE);
         $audiences = optional_param('audiences', null, PARAM_SEQUENCE);
