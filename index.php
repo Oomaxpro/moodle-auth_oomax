@@ -39,6 +39,6 @@ $wantsurl = new moodle_url('/login/index.php', [
     'logout' => $logout, 
     'courses' => $courses, 
     'groups' => $groups, 
-    'audiences' => $audiences
+    'audiences' => $audiences,
 ]);
 redirect($wantsurl);
