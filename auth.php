@@ -160,6 +160,11 @@ class auth_plugin_cognito extends auth_plugin_base {
         return $result;
     }
 
+    /**
+     * auth prelogin hook
+     * 
+     * @return void
+     */
     public function loginpage_hook() {
         $this->calculate_wantsurl();
 

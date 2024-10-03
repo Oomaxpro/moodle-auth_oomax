@@ -34,5 +34,11 @@ $courses = optional_param('courses', null, PARAM_SEQUENCE);
 $groups = optional_param('groups', null, PARAM_SEQUENCE);
 $audiences = optional_param('audiences', null, PARAM_SEQUENCE);
 
-$wantsurl = new moodle_url('/login/index.php', Array('token' => $token, 'logout' => $logout, 'courses' => $courses, 'groups' => $groups, 'audiences' => $audiences));
+$wantsurl = new moodle_url('/login/index.php', [
+    'token' => $token, 
+    'logout' => $logout, 
+    'courses' => $courses, 
+    'groups' => $groups, 
+    'audiences' => $audiences
+]);
 redirect($wantsurl);
