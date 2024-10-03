@@ -57,9 +57,9 @@ class Messages {
      * @return void
      */
     public function generatemessage(Array $message): void {
-        $this->message = [];
+        $this->message = new \stdClass();
         foreach ($message as $k => $m) {
-            $this->message[$k] = $m;
+            $this->message->$k = $m;
         }
     }
 

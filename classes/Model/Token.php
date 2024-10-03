@@ -165,7 +165,7 @@ class Token {
      * Get the JWT payload
      * @return \stdClass
      */
-    public function getpayload() {
+    public function getpayload(): \stdClass {
         return $this->payload;
     }
 
