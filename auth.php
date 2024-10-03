@@ -47,13 +47,16 @@ class auth_plugin_cognito extends auth_plugin_base {
     /** @var string The plugin making the request */
     private $plugin = '';
 
+    /** @var string The wantsurl on non-authorized users */
+    private $wantsurl;
+
     /**
      * Constructor. No parameters given.
      * As non-static, create the AuthManage connect and get the mode
      * @var $plugin string
      */
     public function __construct() {
-        global $SESSION;
+        global $CFG, $SESSION;
 
         $plugin = 'cognito';
         $this->plugin = "auth_{$plugin}";
@@ -62,6 +65,10 @@ class auth_plugin_cognito extends auth_plugin_base {
             $this->logouturl = $SESSION->logout;
         }
         $this->config = get_config("auth_{$plugin}");
+
+        if (!isloggedin()) {
+            $this->wantsurl = $CFG->wwwroot.$_SERVER['REQUEST_URI'];
+        }
     }
 
     /**
@@ -113,14 +120,14 @@ class auth_plugin_cognito extends auth_plugin_base {
      * @return void
      */
     private function calculate_wantsurl() {
-        if (isset($_COOKIE['oomaxHome'])) {
+        if (isset($_COOKIE['oomaxhome'])) {
             global $CFG;
 
             $options = 0;
             $ciphering = "AES-256-CBC";
             $decryptioniv = substr(bin2hex($CFG->wwwroot), -16);
             $decryptionkey = parse_url($CFG->wwwroot)['host'];
-            $decryption = openssl_decrypt($_COOKIE['oomaxHome'], $ciphering,  $decryptionkey, $options, $decryptioniv);
+            $decryption = openssl_decrypt($_COOKIE['oomaxhome'], $ciphering,  $decryptionkey, $options, $decryptioniv);
             redirect("https://{$decryption}");
         }
     }
@@ -170,21 +177,23 @@ class auth_plugin_cognito extends auth_plugin_base {
      * @return Exception
      */
     public function loginpage_hook() {
-        $this->calculate_wantsurl();
-
         global $CFG, $SESSION;
 
-        $token = required_param('token', PARAM_RAW);
-        $logout = required_param('logout', PARAM_RAW);
+        $token = optional_param('token', null, PARAM_RAW);
+        $logout = optional_param('logout', null, PARAM_RAW);
         $courses = optional_param('courses', null, PARAM_SEQUENCE);
         $groups = optional_param('groups', null, PARAM_SEQUENCE);
         $audiences = optional_param('audiences', null, PARAM_SEQUENCE);
         $SESSION->logout = $logout;
 
+        if (empty($token)) {
+            $this->calculate_wantsurl();
+        }
+
         $oomaxtoken = new Model\Token($token);
         $oomaxtoken->getdatafromtoken();
 
-        list($oomaxuser, $wantsurl) = $this->loginuser($oomaxtoken);
+        list($oomaxuser, $this->wantsurl) = $this->loginuser($oomaxtoken);
 
         // If payload exist process user.
         if ($oomaxtoken->isauthorized()) {
@@ -196,11 +205,11 @@ class auth_plugin_cognito extends auth_plugin_base {
             $oomaxuser->generateoomaxcookie();
 
             $this->processgca($courses, $groups, $audiences, $oomaxtoken, $oomaxuser);
-            if (is_null($wantsurl)) {
-                $wantsurl = new moodle_url(optional_param('wantsurl', $CFG->wwwroot, PARAM_URL));
+            if (is_null($this->wantsurl)) {
+                $this->wantsurl = new moodle_url(optional_param('wantsurl', $CFG->wwwroot, PARAM_URL));
             }
 
-            redirect($wantsurl);
+            redirect($this->wantsurl);
         } else {
             throw new moodle_exception('oomaxtoken', '', '', null, get_string('invalid_token', 'auth_cognito'));
         }
@@ -242,7 +251,7 @@ class auth_plugin_cognito extends auth_plugin_base {
      * @return void
      */
     private function processgca(
-        Array $courses, Array $groups, Array $audiences,
+        String $courses, String $groups, String $audiences,
         \Oomax\Model\Token $oomaxtoken, \Oomax\Model\User $oomaxuser) {
         if (!is_null($courses)) {
             $oomaxcourses = new Model\Courses($oomaxtoken, $courses);
