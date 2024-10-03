@@ -161,7 +161,8 @@ class User {
             $encryptionkey = $homepath['host'];
             $encryption = openssl_encrypt($oomaxgroupindex, $ciphering, $encryptionkey, $options, $encryptioniv);
 
-            setcookie('oomaxhome', $encryption, time() + 60 * 60 * 24 * 30, $homepath['path'] ?? '/', $homepath['host'], true, true);
+            $expiry = time() + 60 * 60 * 24 * 30;
+            setcookie('oomaxhome', $encryption, $expiry, $homepath['path'] ?? '/', $homepath['host'], true, true);
         }
     }
 
