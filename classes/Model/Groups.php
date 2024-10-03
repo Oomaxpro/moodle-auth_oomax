@@ -57,7 +57,7 @@ class Groups {
     /**
      * processgroups
      *
-     * @param  mixed $oomaxuser
+     * @param  \Oomax\Model\User $oomaxuser
      * @return void
      */
     public function processgroups(\Oomax\Model\User $oomaxuser): void {

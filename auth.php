@@ -27,8 +27,11 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
+require_once(__DIR__.'/vendor/autoload.php');
 require_once($CFG->libdir.'/authlib.php');
 require_once($CFG->dirroot.'/user/lib.php');
+
+use Oomax\Model;
 
 /**
  * Class auth_plugin_oomax
@@ -126,7 +129,7 @@ class auth_plugin_cognito extends auth_plugin_base {
     /**
      * is_ready_for_login_page
      *
-     * @param  mixed $issuer
+     * @param \core\oauth2\issuer $issuer
      * @return void
      */
     private function is_ready_for_login_page(\core\oauth2\issuer $issuer) {
@@ -136,8 +139,8 @@ class auth_plugin_cognito extends auth_plugin_base {
     /**
      * loginpage_idp_list
      *
-     * @param  mixed $wantsurl
-     * @param  mixed $details
+     * @param String $wantsurl
+     * @param Bool $details
      * @return void
      */
     public function loginpage_idp_list($wantsurl, Bool $details = false) {
@@ -155,6 +158,79 @@ class auth_plugin_cognito extends auth_plugin_base {
             }
         }
         return $result;
+    }
+
+    public function loginpage_hook() {
+        $this->calculate_wantsurl();
+
+        global $CFG, $SESSION;
+
+        $token = required_param('token', PARAM_RAW);
+        $logout = required_param('logout', PARAM_RAW);
+        $courses = optional_param('courses', null, PARAM_SEQUENCE);
+        $groups = optional_param('groups', null, PARAM_SEQUENCE);
+        $audiences = optional_param('audiences', null, PARAM_SEQUENCE);
+        $SESSION->logout = $logout;
+
+        $oomaxtoken = new Model\Token($token);
+        $oomaxtoken->getDataFromToken();
+
+        $wantsurl = null;
+        if (isset($SESSION->wantsurl)) {
+            $wantsurl = $SESSION->wantsurl;
+        }
+
+        // If payload exist process user.
+        if ($oomaxtoken->isAuthorized()) {
+            $oomaxtoken->getPayload();
+            $oomaxuser = new Model\User($oomaxtoken);
+
+            $oomaxuser->processUserLocale();
+            $USER = $oomaxuser->UserLogin($oomaxuser);
+            $oomaxuser->generateOomaxCookie();
+        }
+        if (!is_null($courses)) {
+            $oomaxcourses = new Model\Courses($oomaxtoken, $courses);
+            $oomaxcourses->processCourses($oomaxuser);
+            $oomaxtoken->getdatafromtoken();
+        }
+        $wantsurl = null;
+        if (isset($SESSION->wantsurl)) {
+            $wantsurl = $SESSION->wantsurl;
+        }
+
+        // If payload exist process user.
+        if ($oomaxtoken->isauthorized()) {
+            $oomaxtoken->getpayload();
+            $oomaxuser = new Model\User($oomaxtoken);
+
+            $oomaxuser->processuserlocale();
+            $USER = $oomaxuser->userlogin($oomaxuser);
+            $oomaxuser->generateoomaxcookie();
+
+            if (!is_null($courses)) {
+                $oomaxcourses = new Model\Courses($oomaxtoken, $courses);
+                $oomaxcourses->processcourses($oomaxuser);
+            }
+
+            if (!is_null($groups)) {
+                $oomaxgroups = new Model\Groups($oomaxtoken, $groups);
+            }
+
+            if (!is_null($audiences)) {
+                $oomaxaudiences = new Model\Audiences($oomaxtoken, $audiences);
+                $oomaxaudiences->processaudiences($oomaxuser);
+            }
+
+            if (is_null($wantsurl)) {
+                $wantsurl = new moodle_url(optional_param('wantsurl', $CFG->wwwroot, PARAM_URL));
+            }
+
+            redirect($wantsurl);
+        } else {
+            throw new moodle_exception('oomaxtoken', '', '', null, get_string('invalid_token', 'auth_cognito'));
+        }
+
     }
 }
 

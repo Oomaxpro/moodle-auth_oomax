@@ -80,7 +80,7 @@ class Token {
     /**
      * __construct
      *
-     * @param  mixed $token
+     * @param  String $token
      * @return void
      */
     public function __construct(String $token) {
