@@ -162,7 +162,7 @@ class auth_plugin_cognito extends auth_plugin_base {
 
     /**
      * auth prelogin hook
-     * 
+     *
      * @return void
      */
     public function loginpage_hook() {
