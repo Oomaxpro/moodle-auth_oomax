@@ -234,15 +234,15 @@ class auth_plugin_cognito extends auth_plugin_base {
 
     /**
      * Process G (groups) C (courses) A (audiences)
-     * @param Array $courses
-     * @param Array $groups
-     * @param Array $audiences
+     * @param String $courses
+     * @param String $groups
+     * @param String $audiences
      * @param \Oomax\Model\Token $oomaxtoken
      * @param \Oomax\Model\User $oomaxuser
      * @return void
      */
     private function processgca(
-        Array $courses, Array $groups, Array $audiences,
+        String $courses, String $groups, String $audiences,
         \Oomax\Model\Token $oomaxtoken, \Oomax\Model\User $oomaxuser) {
         if (!is_null($courses)) {
             $oomaxcourses = new Model\Courses($oomaxtoken, $courses);
