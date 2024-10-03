@@ -66,7 +66,8 @@ class auth_plugin_cognito extends auth_plugin_base {
         }
         $this->config = get_config("auth_{$plugin}");
 
-        if (!isloggedin() && empty($SESSION->wantsurl) && strpos($_SERVER['DOCUMENT_URI'], '/login/index.php') == 0) {
+        if (!isloggedin() && empty($SESSION->wantsurl) && 
+        strpos($_SERVER['DOCUMENT_URI'], '/login/index.php') == 0) {
             $SESSION->wantsurl = $_SERVER['SERVER_NAME'].'/'.$_SERVER['REQUEST_URI'];
         }
     }
