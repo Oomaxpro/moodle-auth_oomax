@@ -255,6 +255,6 @@ class auth_plugin_cognito extends auth_plugin_base {
         if (!is_null($audiences)) {
             $oomaxaudiences = new Model\Audiences($oomaxtoken, $audiences);
             $oomaxaudiences->processaudiences($oomaxuser);
-        }        
+        }
     }
 }
