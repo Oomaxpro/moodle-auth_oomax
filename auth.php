@@ -66,8 +66,8 @@ class auth_plugin_cognito extends auth_plugin_base {
         }
         $this->config = get_config("auth_{$plugin}");
 
-        if (!isloggedin()) {
-            $this->wantsurl = $CFG->wwwroot.$_SERVER['REQUEST_URI'];
+        if (!isloggedin() && empty($SESSION->wantsurl) && strpos($_SERVER['DOCUMENT_URI'], '/login/index.php') == 0) {
+            $SESSION->wantsurl = $_SERVER['SERVER_NAME'].'/'.$_SERVER['REQUEST_URI'];
         }
     }
 
@@ -190,28 +190,34 @@ class auth_plugin_cognito extends auth_plugin_base {
             $this->calculate_wantsurl();
         }
 
-        $oomaxtoken = new Model\Token($token);
-        $oomaxtoken->getdatafromtoken();
+        if (!empty($token)) {
+            $oomaxtoken = new Model\Token($token);
+            $oomaxtoken->getdatafromtoken();
 
-        list($oomaxuser, $this->wantsurl) = $this->loginuser($oomaxtoken);
+            list($oomaxuser, $this->wantsurl) = $this->loginuser($oomaxtoken);
 
-        // If payload exist process user.
-        if ($oomaxtoken->isauthorized()) {
-            $oomaxtoken->getpayload();
-            $oomaxuser = new Model\User($oomaxtoken);
-
-            $oomaxuser->processuserlocale();
-            $oomaxuser->userlogin($oomaxuser);
-            $oomaxuser->generateoomaxcookie();
-
-            $this->processgca($courses, $groups, $audiences, $oomaxtoken, $oomaxuser);
-            if (is_null($this->wantsurl)) {
-                $this->wantsurl = new moodle_url(optional_param('wantsurl', $CFG->wwwroot, PARAM_URL));
+            if (!empty($SESSION->wantsurl)) {
+                $this->wantsurl = $SESSION->wantsurl;
             }
+    
+            // If payload exist process user.
+            if ($oomaxtoken->isauthorized()) {
+                $oomaxtoken->getpayload();
+                $oomaxuser = new Model\User($oomaxtoken);
 
-            redirect($this->wantsurl);
-        } else {
-            throw new moodle_exception('oomaxtoken', '', '', null, get_string('invalid_token', 'auth_cognito'));
+                $oomaxuser->processuserlocale();
+                $oomaxuser->userlogin();
+                $oomaxuser->generateoomaxcookie();
+
+                $this->processgca($courses, $groups, $audiences, $oomaxtoken, $oomaxuser);
+                if (empty($this->wantsurl)) {
+                    $this->wantsurl = new moodle_url(optional_param('wantsurl', $CFG->wwwroot, PARAM_URL));
+                }
+
+                redirect($this->wantsurl);
+            } else {
+                throw new moodle_exception('oomaxtoken', '', '', null, get_string('invalid_token', 'auth_cognito'));
+            }
         }
     }
 

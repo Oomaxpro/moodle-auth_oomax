@@ -123,9 +123,10 @@ class User {
         global $DB;
 
         // Get user by email.
-        $this->user = $DB->get_record_select('user', 'LOWER(email) = ?', [strtolower($this->user->email)]);
+        $userexists = $DB->get_record_select('user', 'LOWER(email) = ?', [strtolower($this->user->email)]);
 
-        if ($this->user) {
+        if ($userexists) {
+            $this->user = $userexists;
             // If user exist perform login and redirect.
             if (isset($this->user->locale) && $this->user->locale != $this->user->lang) {
                 $this->user->lang = $this->user->locale;
@@ -153,6 +154,7 @@ class User {
             $oomaxgroups = $this->token->getgroups();
             $oomaxgroupindex = $oomaxgroups[array_search($oomaxhome['host'], $oomaxgroups)];
             $homepath = parse_url($CFG->wwwroot);
+            $homepath['path'] = !isset($homepath['path']) ? '/' : $homepath['path'];
 
             $options = 0;
             $ciphering = "AES-256-CBC";
@@ -161,7 +163,7 @@ class User {
             $encryptionkey = $homepath['host'];
             $encryption = openssl_encrypt($oomaxgroupindex, $ciphering, $encryptionkey, $options, $encryptioniv);
             $expiry = time() + 60 * 60 * 24 * 30;
-            setcookie('oomaxhome', $encryption, $expiry, $homepath['path'] ?? '/', $homepath['host'], true, true);
+            setcookie('oomaxhome', $encryption, $expiry, $homepath['path'], $homepath['host'], true, true);
         }
     }
 
