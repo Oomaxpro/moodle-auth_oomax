@@ -167,6 +167,7 @@ class auth_plugin_cognito extends auth_plugin_base {
      * auth prelogin hook
      *
      * @return void
+     * @return Exception
      */
     public function loginpage_hook() {
         $this->calculate_wantsurl();
@@ -183,29 +184,7 @@ class auth_plugin_cognito extends auth_plugin_base {
         $oomaxtoken = new Model\Token($token);
         $oomaxtoken->getdatafromtoken();
 
-        $wantsurl = null;
-        if (isset($SESSION->wantsurl)) {
-            $wantsurl = $SESSION->wantsurl;
-        }
-
-        // If payload exist process user.
-        if ($oomaxtoken->isAuthorized()) {
-            $oomaxtoken->getPayload();
-            $oomaxuser = new Model\User($oomaxtoken);
-
-            $oomaxuser->processUserLocale();
-            $oomaxuser->UserLogin($oomaxuser);
-            $oomaxuser->generateOomaxCookie();
-        }
-        if (!is_null($courses)) {
-            $oomaxcourses = new Model\Courses($oomaxtoken, $courses);
-            $oomaxcourses->processCourses($oomaxuser);
-            $oomaxtoken->getdatafromtoken();
-        }
-        $wantsurl = null;
-        if (isset($SESSION->wantsurl)) {
-            $wantsurl = $SESSION->wantsurl;
-        }
+        list($oomaxuser, $wantsurl) = $this->loginuser($oomaxtoken);
 
         // If payload exist process user.
         if ($oomaxtoken->isauthorized()) {
@@ -216,21 +195,7 @@ class auth_plugin_cognito extends auth_plugin_base {
             $oomaxuser->userlogin($oomaxuser);
             $oomaxuser->generateoomaxcookie();
 
-            if (!is_null($courses)) {
-                $oomaxcourses = new Model\Courses($oomaxtoken, $courses);
-                $oomaxcourses->processcourses($oomaxuser);
-            }
-
-            if (!is_null($groups)) {
-                $oomaxgroups = new Model\Groups($oomaxtoken, $groups);
-                $oomaxgroups->processgroups($oomaxuser);
-            }
-
-            if (!is_null($audiences)) {
-                $oomaxaudiences = new Model\Audiences($oomaxtoken, $audiences);
-                $oomaxaudiences->processaudiences($oomaxuser);
-            }
-
+            $this->processgca($courses, $groups, $audiences, $oomaxtoken, $oomaxuser);
             if (is_null($wantsurl)) {
                 $wantsurl = new moodle_url(optional_param('wantsurl', $CFG->wwwroot, PARAM_URL));
             }
@@ -239,6 +204,57 @@ class auth_plugin_cognito extends auth_plugin_base {
         } else {
             throw new moodle_exception('oomaxtoken', '', '', null, get_string('invalid_token', 'auth_cognito'));
         }
+    }
 
+    /**
+     * Login User
+     * @param \Oomax\Model\Token $token
+     * @return Array
+     */
+    private function loginuser(\Oomax\Model\Token $oomaxtoken): Array {
+        $wantsurl = null;
+        if (isset($SESSION->wantsurl)) {
+            $wantsurl = $SESSION->wantsurl;
+        }
+
+        if ($oomaxtoken->isauthorized()) {
+            $oomaxtoken->getpayload();
+            $oomaxuser = new Model\User($oomaxtoken);
+
+            $oomaxuser->processuserlocale();
+            $oomaxuser->Userlogin($oomaxuser);
+            $oomaxuser->generateoomaxcookie();
+        }
+        $wantsurl = null;
+        if (isset($SESSION->wantsurl)) {
+            $wantsurl = $SESSION->wantsurl;
+        }
+        return [$oomaxuser, $wantsurl];
+    }
+
+    /**
+     * Process G (groups) C (courses) A (audiences)
+     * @param Array $courses
+     * @param Array $groups
+     * @param Array $audiences
+     * @param \Oomax\Model\Token $oomaxtoken
+     * @param \Oomax\Model\User $oomaxuser
+     * @return void
+     */
+    private function processgca(Array $courses, Array $groups, Array $audiences, \Oomax\Model\Token $oomaxtoken, \Oomax\Model\User $oomaxuser) {
+        if (!is_null($courses)) {
+            $oomaxcourses = new Model\Courses($oomaxtoken, $courses);
+            $oomaxcourses->processcourses($oomaxuser);
+        }
+
+        if (!is_null($groups)) {
+            $oomaxgroups = new Model\Groups($oomaxtoken, $groups);
+            $oomaxgroups->processgroups($oomaxuser);
+        }
+
+        if (!is_null($audiences)) {
+            $oomaxaudiences = new Model\Audiences($oomaxtoken, $audiences);
+            $oomaxaudiences->processaudiences($oomaxuser);
+        }        
     }
 }
