@@ -40,7 +40,6 @@ class Messages {
      */
     private \stdClass $message;
 
-    
     /**
      * __construct
      *
@@ -51,7 +50,6 @@ class Messages {
         $this->plugin = $plugin;
     }
 
-       
     /**
      * generatemessage
      *
@@ -65,7 +63,6 @@ class Messages {
         }
     }
 
-      
     /**
      * returnmessage
      *
