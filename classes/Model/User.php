@@ -60,6 +60,11 @@ class User {
     }
 
 
+    /**
+     * Sanity-check for handling field overrides
+     * @param String $field
+     * @return String
+     */
     private function parsenamehandler(String $field): string {
         $name = '';
 
