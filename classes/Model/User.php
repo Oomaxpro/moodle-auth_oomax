@@ -28,6 +28,7 @@
 
 namespace oomax\model;
 
+use Dotenv\Util\Str;
 use Firebase\JWT\JWT;
 use Firebase\JWT\JWK;
 use Firebase\JWT\SignatureInvalidException;
@@ -59,6 +60,16 @@ class User {
     }
 
 
+    private function parsenamehandler(String $field): string {
+        $name = '';
+
+        if (isset($this->user->$field) && $this->user->$field) {
+            $name = $this->user->$field;
+        }       
+
+        return $name;
+    }
+
     /**
      * Generates the User for Oomax
      * @return int
@@ -67,14 +78,12 @@ class User {
     public function createuser(): int {
         global $CFG;
 
-        $firstname = '';
-        $lastname = '';
-        if (isset($this->user->name) && $this->user->name) {
-            $firstname = $this->user->name;
-        }
-        if (isset($this->user->family_name) && $this->user->family_name) {
-            $lastname = $this->user->family_name;
-        }
+        $firstnamefield = get_config("auth_{$this->token->auth}", 'firstname_field') ?? 'name';
+        $lastnamefield = get_config("auth_{$this->token->auth}", 'lastname_field') ?? 'family_name';
+
+        $firstname = $this->parsenamehandler($firstnamefield);
+        $lastname = $this->parsenamehandler($lastnamefield);
+
         $user = new \stdClass();
         $user->auth = $this->token->auth;
         $user->username = preg_replace('/\+/', '_', $this->user->email);
@@ -128,11 +137,15 @@ class User {
         if ($userexists) {
             $this->user = $userexists;
             // If user exist perform login and redirect.
-            if (isset($this->user->locale) && $this->user->locale != $this->user->lang) {
-                $this->user->lang = $this->user->locale;
-                $this->user->auth = $this->token->auth;
-                user_update_user($this->user, false, false);
-            }
+
+            $firstnamefield = get_config("auth_{$this->token->auth}", 'firstname_field') ?? 'name';
+            $lastnamefield = get_config("auth_{$this->token->auth}", 'lastname_field') ?? 'family_name';
+            $this->parsenamehandler($firstnamefield);
+            $this->parsenamehandler($lastnamefield);
+    
+            $this->user->lang = $this->token->locale ?? $this->user->lang;
+            $this->user->auth = $this->token->auth;
+            user_update_user($this->user, false, false);
         } else {
             // If user doesn't exist create user and perform login and redirect.
             $userid = $this->createuser($this->user);

@@ -56,7 +56,7 @@ class auth_plugin_cognito extends auth_plugin_base {
      * @var $plugin string
      */
     public function __construct() {
-        global $CFG, $SESSION;
+        global $SESSION;
 
         $plugin = 'cognito';
         $this->plugin = "auth_{$plugin}";

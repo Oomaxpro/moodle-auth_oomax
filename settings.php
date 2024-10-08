@@ -44,4 +44,22 @@ if ($ADMIN->fulltree) {
             'unlocked'
         )
     );
+
+    $settings->add(
+        new admin_setting_configtext(
+            "{$pluginname}/firstname_field",
+            get_string('config_firstname_field', $pluginname),
+            get_string('config_firstname_field_desc', $pluginname),
+            'name'
+        )
+    );
+
+    $settings->add(
+        new admin_setting_configtext(
+            "{$pluginname}/lastname_field",
+            get_string('config_lastname_field', $pluginname),
+            get_string('config_lastname_field_desc', $pluginname),
+            'family_name'
+        )
+    );
 }

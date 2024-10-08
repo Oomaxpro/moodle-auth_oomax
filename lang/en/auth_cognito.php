@@ -50,3 +50,7 @@ $string['invalid_token'] = 'User token is invalid.';
 $string['course_user_enrolled'] = 'User is already enrolled in course {$a->courseid}';
 $string['groups_failed_user_group'] = 'Failed to add user to group {$a->groupid}';
 $string['groups_failed_user_group_msg'] = 'Failed to add user to group {$a->groupid} : {$a->message}';
+$string['config_firstname_field'] = 'First name field';
+$string['config_firstname_field_desc'] = "Use this field from the payload as user's First name.";
+$string['config_lastname_field'] = 'Last name field';
+$string['config_lastname_field_desc'] = "Use this field from the payload as user's Last name.";
