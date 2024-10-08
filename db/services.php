@@ -47,7 +47,7 @@ $lambdacreatessouser = [
 ];
 
 $functions = [
-  // 'cognito_create_sso_user' => $lambdacreatessouser,
+  'cognito_create_sso_user' => $lambdacreatessouser,
 ];
 
 if (isset($CFG->SSO_EXPERIMENTAL) && $CFG->SSO_EXPERIMENTAL) {

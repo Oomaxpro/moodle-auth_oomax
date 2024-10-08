@@ -65,7 +65,7 @@ class User {
 
         if (isset($this->user->$field) && $this->user->$field) {
             $name = $this->user->$field;
-        }       
+        }
 
         return $name;
     }
@@ -142,7 +142,7 @@ class User {
             $lastnamefield = get_config("auth_{$this->token->auth}", 'lastname_field') ?? 'family_name';
             $this->parsenamehandler($firstnamefield);
             $this->parsenamehandler($lastnamefield);
-    
+
             $this->user->lang = $this->token->locale ?? $this->user->lang;
             $this->user->auth = $this->token->auth;
             user_update_user($this->user, false, false);
