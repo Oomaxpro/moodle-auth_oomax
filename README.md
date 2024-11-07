@@ -1,6 +1,6 @@
 Date: September 2024
 Name: oomax  
-Url: /auth/oomax/index.php?tokem=&logout=
+Url: /auth/oomax/index.php?token=&logout=
 
 ### Enable plugin ###
 
