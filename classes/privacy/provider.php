@@ -28,10 +28,11 @@
 
 namespace auth_cognito\privacy;
 
+/**
+ * Privacy Provider Class for auth_cognito
+ */
 class provider implements
-    // This plugin does not store any personal user data.
-    \core_privacy\local\metadata\null_provider
-{
+    \core_privacy\local\metadata\null_provider {
 
     /**
      * This plugin stores no data.
