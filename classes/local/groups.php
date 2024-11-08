@@ -51,7 +51,7 @@ class groups {
      * @param String $groups
      */
     public function __construct(Token $plugin, $groups = "") {
-        $this->plugin = $plugin->getplugin();
+        $this->plugin = $plugin->get_plugin();
         $this->groups = $groups;
     }
 
@@ -61,7 +61,7 @@ class groups {
      * @param  \auth_cognito\model\user $oomaxuser
      * @return void
      */
-    public function processgroups(user $oomaxuser): void {
+    public function process_groups(user $oomaxuser): void {
         global $CFG;
 
         if (!is_null($this->groups)) {
@@ -73,13 +73,13 @@ class groups {
                 try {
                     // Function takes care if the user is already member of the group.
                     if (!groups_add_member($groupid, $oomaxuser->userId())) {
-                        $message->generatemessage([ 'groupid' => $groupid ]);
-                        debugging($message->returnmessage('groups_failed_user_group'));
+                        $message->generate_message([ 'groupid' => $groupid ]);
+                        debugging($message->return_message('groups_failed_user_group'));
                     }
                 } catch (\Exception $exc) {
                     // For now ignore errors when adding to group failed.
-                    $message->generatemessage([ 'groupid' => $groupid, 'message' => $exc->getMessage() ]);
-                    debugging($message->returnmessage('groups_failed_user_group_msg'));
+                    $message->generate_message([ 'groupid' => $groupid, 'message' => $exc->getMessage() ]);
+                    debugging($message->return_message('groups_failed_user_group_msg'));
                 }
             }
         }

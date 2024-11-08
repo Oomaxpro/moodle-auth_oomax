@@ -53,7 +53,7 @@ class user {
      */
     public function __construct(token $token) {
         $this->token = $token;
-        $this->user = $this->token->getpayload();
+        $this->user = $this->token->get_payload();
     }
 
 
@@ -62,7 +62,7 @@ class user {
      * @return int
      * @throws \moodle_exception
      */
-    public function createuser(): int {
+    public function create_user(): int {
         global $CFG;
 
         $firstname = '';
@@ -95,7 +95,7 @@ class user {
      * Process Locale Handling at the Token Level
      * @return void
      */
-    public function processuserlocale(): void {
+    public function process_user_locale(): void {
         if (isset($this->puserayload->locale)) {
             // Convert language code from oomax format (e.g. fr-CA) to Moodle format (e.g. fr_ca).
             $lang = strtolower(str_replace('-', '_', $this->user->locale));
@@ -117,7 +117,7 @@ class user {
      * Log User in; if user doesn't exist create user first
      * @return stdClass
      */
-    public function userlogin(): \stdClass {
+    public function user_login(): \stdClass {
         global $DB;
 
         // Get user by email.
@@ -133,7 +133,7 @@ class user {
             }
         } else {
             // If user doesn't exist create user and perform login and redirect.
-            $userid = $this->createuser($this->user);
+            $userid = $this->create_user($this->user);
             $this->user = $DB->get_record("user", ["id" => $userid]);
         }
 
@@ -144,12 +144,12 @@ class user {
      * Generates Oomax Cookie
      * @return void
      */
-    public function generateoomaxcookie(): void {
+    public function generate_oomax_cookie(): void {
         global $CFG;
 
         if (isset($_SERVER['HTTP_REFERER'])) {
             $oomaxhome = parse_url($_SERVER['HTTP_REFERER']);
-            $oomaxgroups = $this->token->getgroups();
+            $oomaxgroups = $this->token->get_groups();
             $oomaxgroupindex = $oomaxgroups[array_search($oomaxhome['host'], $oomaxgroups)];
             $homepath = parse_url($CFG->wwwroot);
 
@@ -171,7 +171,7 @@ class user {
      * Return User ID
      * @return int
      */
-    public function userid(): int {
+    public function user_id(): int {
         return $this->user->id;
     }
 }

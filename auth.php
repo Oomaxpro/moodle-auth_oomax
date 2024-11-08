@@ -204,7 +204,7 @@ class auth_plugin_cognito extends \auth_plugin_base {
 
         if (!empty($token)) {
             $oomaxtoken = new \auth_cognito\local\token($token);
-            $oomaxtoken->getdatafromtoken();
+            $oomaxtoken->get_data_from_token();
 
             list($oomaxuser, $this->wantsurl) = $this->loginuser($oomaxtoken);
 
@@ -213,13 +213,13 @@ class auth_plugin_cognito extends \auth_plugin_base {
             }
 
             // If payload exist process user.
-            if ($oomaxtoken->isauthorized()) {
-                $oomaxtoken->getpayload();
+            if ($oomaxtoken->is_authorized()) {
+                $oomaxtoken->get_payload();
                 $oomaxuser = new user($oomaxtoken);
 
-                $oomaxuser->processuserlocale();
-                $oomaxuser->userlogin();
-                $oomaxuser->generateoomaxcookie();
+                $oomaxuser->process_user_locale();
+                $oomaxuser->user_login();
+                $oomaxuser->generate_oomax_cookie();
 
                 $this->processgca($courses, $groups, $audiences, $oomaxtoken, $oomaxuser);
                 if (empty($this->wantsurl)) {
@@ -245,13 +245,13 @@ class auth_plugin_cognito extends \auth_plugin_base {
             $wantsurl = $SESSION->wantsurl;
         }
 
-        if ($oomaxtoken->isauthorized()) {
-            $oomaxtoken->getpayload();
+        if ($oomaxtoken->is_authorized()) {
+            $oomaxtoken->get_payload();
             $oomaxuser = new user($oomaxtoken);
 
-            $oomaxuser->processuserlocale();
-            $oomaxuser->Userlogin($oomaxuser);
-            $oomaxuser->generateoomaxcookie();
+            $oomaxuser->process_user_locale();
+            $oomaxuser->user_login($oomaxuser);
+            $oomaxuser->generate_oomax_cookie();
         }
         $wantsurl = null;
         if (isset($SESSION->wantsurl)) {
@@ -273,17 +273,17 @@ class auth_plugin_cognito extends \auth_plugin_base {
         String $courses, String $groups, String $audiences, token $oomaxtoken, user $oomaxuser) {
         if (!is_null($courses)) {
             $oomaxcourses = new courses($oomaxtoken, $courses);
-            $oomaxcourses->processcourses($oomaxuser);
+            $oomaxcourses->process_courses($oomaxuser);
         }
 
         if (!is_null($groups)) {
             $oomaxgroups = new groups($oomaxtoken, $groups);
-            $oomaxgroups->processgroups($oomaxuser);
+            $oomaxgroups->process_groups($oomaxuser);
         }
 
         if (!is_null($audiences)) {
             $oomaxaudiences = new audiences($oomaxtoken, $audiences);
-            $oomaxaudiences->processaudiences($oomaxuser);
+            $oomaxaudiences->process_audiences($oomaxuser);
         }
     }
 }
