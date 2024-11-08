@@ -28,8 +28,8 @@
 
 namespace auth_cognito\local;
 
-use \auth_cognito\local\token;
-use \auth_cognito\local\messages;
+use auth_cognito\local\token;
+use auth_cognito\local\messages;
 
 /**
  * Oomax Groups Constructor

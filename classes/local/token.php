@@ -28,11 +28,9 @@
 
 namespace auth_cognito\local;
 
-require_once(__DIR__.'/../../vendor/autoload.php');
-
-use \Firebase\JWT\JWT;
-use \Firebase\JWT\JWK;
-use \Firebase\JWT\SignatureInvalidException;
+use Firebase\JWT\JWT;
+use Firebase\JWT\JWK;
+use Firebase\JWT\SignatureInvalidException;
 
 /**
  * Class Token

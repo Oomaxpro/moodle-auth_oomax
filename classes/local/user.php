@@ -28,10 +28,7 @@
 
 namespace auth_cognito\local;
 
-use \auth_cognito\local\token;
-use Firebase\JWT\JWT;
-use Firebase\JWT\JWK;
-use Firebase\JWT\SignatureInvalidException;
+use auth_cognito\local\token;
 
 /**
  * Class User
