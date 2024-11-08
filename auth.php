@@ -32,13 +32,13 @@ require_once(__DIR__.'/vendor/autoload.php');
 require_once($CFG->libdir.'/authlib.php');
 require_once($CFG->dirroot.'/user/lib.php');
 
-use \auth_cognito\local\token;
-use \auth_cognito\local\user;
-use \auth_cognito\local\courses;
-use \auth_cognito\local\groups;
-use \auth_cognito\local\audiences;
-use \auth_cognito\local\messages;
-use \core\oauth2;
+use auth_cognito\local\token;
+use auth_cognito\local\user;
+use auth_cognito\local\courses;
+use auth_cognito\local\groups;
+use auth_cognito\local\audiences;
+use auth_cognito\local\messages;
+use core\oauth2;
 
 /**
  * Class auth_plugin_oomax
