@@ -34,8 +34,7 @@ class provider implements
 {
 
     /**
-     * Get the language string identifier with the component's language
-     * file to explain why this plugin stores no data.
+     * This plugin stores no data.
      *
      * @return  string
      */
