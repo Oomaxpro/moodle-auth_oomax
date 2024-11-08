@@ -26,18 +26,17 @@
  * file that was distributed with this source code.
  */
 
+namespace auth_cognito\local;
 
-namespace Oomax\Model;
-
-use Oomax\Model\Token;
-use Oomax\Model\User;
-use Oomax\Model\Messages;
+use auth_cognito\local\token;
+use auth_cognito\local\user;
+use auth_cognito\local\messages;
 
 
 /**
  * Oomax Audiences Class
  */
-class Audiences {
+class audiences {
     /**
      * @var string
      */
@@ -50,20 +49,20 @@ class Audiences {
 
     /**
      * Audience Oomax Constructor
-     * @param Token $plugin
+     * @param token $plugin
      * @param String $audiences
      */
-    public function __construct(Token $plugin, $audiences = "") {
+    public function __construct(token $plugin, $audiences = "") {
         $this->plugin = $plugin->getplugin();
         $this->audiences = $audiences;
     }
 
     /**
      * Process Audiences for Oomax
-     * @param User $oomaxuser
+     * @param user $oomaxuser
      * @return void
      */
-    public function processaudiences(User $oomaxuser): void {
+    public function processaudiences(user $oomaxuser): void {
         global $CFG, $DB;
 
         if (!is_null($this->audiences)) {
@@ -77,7 +76,7 @@ class Audiences {
                     cohort_add_member($cohortid, $oomaxuser->userid());
                 } catch (\Exception $exc) {
                     // For now ignore errors when adding to cohort failed.
-                    $message = new Messages($this->plugin);
+                    $message = new messages($this->plugin);
                     $message->generatemessage([ 'cohortid' => $cohortid, 'message' => $exc->getmessage()]);
                     debugging($message->returnmessage('audience_fail_enrol'));
                 }

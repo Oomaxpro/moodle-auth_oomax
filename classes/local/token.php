@@ -26,7 +26,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Oomax\Model;
+namespace auth_cognito\local;
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\JWK;
@@ -36,7 +36,7 @@ use Firebase\JWT\SignatureInvalidException;
  * Class Token
  * @package Oomax\Model
  */
-class Token {
+class token {
     /**
      * @var int
      */

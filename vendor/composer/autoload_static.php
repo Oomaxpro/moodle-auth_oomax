@@ -19,6 +19,10 @@ class ComposerStaticInit6d8357acdf16881a84cef604ba6233f0
     );
 
     public static $prefixLengthsPsr4 = array (
+        'a' => 
+        array (
+            'auth_cognito\\' => 13,
+        ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Php83\\' => 23,
@@ -54,10 +58,6 @@ class ComposerStaticInit6d8357acdf16881a84cef604ba6233f0
             'Psr\\Cache\\' => 10,
             'ParagonIE\\ConstantTime\\' => 23,
         ),
-        'O' => 
-        array (
-            'Oomax\\' => 6,
-        ),
         'J' => 
         array (
             'Jose\\Experimental\\' => 18,
@@ -80,6 +80,10 @@ class ComposerStaticInit6d8357acdf16881a84cef604ba6233f0
     );
 
     public static $prefixDirsPsr4 = array (
+        'auth_cognito\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/classes',
+        ),
         'Symfony\\Polyfill\\Php83\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php83',
@@ -196,10 +200,6 @@ class ComposerStaticInit6d8357acdf16881a84cef604ba6233f0
         'ParagonIE\\ConstantTime\\' => 
         array (
             0 => __DIR__ . '/..' . '/paragonie/constant_time_encoding/src',
-        ),
-        'Oomax\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/classes',
         ),
         'Jose\\Experimental\\' => 
         array (
@@ -614,12 +614,6 @@ class ComposerStaticInit6d8357acdf16881a84cef604ba6233f0
         'Jose\\Experimental\\Signature\\HS256_64' => __DIR__ . '/..' . '/web-token/jwt-framework/src/Experimental/Signature/HS256_64.php',
         'Jose\\Experimental\\Signature\\RS1' => __DIR__ . '/..' . '/web-token/jwt-framework/src/Experimental/Signature/RS1.php',
         'Normalizer' => __DIR__ . '/..' . '/symfony/polyfill-intl-normalizer/Resources/stubs/Normalizer.php',
-        'Oomax\\Model\\Audiences' => __DIR__ . '/../..' . '/classes/Model/Audiences.php',
-        'Oomax\\Model\\Courses' => __DIR__ . '/../..' . '/classes/Model/Courses.php',
-        'Oomax\\Model\\Groups' => __DIR__ . '/../..' . '/classes/Model/Groups.php',
-        'Oomax\\Model\\Messages' => __DIR__ . '/../..' . '/classes/Model/Messages.php',
-        'Oomax\\Model\\Token' => __DIR__ . '/../..' . '/classes/Model/Token.php',
-        'Oomax\\Model\\User' => __DIR__ . '/../..' . '/classes/Model/User.php',
         'Override' => __DIR__ . '/..' . '/symfony/polyfill-php83/Resources/stubs/Override.php',
         'ParagonIE\\ConstantTime\\Base32' => __DIR__ . '/..' . '/paragonie/constant_time_encoding/src/Base32.php',
         'ParagonIE\\ConstantTime\\Base32Hex' => __DIR__ . '/..' . '/paragonie/constant_time_encoding/src/Base32Hex.php',
