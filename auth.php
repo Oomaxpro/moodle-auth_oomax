@@ -159,7 +159,7 @@ class auth_plugin_cognito extends \auth_plugin_base {
      *
      * @param String $wantsurl
      * @param Bool $details
-     * @return void
+     * @return Array
      */
     public function loginpage_idp_list($wantsurl, Bool $details = false) {
         if (!$details) {
