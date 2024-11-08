@@ -26,8 +26,9 @@
  * file that was distributed with this source code.
  */
 
-namespace oomax\model;
+namespace auth_cognito\local;
 
+use \auth_cognito\local\token;
 use Firebase\JWT\JWT;
 use Firebase\JWT\JWK;
 use Firebase\JWT\SignatureInvalidException;
@@ -36,11 +37,11 @@ use Firebase\JWT\SignatureInvalidException;
  * Class User
  * @package auth_oomax\model
  */
-class User {
+class user {
     /**
      * @var token
      */
-    protected \Oomax\Model\Token $token;
+    protected token $token;
 
     /**
      * @var stdClass
@@ -50,10 +51,10 @@ class User {
     /**
      * __construct
      *
-     * @param  \Oomax\Model\Token $token
+     * @param  \auth_cognito\model\token $token
      * @return void
      */
-    public function __construct(\Oomax\Model\Token $token) {
+    public function __construct(token $token) {
         $this->token = $token;
         $this->user = $this->token->getpayload();
     }

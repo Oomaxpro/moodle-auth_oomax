@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'auth_cognito\\' => array($baseDir . '/classes'),
     'Symfony\\Polyfill\\Php83\\' => array($vendorDir . '/symfony/polyfill-php83'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Symfony\\Polyfill\\Intl\\Normalizer\\' => array($vendorDir . '/symfony/polyfill-intl-normalizer'),
@@ -35,7 +36,6 @@ return array(
     'Psr\\Clock\\' => array($vendorDir . '/psr/clock/src'),
     'Psr\\Cache\\' => array($vendorDir . '/psr/cache/src'),
     'ParagonIE\\ConstantTime\\' => array($vendorDir . '/paragonie/constant_time_encoding/src'),
-    'Oomax\\' => array($baseDir . '/classes'),
     'Jose\\Experimental\\' => array($vendorDir . '/web-token/jwt-framework/src/Experimental'),
     'Jose\\Component\\' => array($vendorDir . '/web-token/jwt-framework/src/Library'),
     'Jose\\Bundle\\JoseFramework\\' => array($vendorDir . '/web-token/jwt-framework/src/Bundle'),

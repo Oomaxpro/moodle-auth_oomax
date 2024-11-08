@@ -26,14 +26,16 @@
  * file that was distributed with this source code.
  */
 
-namespace Oomax\Model;
+namespace auth_cognito\local;
 
-use Oomax\Model\Token;
+use \auth_cognito\local\messages;
+use \auth_cognito\local\token;
+use \auth_cognito\local\user;
 
 /**
  * Oomax Courses Class
  */
-class Courses {
+class courses {
     /**
      * @var string
      */
@@ -46,10 +48,10 @@ class Courses {
 
     /**
      * Constructor for Courses
-     * @param Token $plugin
+     * @param token $plugin
      * @param String $courses
      */
-    public function __construct(Token $plugin, $courses = "") {
+    public function __construct(token $plugin, $courses = "") {
         $this->plugin = $plugin->getplugin();
         $this->courses = $courses;
     }
@@ -57,10 +59,10 @@ class Courses {
     /**
      * processcourses
      *
-     * @param  \Oomax\Model\User $oomaxuser
+     * @param  auth_cognito\model\user $oomaxuser
      * @return void
      */
-    public function processcourses(\Oomax\Model\User $oomaxuser): void {
+    public function processcourses(user $oomaxuser): void {
         global $CFG;
 
         if (!is_null($this->courses)) {
@@ -75,7 +77,7 @@ class Courses {
                 $this->checkctx($ctx, $courseid);
                 $this->checkenrolled($ctx, $oomaxuser, $courseid);
 
-                $message = new Messages($this->plugin);
+                $message = new messages($this->plugin);
                 try {
                     // Enrol user using manual enrollment method.
                     $message->generatemessage([ 'courseid' => $courseid ]);
@@ -99,7 +101,7 @@ class Courses {
      */
     private function checkctx($ctx, int $courseid): bool {
         if (!$ctx) {
-            $message = new Messages($this->plugin);
+            $message = new messages($this->plugin);
             $message->generatemessage([ 'courseid' => $courseid ]);
             debugging($message->returnmessage('course_not_exist'));
             return false;
@@ -111,13 +113,13 @@ class Courses {
      * checkenrolled
      *
      * @param  int $ctx
-     * @param  \Oomax\Model\User $oomaxuser
+     * @param  \auth_cognito\model\user $oomaxuser
      * @param  int $courseid
      * @return bool
      */
-    private function checkenrolled($ctx, \Oomax\Model\User $oomaxuser, int $courseid): bool {
+    private function checkenrolled($ctx, user $oomaxuser, int $courseid): bool {
         if (is_enrolled($ctx, $oomaxuser->user, '', true)) {
-            $message = new Messages($this->plugin);
+            $message = new messages($this->plugin);
             $message->generatemessage([ 'courseid' => $courseid ]);
             debugging($message->returnmessage('course_user_enrolled'));
             return false;

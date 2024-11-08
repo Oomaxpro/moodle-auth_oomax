@@ -26,14 +26,15 @@
  * file that was distributed with this source code.
  */
 
-namespace Oomax\Model;
+namespace auth_cognito\local;
 
-use Oomax\Model\Token;
+use \auth_cognito\local\token;
+use \auth_cognito\local\messages;
 
 /**
  * Oomax Groups Constructor
  */
-class Groups {
+class groups {
     /**
      * @var $plugin
      */
@@ -57,17 +58,17 @@ class Groups {
     /**
      * processgroups
      *
-     * @param  \Oomax\Model\User $oomaxuser
+     * @param  \auth_cognito\model\user $oomaxuser
      * @return void
      */
-    public function processgroups(\Oomax\Model\User $oomaxuser): void {
+    public function processgroups(user $oomaxuser): void {
         global $CFG;
 
         if (!is_null($this->groups)) {
             require_once($CFG->dirroot .'/group/lib.php');
             $groupids = array_filter(array_unique(explode(',', $this->groups)));
 
-            $message = new Messages($this->plugin);
+            $message = new messages($this->plugin);
             foreach ($groupids as $groupid) {
                 try {
                     // Function takes care if the user is already member of the group.

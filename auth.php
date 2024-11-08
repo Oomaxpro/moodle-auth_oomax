@@ -25,20 +25,29 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+# namespace auth_cognito;
+ 
 defined('MOODLE_INTERNAL') || die();
 
 require_once(__DIR__.'/vendor/autoload.php');
 require_once($CFG->libdir.'/authlib.php');
 require_once($CFG->dirroot.'/user/lib.php');
 
-use Oomax\Model;
+use \auth_cognito\local\token;
+use \auth_cognito\local\user;
+use \auth_cognito\local\courses;
+use \auth_cognito\local\groups;
+use \auth_cognito\local\audiences;
+use \auth_cognito\local\messages;
+use \core\oauth2;
 
 /**
  * Class auth_plugin_oomax
  * @package  Auth_Cognito
  * @author   Bojan Bazdar / Dustin Brisebois <dustin@oomaxpro.com>
  */
-class auth_plugin_cognito extends auth_plugin_base {
+class auth_plugin_cognito extends \auth_plugin_base {
 
 
     /** @var string The passed logout URL for the origin brand */
@@ -140,10 +149,10 @@ class auth_plugin_cognito extends auth_plugin_base {
     /**
      * is_ready_for_login_page
      *
-     * @param \core\oauth2\issuer $issuer
+     * @param oauth2\issuer $issuer
      * @return void
      */
-    private function is_ready_for_login_page(\core\oauth2\issuer $issuer) {
+    private function is_ready_for_login_page(oauth2\issuer $issuer) {
         return $issuer->get('enabled') && $issuer->is_configured() && empty($issuer->get('showonloginpage'));
     }
 
@@ -160,14 +169,14 @@ class auth_plugin_cognito extends auth_plugin_base {
         }
 
         $result = [];
-        $providers = \core\oauth2\api::get_all_issuers();
+        $providers = oauth2\api::get_all_issuers();
         if (empty($wantsurl)) {
             $wantsurl = '/';
         }
         foreach ($providers as $idp) {
             if ($this->is_ready_for_login_page($idp)) {
                 $params = ['id' => $idp->get('id'), 'wantsurl' => $wantsurl, 'sesskey' => sesskey()];
-                $url = new moodle_url('/login/index.php', $params);
+                $url = new \moodle_url('/login/index.php', $params);
                 $icon = $idp->get('image');
                 $result[] = ['url' => $url, 'iconurl' => $icon, 'name' => $idp->get('name'), 'authtype' => 'oauth2'];
             }
@@ -196,7 +205,7 @@ class auth_plugin_cognito extends auth_plugin_base {
         }
 
         if (!empty($token)) {
-            $oomaxtoken = new Model\Token($token);
+            $oomaxtoken = new \auth_cognito\local\token($token);
             $oomaxtoken->getdatafromtoken();
 
             list($oomaxuser, $this->wantsurl) = $this->loginuser($oomaxtoken);
@@ -208,7 +217,7 @@ class auth_plugin_cognito extends auth_plugin_base {
             // If payload exist process user.
             if ($oomaxtoken->isauthorized()) {
                 $oomaxtoken->getpayload();
-                $oomaxuser = new Model\User($oomaxtoken);
+                $oomaxuser = new user($oomaxtoken);
 
                 $oomaxuser->processuserlocale();
                 $oomaxuser->userlogin();
@@ -216,12 +225,12 @@ class auth_plugin_cognito extends auth_plugin_base {
 
                 $this->processgca($courses, $groups, $audiences, $oomaxtoken, $oomaxuser);
                 if (empty($this->wantsurl)) {
-                    $this->wantsurl = new moodle_url(optional_param('wantsurl', $CFG->wwwroot, PARAM_URL));
+                    $this->wantsurl = new \moodle_url(optional_param('wantsurl', $CFG->wwwroot, PARAM_URL));
                 }
 
                 redirect($this->wantsurl);
             } else {
-                throw new moodle_exception('oomaxtoken', '', '', null, get_string('invalid_token', 'auth_cognito'));
+                throw new \moodle_exception('oomaxtoken', '', '', null, get_string('invalid_token', 'auth_cognito'));
             }
 
         }
@@ -229,10 +238,10 @@ class auth_plugin_cognito extends auth_plugin_base {
 
     /**
      * Login User
-     * @param \Oomax\Model\Token $token
+     * @param \auth_cognito\local\token $token
      * @return Array
      */
-    private function loginuser(\Oomax\Model\Token $oomaxtoken): Array {
+    private function loginuser(token $oomaxtoken): Array {
         $wantsurl = null;
         if (isset($SESSION->wantsurl)) {
             $wantsurl = $SESSION->wantsurl;
@@ -240,7 +249,7 @@ class auth_plugin_cognito extends auth_plugin_base {
 
         if ($oomaxtoken->isauthorized()) {
             $oomaxtoken->getpayload();
-            $oomaxuser = new Model\User($oomaxtoken);
+            $oomaxuser = new user($oomaxtoken);
 
             $oomaxuser->processuserlocale();
             $oomaxuser->Userlogin($oomaxuser);
@@ -258,25 +267,24 @@ class auth_plugin_cognito extends auth_plugin_base {
      * @param Array $courses
      * @param Array $groups
      * @param Array $audiences
-     * @param \Oomax\Model\Token $oomaxtoken
-     * @param \Oomax\Model\User $oomaxuser
+     * @param \oomax\local\Token $oomaxtoken
+     * @param \oomax\local\User $oomaxuser
      * @return void
      */
     private function processgca(
-        String $courses, String $groups, String $audiences,
-        \Oomax\Model\Token $oomaxtoken, \Oomax\Model\User $oomaxuser) {
+        String $courses, String $groups, String $audiences, token $oomaxtoken, user $oomaxuser) {
         if (!is_null($courses)) {
-            $oomaxcourses = new Model\Courses($oomaxtoken, $courses);
+            $oomaxcourses = new courses($oomaxtoken, $courses);
             $oomaxcourses->processcourses($oomaxuser);
         }
 
         if (!is_null($groups)) {
-            $oomaxgroups = new Model\Groups($oomaxtoken, $groups);
+            $oomaxgroups = new groups($oomaxtoken, $groups);
             $oomaxgroups->processgroups($oomaxuser);
         }
 
         if (!is_null($audiences)) {
-            $oomaxaudiences = new Model\Audiences($oomaxtoken, $audiences);
+            $oomaxaudiences = new audiences($oomaxtoken, $audiences);
             $oomaxaudiences->processaudiences($oomaxuser);
         }
     }

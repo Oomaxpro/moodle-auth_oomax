@@ -12,11 +12,11 @@
     ],
     "autoload": {
         "psr-4" : {
-            "Oomax\\": "classes/"
+            "auth_cognito\\": "classes/"
         }
     },
     "extra": {
-        "installer-name": "oomax"
+        "installer-name": "cognito"
     },
     "config": {
         "optimize-autoloader": true
