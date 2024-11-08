@@ -52,7 +52,7 @@ class courses {
      * @param String $courses
      */
     public function __construct(token $plugin, $courses = "") {
-        $this->plugin = $plugin->getplugin();
+        $this->plugin = $plugin->get_plugin();
         $this->courses = $courses;
     }
 
@@ -62,7 +62,7 @@ class courses {
      * @param  auth_cognito\model\user $oomaxuser
      * @return void
      */
-    public function processcourses(user $oomaxuser): void {
+    public function process_courses(user $oomaxuser): void {
         global $CFG;
 
         if (!is_null($this->courses)) {
@@ -80,14 +80,14 @@ class courses {
                 $message = new messages($this->plugin);
                 try {
                     // Enrol user using manual enrollment method.
-                    $message->generatemessage([ 'courseid' => $courseid ]);
-                    if (!enrol_try_internal_enrol($courseid, $oomaxuser->userid(), $userroleid)) {
-                        debugging($message->returnmessage('course_failed_enrol'));
+                    $message->generate_message([ 'courseid' => $courseid ]);
+                    if (!enrol_try_internal_enrol($courseid, $oomaxuser->user_id(), $userroleid)) {
+                        debugging($message->return_message('course_failed_enrol'));
                     }
                 } catch (\Exception $exc) {
                     // For now ignore errors when enrollment failed.
-                    $message->generatemessage([ 'courseid' => $courseid, 'message' => $exc->getmessage() ]);
-                    debugging($message->returnmessage('course_failed_enrol_msg'));
+                    $message->generate_message([ 'courseid' => $courseid, 'message' => $exc->getMessage() ]);
+                    debugging($message->return_message('course_failed_enrol_msg'));
                 }
             }
         }
@@ -102,8 +102,8 @@ class courses {
     private function checkctx($ctx, int $courseid): bool {
         if (!$ctx) {
             $message = new messages($this->plugin);
-            $message->generatemessage([ 'courseid' => $courseid ]);
-            debugging($message->returnmessage('course_not_exist'));
+            $message->generate_message([ 'courseid' => $courseid ]);
+            debugging($message->return_message('course_not_exist'));
             return false;
         }
         return true;
@@ -120,8 +120,8 @@ class courses {
     private function checkenrolled($ctx, user $oomaxuser, int $courseid): bool {
         if (is_enrolled($ctx, $oomaxuser->user, '', true)) {
             $message = new messages($this->plugin);
-            $message->generatemessage([ 'courseid' => $courseid ]);
-            debugging($message->returnmessage('course_user_enrolled'));
+            $message->generate_message([ 'courseid' => $courseid ]);
+            debugging($message->return_message('course_user_enrolled'));
             return false;
         }
         return true;

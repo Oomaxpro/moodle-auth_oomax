@@ -26,30 +26,20 @@
  * file that was distributed with this source code.
  */
 
-defined('MOODLE_INTERNAL') || die;
+namespace auth_cognito\privacy;
 
-$lambdaprocessupload = [
-  'classname' => 'cognito_external',
-  'methodname' => 'process_upload',
-  'classpath' => 'auth/cognito/externallib.php',
-  'description' => 'Upload Processable Files.',
-  'type' => 'write',
-  'capabilities' => 'moodle/user:create',
-];
+/**
+ * Privacy Provider Class for auth_cognito
+ */
+class provider implements
+    \core_privacy\local\metadata\null_provider {
 
-$lambdacreatessouser = [
-  'classname' => 'cognito_external',
-  'methodname' => 'create_users',
-  'classpath' => 'auth/cognito/externallib.php',
-  'description' => 'Create cognito users.',
-  'type' => 'write',
-  'capabilities' => 'moodle/user:create',
-];
-
-$functions = [
-  'cognito_create_sso_user' => $lambdacreatessouser,
-];
-
-if (isset($CFG->SSO_EXPERIMENTAL) && $CFG->SSO_EXPERIMENTAL) {
-    $functions['cognito_process_upload'] = $lambdaprocessupload;
+    /**
+     * This plugin stores no data.
+     *
+     * @return  string
+     */
+    public static function get_reason(): string {
+        return 'privacy:metadata';
+    }
 }

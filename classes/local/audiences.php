@@ -53,7 +53,7 @@ class audiences {
      * @param String $audiences
      */
     public function __construct(token $plugin, $audiences = "") {
-        $this->plugin = $plugin->getplugin();
+        $this->plugin = $plugin->get_plugin();
         $this->audiences = $audiences;
     }
 
@@ -62,7 +62,7 @@ class audiences {
      * @param user $oomaxuser
      * @return void
      */
-    public function processaudiences(user $oomaxuser): void {
+    public function process_audiences(user $oomaxuser): void {
         global $CFG, $DB;
 
         if (!is_null($this->audiences)) {
@@ -73,12 +73,12 @@ class audiences {
                     // Check that cohort exists.
                     $DB->get_record('cohort', ['id' => $cohortid], 'id', MUST_EXIST);
                     // Function takes care if the user is already member of the cohort.
-                    cohort_add_member($cohortid, $oomaxuser->userid());
+                    cohort_add_member($cohortid, $oomaxuser->user_id());
                 } catch (\Exception $exc) {
                     // For now ignore errors when adding to cohort failed.
                     $message = new messages($this->plugin);
-                    $message->generatemessage([ 'cohortid' => $cohortid, 'message' => $exc->getmessage()]);
-                    debugging($message->returnmessage('audience_fail_enrol'));
+                    $message->generate_message([ 'cohortid' => $cohortid, 'message' => $exc->getMessage()]);
+                    debugging($message->return_message('audience_fail_enrol'));
                 }
             }
         }

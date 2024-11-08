@@ -32,6 +32,8 @@ $string['auth_cognito_description'] = "An Authentication Plugin by Oomax Pro";
 $string['auth_cognito_title'] = "Oomax Pro Authentication Plugin";
 $string['cognito_settings'] = 'Oomax Pro Settings';
 $string['pluginname'] = 'Oomax Pro Authentication';
+$string['privacy:metadata'] = 'Oomax Pro Authentication service only logs in authenticated users.';
+
 $string['auth_cognito_settings'] = "Oomax Pro Authentication Settings";
 $string['cognito_serverless_login_url'] = 'Oomax Pro serverless login url';
 $string['config_lock_email'] = 'Lock email address';

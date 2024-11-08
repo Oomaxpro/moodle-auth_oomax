@@ -58,7 +58,7 @@ class messages {
      * @param  Array $message
      * @return void
      */
-    public function generatemessage(Array $message): void {
+    public function generate_message(Array $message): void {
         $this->message = new \stdClass();
         foreach ($message as $k => $m) {
             $this->message->$k = $m;
@@ -71,7 +71,7 @@ class messages {
      * @param  String $name
      * @return string
      */
-    public function returnmessage(String $name): string {
+    public function return_message(String $name): string {
         return get_string($name, $this->plugin, $this->message);
     }
 }

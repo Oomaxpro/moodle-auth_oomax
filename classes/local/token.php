@@ -90,21 +90,21 @@ class token {
         $this->cache = \cache::make($this->plugin, 'oomax_cache');
         $this->token = $token;
         $this->keyuri = "https://cognito-idp.ca-central-1.amazonaws.com/ca-central-1_SiaYTCMC1/.well-known/jwks.json";
-        $this->cachekeys();
+        $this->cache_keys();
     }
 
     /**
      * Returns the plugin information
      * @return string
      */
-    public function getplugin(): string {
+    public function get_plugin(): string {
         return $this->plugin;
     }
 
     /**
      * Deciphers the groups payload
      */
-    public function getgroups() {
+    public function get_groups() {
         $groups = 'cognito:groups';
         if (!is_null($this->token)) {
             return $this->payload->$groups;
@@ -116,9 +116,9 @@ class token {
      * Returns the Data from the Token
      * @return bool
      */
-    public function getdatafromtoken(): bool {
+    public function get_data_from_token(): bool {
         while ($this->retry > 0) {
-            $result = $this->decipherToken();
+            $result = $this->decipher_token();
             if ($result) {
                 return $result;
             }
@@ -134,7 +134,7 @@ class token {
      * @throws \SignatureInvalidException
      * @throws \Exception
      */
-    private function deciphertoken(): bool {
+    private function decipher_token(): bool {
         if (is_null($this->keys)) {
             return false;
         }
@@ -157,7 +157,7 @@ class token {
      * Checks if JWT has been decoded
      * @return bool
      */
-    public function isauthorized(): bool {
+    public function is_authorized(): bool {
         return !is_null($this->payload);
     }
 
@@ -165,7 +165,7 @@ class token {
      * Get the JWT payload
      * @return \stdClass
      */
-    public function getpayload(): \stdClass {
+    public function get_payload(): \stdClass {
         return $this->payload;
     }
 
@@ -173,33 +173,21 @@ class token {
      * Get public key file
      * @return void
      */
-    private function getpublickey(): void {
-        $curl = curl_init();
-        curl_setopt_array($curl, [
-          CURLOPT_URL => $this->keyuri,
-          CURLOPT_RETURNTRANSFER => true,
-          CURLOPT_ENCODING => '',
-          CURLOPT_MAXREDIRS => 10,
-          CURLOPT_TIMEOUT => 0,
-          CURLOPT_FOLLOWLOCATION => true,
-          CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-          CURLOPT_CUSTOMREQUEST => 'GET',
-        ]);
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-        $this->keys = json_decode($response, true);
+    private function get_public_key(): void {
+        global $CFG;
+        require_once($CFG->libdir.'/filelib.php');
+        $data = download_file_content($this->keyuri);
+        $this->keys = json_decode($data, true);
     }
 
     /**
      * Cache the Keys locally
      * @return void
      */
-    private function cachekeys(): void {
+    private function cache_keys(): void {
         $this->keys = json_decode($this->cache->get('keys'), true);
         if (is_null($this->keys)) {
-            $this->getpublickey();
+            $this->get_public_key();
             $this->cache->set('keys', json_encode($this->keys));
         }
     }
