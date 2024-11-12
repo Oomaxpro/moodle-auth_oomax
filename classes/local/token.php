@@ -112,7 +112,10 @@ class token {
         return null;
     }
 
-    public function get_lang() {
+    /**
+     * Used to poll language string
+     */
+    public function get_lang(): string {
         return $this->payload->locale;
     }
 

@@ -46,6 +46,12 @@ class user {
     public \stdClass $user;
 
     /**
+     * @var string
+     */
+    public string $locale;
+
+
+    /**
      * __construct
      *
      * @param  \auth_cognito\model\token $token
@@ -112,7 +118,6 @@ class user {
             }
             $this->locale = $lang;
         }
-        // $this->locale = $this->user->locale;
     }
 
     /**
