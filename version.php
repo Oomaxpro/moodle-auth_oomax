@@ -26,10 +26,10 @@
  * file that was distributed with this source code.
  */
 
-defined('MOODLE_INTERNAL') || die();
+ defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2024100800;             // The current plugin version (Date: YYYYMMDDXX).
-$plugin->release   = '1.4.1.0';
-$plugin->requires  = 2015051100;             // MDL-2.9+.
-$plugin->component = 'auth_cognito';         // Full name of the plugin (used for diagnostics).
-$plugin->maturity  = 'MATURITY_STABLE';
+ $plugin->version   = 2024111200;             // The current plugin version (Date: YYYYMMDDXX).
+ $plugin->release   = '1.7.5.2';
+ $plugin->requires  = 2015051100;             // MDL-2.9+.
+ $plugin->component = 'auth_cognito';         // Full name of the plugin (used for diagnostics).
+ $plugin->maturity  = 'MATURITY_STABLE';

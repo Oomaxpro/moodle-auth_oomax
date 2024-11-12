@@ -112,6 +112,10 @@ class token {
         return null;
     }
 
+    public function get_lang() {
+        return $this->payload->locale;
+    }
+
     /**
      * Returns the Data from the Token
      * @return bool
