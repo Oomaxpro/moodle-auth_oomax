@@ -33,3 +33,4 @@
  $plugin->requires  = 2015051100;             // MDL-2.9+.
  $plugin->component = 'auth_cognito';         // Full name of the plugin (used for diagnostics).
  $plugin->maturity  = 'MATURITY_STABLE';
+ 
