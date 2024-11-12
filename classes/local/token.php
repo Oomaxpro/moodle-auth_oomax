@@ -113,6 +113,13 @@ class token {
     }
 
     /**
+     * Used to poll language string
+     */
+    public function get_lang(): string {
+        return $this->payload->locale;
+    }
+
+    /**
      * Returns the Data from the Token
      * @return bool
      */

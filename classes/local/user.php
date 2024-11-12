@@ -46,6 +46,12 @@ class user {
     public \stdClass $user;
 
     /**
+     * @var string
+     */
+    public string $locale;
+
+
+    /**
      * __construct
      *
      * @param  \auth_cognito\model\token $token
@@ -54,6 +60,7 @@ class user {
     public function __construct(token $token) {
         $this->token = $token;
         $this->user = $this->token->get_payload();
+        $this->locale = 'en';
     }
 
 
@@ -96,9 +103,9 @@ class user {
      * @return void
      */
     public function process_user_locale(): void {
-        if (isset($this->puserayload->locale)) {
+        if ($this->token->get_lang()) {
             // Convert language code from oomax format (e.g. fr-CA) to Moodle format (e.g. fr_ca).
-            $lang = strtolower(str_replace('-', '_', $this->user->locale));
+            $lang = strtolower(str_replace('-', '_', $this->token->get_lang()));
             $sm = get_string_manager();
             // Find appropriate installed language, or use default system language.
             if (!$sm->translation_exists($lang)) {
@@ -109,7 +116,7 @@ class user {
                     $lang = \core_user::get_property_default('lang');
                 }
             }
-            $this->user->locale = $lang;
+            $this->locale = $lang;
         }
     }
 
@@ -126,6 +133,8 @@ class user {
         if ($userexists) {
             $this->user = $userexists;
             // If user exist perform login and redirect.
+
+            $this->user->lang = $this->locale;
             if (isset($this->user->locale) && $this->user->locale != $this->user->lang) {
                 $this->user->lang = $this->user->locale;
                 $this->user->auth = $this->token->auth;
