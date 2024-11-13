@@ -72,12 +72,6 @@ class auth_plugin_cognito extends \auth_plugin_base {
             $this->logouturl = $SESSION->logout;
         }
         $this->config = get_config("auth_{$plugin}");
-
-        if (!isloggedin() && empty($SESSION->wantsurl) &&
-        strpos($_SERVER['DOCUMENT_URI'], '/login/index.php') == 0) {
-            $SESSION->wantsurl = $_SERVER['SERVER_NAME'].'/'.$_SERVER['REQUEST_URI'];
-
-        }
     }
 
     /**
@@ -206,7 +200,7 @@ class auth_plugin_cognito extends \auth_plugin_base {
             $oomaxtoken = new \auth_cognito\local\token($token);
             $oomaxtoken->get_data_from_token();
 
-            list($oomaxuser, $this->wantsurl) = $this->loginuser($oomaxtoken);
+            list($oomaxuser, $this->wantsurl) = $this->login_user($oomaxtoken);
 
             if (!empty($SESSION->wantsurl)) {
                 $this->wantsurl = $SESSION->wantsurl;
@@ -221,7 +215,7 @@ class auth_plugin_cognito extends \auth_plugin_base {
                 $oomaxuser->user_login();
                 $oomaxuser->generate_oomax_cookie();
 
-                $this->processgca($courses, $groups, $audiences, $oomaxtoken, $oomaxuser);
+                $this->process_gca($courses, $groups, $audiences, $oomaxtoken, $oomaxuser);
                 if (empty($this->wantsurl)) {
                     $this->wantsurl = new \moodle_url(optional_param('wantsurl', $CFG->wwwroot, PARAM_URL));
                 }
@@ -239,7 +233,7 @@ class auth_plugin_cognito extends \auth_plugin_base {
      * @param \auth_cognito\local\token $token
      * @return Array
      */
-    private function loginuser(token $oomaxtoken): Array {
+    private function login_user(token $oomaxtoken): Array {
         $wantsurl = null;
         if (isset($SESSION->wantsurl)) {
             $wantsurl = $SESSION->wantsurl;
@@ -269,7 +263,7 @@ class auth_plugin_cognito extends \auth_plugin_base {
      * @param \oomax\local\User $oomaxuser
      * @return void
      */
-    private function processgca(
+    private function process_gca(
         String $courses, String $groups, String $audiences, token $oomaxtoken, user $oomaxuser) {
         if (!is_null($courses)) {
             $oomaxcourses = new courses($oomaxtoken, $courses);
