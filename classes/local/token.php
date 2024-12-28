@@ -116,7 +116,10 @@ class token {
      * Used to poll language string
      */
     public function get_lang(): string {
-        return $this->payload->locale;
+        if (!is_null($this->payload->locale)) {
+            return $this->payload->locale;
+        }
+        return 'en';
     }
 
     /**
